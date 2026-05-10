@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EmlakKit — Emlak Danışmanları İçin Profesyonel Araç Seti</title>
+<meta name="description" content="Türkiye'nin emlak danışmanlarına özel dijital araç platformu. RPA, haftalık rapor, FSBO simülatörü ve daha fazlası.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0C1017;
+    --bg2: #131A24;
+    --bg3: #1A2332;
+    --gold: #E8A830;
+    --gold2: #F5C060;
+    --white: #F0EDE8;
+    --muted: #B0BEC8;
+    --border: rgba(232,168,48,0.15);
+    --card: #141D29;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 0 24px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(12,16,23,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: -0.5px;
+    color: var(--white);
+    text-decoration: none;
+  }
+
+  .logo span {
+    color: var(--gold);
+  }
+
+  .nav-cta {
+    background: var(--gold);
+    color: #0C1017;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    padding: 8px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+
+  .nav-cta:hover { background: var(--gold2); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 100px 24px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(232,168,48,0.08) 0%, transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(232,168,48,0.1);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--gold);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(36px, 7vw, 72px);
+    line-height: 1.05;
+    letter-spacing: -2px;
+    margin-bottom: 24px;
+    max-width: 800px;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--gold);
+  }
+
+  .hero p {
+    font-size: clamp(16px, 2.5vw, 18px);
+    color: var(--muted);
+    max-width: 520px;
+    margin-bottom: 48px;
+    line-height: 1.7;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 48px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1;
+  }
+
+  .stat-num span { color: var(--gold); }
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .stat-divider {
+    width: 1px;
+    height: 40px;
+    background: var(--border);
+  }
+
+  /* SCROLL INDICATOR */
+  .scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    animation: bounce 2s infinite;
+  }
+
+  .scroll-hint::after {
+    content: '';
+    width: 1px;
+    height: 32px;
+    background: linear-gradient(to bottom, var(--muted), transparent);
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(6px); }
+  }
+
+  /* SECTION */
+  section {
+    padding: 80px 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 700;
+    letter-spacing: -1px;
+    margin-bottom: 48px;
+    line-height: 1.15;
+    color: #F0EDE8;
+  }
+
+  /* CATEGORY TABS */
+  .cat-tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+
+  .cat-tab {
+    padding: 8px 18px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    transition: all 0.2s;
+  }
+
+  .cat-tab:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .cat-tab.active {
+    background: var(--gold);
+    color: #0C1017;
+    border-color: var(--gold);
+  }
+
+  /* TOOLS GRID */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+  }
+
+  .tool-card {
+    background: var(--card);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 24px;
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    display: block;
+  }
+
+  .tool-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+
+  .tool-card:hover {
+    border-color: rgba(232,168,48,0.3);
+    transform: translateY(-2px);
+    background: #1A2535;
+  }
+
+  .tool-card:hover::before { opacity: 1; }
+
+  .tool-icon {
+    font-size: 28px;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .tool-cat {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .tool-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+
+  .tool-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .tool-badge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 100px;
+    background: rgba(232,168,48,0.12);
+    color: var(--gold);
+    border: 1px solid rgba(232,168,48,0.25);
+  }
+
+  .tool-arrow {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: var(--gold);
+    margin-top: 16px;
+    font-weight: 500;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .tool-card:hover .tool-arrow { opacity: 1; }
+
+  /* FEATURE STRIP */
+  .features {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 60px 24px;
+  }
+
+  .features-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 40px;
+  }
+
+  .feature-item {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .feature-icon {
+    font-size: 24px;
+    width: 48px;
+    height: 48px;
+    background: rgba(232,168,48,0.08);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .feature-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .feature-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* CTA SECTION */
+  .cta-section {
+    text-align: center;
+    padding: 100px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(232,168,48,0.06) 0%, transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .cta-section h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    margin-bottom: 16px;
+  }
+
+  .cta-section p {
+    color: var(--muted);
+    font-size: 16px;
+    margin-bottom: 40px;
+  }
+
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--gold);
+    color: #0C1017;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    padding: 14px 32px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .cta-btn:hover {
+    background: var(--gold2);
+    transform: translateY(-1px);
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 40px 24px;
+    text-align: center;
+  }
+
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    margin-bottom: 12px;
+    color: var(--white);
+  }
+
+  .footer-logo span { color: var(--gold); }
+
+  .footer-tagline {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+
+  .footer-links a {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--gold); }
+
+  .footer-copy {
+    font-size: 12px;
+    color: rgba(122,138,154,0.5);
+  }
+
+  /* HIDDEN TOOLS FOR FILTERING */
+  .tool-card[data-cat] { display: block; }
+  .tool-card.hidden { display: none; }
+
+  /* MOBILE */
+  @media (max-width: 600px) {
+    nav { padding: 0 16px; }
+    .nav-desktop { display: none !important; }
+    .hero { padding: 90px 16px 60px; }
+    section { padding: 60px 16px; }
+    .hero-stats { gap: 24px; }
+    .stat-divider { display: none; }
+    .tools-grid { grid-template-columns: 1fr; }
+    .cat-tabs { gap: 6px; }
+    .cat-tab { font-size: 12px; padding: 7px 14px; }
+  }
+
+  /* ANIMATIONS */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 0.6s ease forwards;
+  }
+
+  @keyframes fadeIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in:nth-child(1) { animation-delay: 0.1s; }
+  .fade-in:nth-child(2) { animation-delay: 0.2s; }
+  .fade-in:nth-child(3) { animation-delay: 0.3s; }
+  .fade-in:nth-child(4) { animation-delay: 0.4s; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">
+    <img src="logo.png" alt="EmlakKit" style="height:40px;width:auto;">
+  </a>
+  <div class="nav-desktop" style="display:flex;gap:20px;align-items:center;">
+    <a href="index.html" style="color:var(--muted);text-decoration:none;font-size:14px;">Ana Sayfa</a>
+    <a href="#araclar" style="color:var(--muted);text-decoration:none;font-size:14px;">Araçlar</a>
+    <a href="blog.html" style="color:var(--muted);text-decoration:none;font-size:14px;">Blog</a>
+  </div>
+  <a href="#araclar" class="nav-cta">Ücretsiz Başla</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">Türkiye'nin Emlak Danışman Platformu</div>
+  <h1 class="fade-in">Daha Az Zaman, <em>Daha Fazla</em> Yetki</h1>
+  <p class="fade-in">Emlak danışmanlarına özel 12 profesyonel araç. RPA sunumundan haftalık rapora, FSBO simülatöründen hesaplama araçlarına — hepsi ücretsiz.</p>
+  <div class="hero-stats fade-in">
+    <div class="stat">
+      <div class="stat-num">12<span>+</span></div>
+      <div class="stat-label">Araç</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+      <div class="stat-num">%<span>100</span></div>
+      <div class="stat-label">Ücretsiz</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+      <div class="stat-num">0</div>
+      <div class="stat-label">Kayıt Gerekmiyor</div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURE STRIP -->
+<div class="features">
+  <div class="features-inner">
+    <div class="feature-item">
+      <div class="feature-icon">⚡</div>
+      <div class="feature-title">Saniyeler İçinde Hazır</div>
+      <div class="feature-desc">RPA sunumunuzu, haftalık raporunuzu dakikalar içinde oluşturun. Canva'ya, PowerPoint'e gerek yok.</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">📱</div>
+      <div class="feature-title">Her Cihazda Çalışır</div>
+      <div class="feature-desc">Masaüstü, tablet, telefon. Sahada da, ofiste de aynı deneyim.</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🎯</div>
+      <div class="feature-title">Sektöre Özel</div>
+      <div class="feature-desc">Türk emlak sektörüne göre hazırlanmış araçlar. Tapu harcından miras payına, FSBO'dan TAKS/KAKS'a.</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🔒</div>
+      <div class="feature-title">Kayıt Gerektirmez</div>
+      <div class="feature-desc">Hesap açma, şifre hatırlama derdi yok. Tıkla, kullan, paylaş.</div>
+    </div>
+  </div>
+</div>
+
+<!-- TOOLS SECTION -->
+<section id="araclar">
+  <div class="section-label">Tüm Araçlar</div>
+  <div class="section-title">İşini Kolaylaştıran<br>Her Araç Burada</div>
+
+  <div class="cat-tabs">
+    <button class="cat-tab active" onclick="filterCat('all')">Tümü</button>
+    <button class="cat-tab" onclick="filterCat('portfoy')">📋 Portföy</button>
+    <button class="cat-tab" onclick="filterCat('hesaplama')">🧮 Hesaplama</button>
+    <button class="cat-tab" onclick="filterCat('satis')">📞 Satış</button>
+    <button class="cat-tab" onclick="filterCat('rehber')">📚 Rehber</button>
+    <button class="cat-tab" onclick="filterCat('yapay-zeka')">🤖 Yapay Zeka</button>
+  </div>
+
+  <div class="tools-grid" id="toolsGrid">
+
+    <a class="tool-card" data-cat="portfoy" href="https://www.armagankocabas.com/dijital-araclar-ve-kaynaklar/rakip-pazar-analizi-ve-pazarlama-plani" target="_blank">
+      <span class="tool-icon">📊</span>
+      <div class="tool-cat">Portföy</div>
+      <div class="tool-name">Rakip Pazar Analizi & Pazarlama Planı</div>
+      <div class="tool-desc">Yetki görüşmesine saniyeler içinde profesyonel PDF sunum. Fiyat piramidi, CMA ve pazarlama planı bir arada.</div>
+      <div class="tool-badge">Popüler</div>
+      <div class="tool-arrow">Aracı Aç →</div>
+    </a>
+
+    <a class="tool-card" data-cat="portfoy" href="https://www.armagankocabas.com/dijital-araclar-ve-kaynaklar/haftalik-rapor-olusturma-araci" target="_blank">
+      <span class="tool-icon">📈</span>
+      <div class="tool-cat">Portföy</div>
+      <div class="tool-name">Haftalık İlerleme Raporu Oluşturucu</div>
+      <div class="tool-desc">Satıcı "ne haber?" dediğinde 20 saniyede WhatsApp'a hazır kurumsal rapor gönder.</div>
+      <div class="tool-arrow">Aracı Aç →</div>
+    </a>
+
+    <a class="tool-card" data-cat="portfoy" href="https://www.armagankocabas.com/dijital-araclar-ve-kaynaklar/emlakcilar-icin-is-takip-sistemi" target="_blank">
+      <span class="tool-icon">🗂️</span>
+      <div class="tool-cat">Portföy</div>
+      <div class="tool-name">Emlakçılar İçin İş Takip Programı</div>
+      <div class="tool-desc">Portföy, müşteri, randevu ve hedeflerini tek ekranda takip et. Günlük iş akışını düzenle.</div>
+      <div class="tool-arrow">Aracı Aç →</div>
+    </a>
+
+    <a class="tool-card" data-cat="hesaplama" href="https://www.armagankocabas.com/dijital-araclar-ve-kaynaklar/tapu-harci-hesaplama" target="_blank">
+      <span class="tool-icon">🏛️</span>
+      <div class="tool-cat">Hesaplama</div>
+      <div class="tool-name">Tapu Harcı ve Döner Sermaye Hesaplama</div>
+      <div class="tool-desc">2026 güncel oranlarıyla tapu harcı ve döner sermaye ücretlerini anında hesapla.</div>
+      <div class="tool-badge">2026</div>
+      <div class="tool-arrow">Aracı Aç →</div>
+    </a>
+
+    <a class="tool-card" data-cat="hesaplama" href="https://www.armagankocabas.com/dijital-araclar-ve-kaynaklar/arsa-insaat-alani-hesaplama" target="_blank">
+      <span class="tool-icon">📐</span>
+      <div class="tool-cat">Hesaplama</div>
+      <div class="tool-name">Arsa İnşaat Alanı (TAKS/KAKS) Hesaplama</div>
+      <div class="tool-desc">Arsa üzerine yapılabilecek maksimum inşaat alanını ve proje kapasitesini hesapla.</div>
+      <div class="tool-arrow">Aracı Aç →</div>
+    </a>
+
+    <a class="tool-card" data-cat="hesaplama" href="https://www.armagankocabas.com/dijital-araclar-ve-kaynaklar/miras-payi-hesaplama-araci" target="_blank">
+      <span class="tool-icon">⚖️</span>
+      <div class="tool-cat">Hesaplama</div>
+      <div class="tool-name">Miras Payı Hesaplama Aracı</div>
+      <div class="tool-desc">Türk Medeni Kanunu'na göre miras paylaşımını hesapla. Müvekkillere anında açıklama yap.</div>
+      <div class="tool-arrow">Aracı Aç →</div>
+    </a>
+
+    <a class="tool-card" data-cat="hesaplama" href="https://www.armagankocabas.com/dijital-araclar-ve-kaynaklar/gayrimenkul-deger-artis-kazanci-hesaplama" target="_blank">
+      <span class="tool-icon">💹</span>
+      <div class="tool-cat">Hesaplama</div>
+      <div class="tool-name">Gayrimenkul Değer Artış Kazancı Vergisi</div>
+      <div class="tool-desc">Satışta ödenecek değer artış kazancı vergisini hesapla, müşteriyi önceden bilgilendir.</div>
+      <div class="tool-arrow">Aracı Aç →</div>
+    </a>
+
+    <a class="tool-card" data-cat="satis" href="https://www.armagankocabas.com/dijital-araclar-ve-kaynaklar/fsbo-ilk-arama-simulatoru" target="_blank">
+      <span class="tool-icon">📞</span>
+      <div class="tool-cat">Satış</div>
+      <div class="tool-name">FSBO İlk Arama Simülatörü</div>
+      <div class="tool-desc">Sahibinden satıcıyla ilk aramayı simüle et. Pratik yap, güven kazan, randevu al.</div>
+      <div class="tool-badge">Yeni</div>
+      <div class="tool-arrow">Aracı Aç →</div>
+    </a>
+
+    <a class="tool-card" data-cat="satis" href="https://www.armagankocabas.com/dijital-araclar-ve-kaynaklar/fsbo-itiraz-metni" target="_blank">
+      <span class="tool-icon">🛡️</span>
+      <div class="tool-cat">Satış</div>
+      <div class="tool-name">FSBO İtiraz Metni — 60 Konuşma Metni</div>
+      <div class="tool-desc">"Sizinle çalışmak istemiyorum" dan "komisyon çok yüksek"e kadar 60 itirazın profesyonel yanıtı.</div>
+      <div class="tool-arrow">Aracı Aç →</div>
+    </a>
+
+    <a class="tool-card" data-cat="rehber" href="https://www.armagankocabas.com/dijital-araclar-ve-kaynaklar/emlak-terimleri-sozlugu" target="_blank">
+      <span class="tool-icon">📖</span>
+      <div class="tool-cat">Rehber</div>
+      <div class="tool-name">Emlak Terimleri Sözlüğü</div>
+      <div class="tool-desc">146+ terim, 8 kategori. Müşteriyle konuşurken kafan karışmasın, sözlüğe bak.</div>
+      <div class="tool-arrow">Aracı Aç →</div>
+    </a>
+
+    <a class="tool-card" data-cat="yapay-zeka" href="https://www.armagankocabas.com/dijital-araclar-ve-kaynaklar/chatgpt-emlak-ilan-aciklamasi" target="_blank">
+      <span class="tool-icon">🤖</span>
+      <div class="tool-cat">Yapay Zeka</div>
+      <div class="tool-name">ChatGPT ile İlan Açıklaması Yaz</div>
+      <div class="tool-desc">ChatGPT'ye özel hazırlanmış emlak ilan açıklaması promptu. SEO uyumlu, satış odaklı metinler.</div>
+      <div class="tool-arrow">Aracı Aç →</div>
+    </a>
+
+    <a class="tool-card" data-cat="yapay-zeka" href="https://www.armagankocabas.com/dijital-araclar-ve-kaynaklar/gemini-emlak-ilan-aciklamasi" target="_blank">
+      <span class="tool-icon">✨</span>
+      <div class="tool-cat">Yapay Zeka</div>
+      <div class="tool-name">Gemini ile İlan Açıklaması Yaz</div>
+      <div class="tool-desc">Google Gemini için hazırlanmış emlak ilan açıklaması promptu. Aynı güç, farklı platform.</div>
+      <div class="tool-arrow">Aracı Aç →</div>
+    </a>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="section-label">Yeni Araçlar Geliyor</div>
+  <h2>Gelişmeleri Kaçırma</h2>
+  <p>Her yeni araç duyurusundan haberdar olmak için e-posta listesine katıl.</p>
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:8px;">
+    <input type="email" id="emailInput" placeholder="e-posta adresin" style="background:#141D29;border:1px solid rgba(232,168,48,0.3);border-radius:8px;padding:14px 20px;color:#F0EDE8;font-size:15px;outline:none;width:280px;font-family:'DM Sans',sans-serif;">
+    <button onclick="subscribeEmail()" class="cta-btn" style="cursor:pointer;border:none;">📬 Listeye Katıl</button>
+  </div>
+  <div id="emailMsg" style="margin-top:16px;font-size:14px;color:var(--gold);display:none;">✅ Teşekkürler! Seni listeye ekledik.</div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo"><img src="logo.png" alt="EmlakKit" style="height:48px;width:auto;"></div>
+  <div class="footer-tagline">Türkiye'nin Emlak Danışmanlarına Özel Araç Platformu</div>
+  <div class="footer-links">
+    <a href="#araclar">Araçlar</a>
+    <a href="blog.html">Blog</a>
+    <a href="#hakkinda" onclick="showModal('hakkinda')">Hakkında</a>
+    <a href="#iletisim" onclick="showModal('iletisim')">İletişim</a>
+    <a href="#gizlilik" onclick="showModal('gizlilik')">Gizlilik</a>
+  </div>
+  <div class="footer-copy">© 2026 EmlakKit. Tüm hakları saklıdır.</div>
+</footer>
+
+<!-- MODAL -->
+<div id="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:999;align-items:center;justify-content:center;padding:24px;">
+  <div style="background:#141D29;border:1px solid rgba(232,168,48,0.2);border-radius:16px;max-width:520px;width:100%;padding:40px;position:relative;">
+    <button onclick="closeModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#7A8A9A;font-size:24px;cursor:pointer;">✕</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+  function subscribeEmail() {
+    const email = document.getElementById('emailInput').value;
+    if (!email || !email.includes('@')) {
+      alert('Lütfen geçerli bir e-posta adresi gir.');
+      return;
+    }
+    document.getElementById('emailMsg').style.display = 'block';
+    document.getElementById('emailInput').value = '';
+  }
+
+  const modalContent = {
+    hakkinda: `
+      <h2 style="font-family:'Syne',sans-serif;font-size:24px;font-weight:700;margin-bottom:16px;color:#F0EDE8;">EmlakKit Hakkında</h2>
+      <p style="color:#C8D4DC;line-height:1.7;margin-bottom:16px;">EmlakKit, Türkiye'deki emlak danışmanlarına özel geliştirilmiş ücretsiz dijital araç platformudur.</p>
+      <p style="color:#C8D4DC;line-height:1.7;margin-bottom:16px;">Rakip pazar analizi, haftalık ilerleme raporu, FSBO simülatörü ve daha fazlasını içeren araç setiyle danışmanların her görüşmeye hazırlıklı girmesini sağlıyoruz.</p>
+      <div style="border-top:1px solid rgba(232,168,48,0.2);margin:20px 0;padding-top:20px;">
+        <p style="color:#E8A830;font-size:12px;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;">Kurucu</p>
+        <p style="color:#F0EDE8;font-weight:600;font-size:16px;margin-bottom:4px;">Armağan Kocabaş</p>
+        <p style="color:#C8D4DC;font-size:13px;margin-bottom:12px;">Lüks Konut Uzmanı · Yazar · Eğitmen · RE/MAX Eksen</p>
+        <p style="color:#C8D4DC;font-size:13px;line-height:1.6;margin-bottom:12px;">Gayrimenkul danışmanı ve eğitmen olarak, sadece alım–satım süreçlerinde değil; doğru kararların arkasındaki bilgiyi ve bakış açısını da paylaşıyor. "Soğuk Aramadan Sıcak Satışa: FSBO'nun Gücü" kitabının yazarı.</p>
+        <a href="https://www.armagankocabas.com" target="_blank" style="color:#E8A830;font-size:13px;">www.armagankocabas.com →</a>
+      </div>
+      <p style="color:#C8D4DC;font-size:13px;font-style:italic;">Slogan: <strong style="color:#E8A830;">Emlak Danışmanları İçin. Her Zaman Bir Adım Önde.</strong></p>
+    `,
+    iletisim: `
+      <h2 style="font-family:'Syne',sans-serif;font-size:24px;font-weight:700;margin-bottom:16px;color:#F0EDE8;">İletişim</h2>
+      <p style="color:#C8D4DC;line-height:1.7;margin-bottom:20px;">Öneri, geri bildirim veya işbirliği için bize ulaşabilirsiniz.</p>
+      <p style="color:#C8D4DC;margin-bottom:12px;">📧 <a href="mailto:armagankocabas@gmail.com" style="color:#E8A830;">armagankocabas@gmail.com</a></p>
+      <p style="color:#C8D4DC;margin-bottom:12px;">🌐 <a href="https://www.armagankocabas.com" target="_blank" style="color:#E8A830;">www.armagankocabas.com</a></p>
+      <p style="color:#C8D4DC;margin-bottom:12px;">📸 <a href="https://instagram.com/rmx.armagankocabas" target="_blank" style="color:#E8A830;">@rmx.armagankocabas</a></p>
+      <p style="color:#C8D4DC;">▶️ <a href="https://www.youtube.com/@armagankocabas" target="_blank" style="color:#E8A830;">YouTube: @armagankocabas</a></p>
+    `,
+    gizlilik: `
+      <h2 style="font-family:'Syne',sans-serif;font-size:24px;font-weight:700;margin-bottom:16px;color:#F0EDE8;">Gizlilik Politikası</h2>
+      <p style="color:#C8D4DC;line-height:1.7;margin-bottom:12px;">EmlakKit'teki araçları kullanmak için kayıt gerekmez. Kişisel veri toplamıyoruz.</p>
+      <p style="color:#C8D4DC;line-height:1.7;margin-bottom:12px;">E-posta listemize katılırsanız adresiniz yalnızca EmlakKit güncellemeleri için kullanılır, üçüncü taraflarla paylaşılmaz.</p>
+      <p style="color:#C8D4DC;line-height:1.7;">Sorularınız için: <a href="mailto:armagankocabas@gmail.com" style="color:#E8A830;">armagankocabas@gmail.com</a></p>
+    `
+  };
+
+  function showModal(type) {
+    event.preventDefault();
+    document.getElementById('modalContent').innerHTML = modalContent[type];
+    const modal = document.getElementById('modal');
+    modal.style.display = 'flex';
+  }
+
+  function closeModal() {
+    document.getElementById('modal').style.display = 'none';
+  }
+
+  document.getElementById('modal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+
+  function filterCat(cat) {
+    const cards = document.querySelectorAll('.tool-card');
+    const tabs = document.querySelectorAll('.cat-tab');
+
+    tabs.forEach(t => t.classList.remove('active'));
+    event.target.classList.add('active');
+
+    cards.forEach(card => {
+      if (cat === 'all' || card.dataset.cat === cat) {
+        card.classList.remove('hidden');
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+  }
+
+  // Scroll reveal - mobile safe
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.05 });
+
+  document.querySelectorAll('.tool-card, .feature-item').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(12px)';
+    el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+    observer.observe(el);
+    // Fallback: force visible after 1s in case observer doesn't fire
+    setTimeout(() => {
+      el.style.opacity = '1';
+      el.style.transform = 'translateY(0)';
+    }, 1000);
+  });
+</script>
+
+</body>
+</html>
