@@ -550,10 +550,12 @@
 
 <!-- NAV -->
 <nav>
-  <a href="#" class="logo">Emlak<span>Kit</span></a>
+  <a href="index.html" class="logo">Emlak<span>Kit</span></a>
   <div style="display:flex;gap:20px;align-items:center;">
+    <a href="index.html" style="color:var(--muted);text-decoration:none;font-size:14px;">Ana Sayfa</a>
+    <a href="#araclar" style="color:var(--muted);text-decoration:none;font-size:14px;">Araçlar</a>
     <a href="blog.html" style="color:var(--muted);text-decoration:none;font-size:14px;">Blog</a>
-    <a href="#araclar" class="nav-cta">Araçları Keşfet</a>
+    <a href="#araclar" class="nav-cta">Ücretsiz Başla</a>
   </div>
 </nav>
 
@@ -772,21 +774,30 @@
   const modalContent = {
     hakkinda: `
       <h2 style="font-family:'Syne',sans-serif;font-size:24px;font-weight:700;margin-bottom:16px;color:#F0EDE8;">EmlakKit Hakkında</h2>
-      <p style="color:#C8D4DC;line-height:1.7;margin-bottom:12px;">EmlakKit, Türkiye'deki emlak danışmanlarına özel geliştirilmiş ücretsiz dijital araç platformudur.</p>
-      <p style="color:#C8D4DC;line-height:1.7;margin-bottom:12px;">RPA (Rakip Pazar Analizi), haftalık rapor, FSBO simülatörü ve daha fazlasını içeren araç setiyle danışmanların her görüşmeye hazırlıklı girmesini sağlıyoruz.</p>
-      <p style="color:#C8D4DC;line-height:1.7;">Slogan: <strong style="color:#E8A830;">Emlak Danışmanları İçin. Her Zaman Bir Adım Önde.</strong></p>
+      <p style="color:#C8D4DC;line-height:1.7;margin-bottom:16px;">EmlakKit, Türkiye'deki emlak danışmanlarına özel geliştirilmiş ücretsiz dijital araç platformudur.</p>
+      <p style="color:#C8D4DC;line-height:1.7;margin-bottom:16px;">Rakip pazar analizi, haftalık ilerleme raporu, FSBO simülatörü ve daha fazlasını içeren araç setiyle danışmanların her görüşmeye hazırlıklı girmesini sağlıyoruz.</p>
+      <div style="border-top:1px solid rgba(232,168,48,0.2);margin:20px 0;padding-top:20px;">
+        <p style="color:#E8A830;font-size:12px;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;">Kurucu</p>
+        <p style="color:#F0EDE8;font-weight:600;font-size:16px;margin-bottom:4px;">Armağan Kocabaş</p>
+        <p style="color:#C8D4DC;font-size:13px;margin-bottom:12px;">Lüks Konut Uzmanı · Yazar · Eğitmen · RE/MAX Collection</p>
+        <p style="color:#C8D4DC;font-size:13px;line-height:1.6;margin-bottom:12px;">Gayrimenkul danışmanı ve eğitmen olarak, sadece alım–satım süreçlerinde değil; doğru kararların arkasındaki bilgiyi ve bakış açısını da paylaşıyor. "Soğuk Aramadan Sıcak Satışa: FSBO'nun Gücü" kitabının yazarı.</p>
+        <a href="https://www.armagankocabas.com" target="_blank" style="color:#E8A830;font-size:13px;">www.armagankocabas.com →</a>
+      </div>
+      <p style="color:#C8D4DC;font-size:13px;font-style:italic;">Slogan: <strong style="color:#E8A830;">Emlak Danışmanları İçin. Her Zaman Bir Adım Önde.</strong></p>
     `,
     iletisim: `
       <h2 style="font-family:'Syne',sans-serif;font-size:24px;font-weight:700;margin-bottom:16px;color:#F0EDE8;">İletişim</h2>
       <p style="color:#C8D4DC;line-height:1.7;margin-bottom:20px;">Öneri, geri bildirim veya işbirliği için bize ulaşabilirsiniz.</p>
-      <p style="color:#C8D4DC;">📧 <a href="mailto:info@emlakkit.com" style="color:#E8A830;">info@emlakkit.com</a></p>
-      <p style="color:#C8D4DC;margin-top:8px;">📸 <a href="https://instagram.com/emlakkit" target="_blank" style="color:#E8A830;">@emlakkit</a></p>
+      <p style="color:#C8D4DC;margin-bottom:12px;">📧 <a href="mailto:armagankocabas@gmail.com" style="color:#E8A830;">armagankocabas@gmail.com</a></p>
+      <p style="color:#C8D4DC;margin-bottom:12px;">🌐 <a href="https://www.armagankocabas.com" target="_blank" style="color:#E8A830;">www.armagankocabas.com</a></p>
+      <p style="color:#C8D4DC;margin-bottom:12px;">📸 <a href="https://instagram.com/rmx.armagankocabas" target="_blank" style="color:#E8A830;">@rmx.armagankocabas</a></p>
+      <p style="color:#C8D4DC;">▶️ <a href="https://www.youtube.com/@armagankocabas" target="_blank" style="color:#E8A830;">YouTube: @armagankocabas</a></p>
     `,
     gizlilik: `
       <h2 style="font-family:'Syne',sans-serif;font-size:24px;font-weight:700;margin-bottom:16px;color:#F0EDE8;">Gizlilik Politikası</h2>
       <p style="color:#C8D4DC;line-height:1.7;margin-bottom:12px;">EmlakKit'teki araçları kullanmak için kayıt gerekmez. Kişisel veri toplamıyoruz.</p>
       <p style="color:#C8D4DC;line-height:1.7;margin-bottom:12px;">E-posta listemize katılırsanız adresiniz yalnızca EmlakKit güncellemeleri için kullanılır, üçüncü taraflarla paylaşılmaz.</p>
-      <p style="color:#C8D4DC;line-height:1.7;">Sorularınız için: <a href="mailto:info@emlakkit.com" style="color:#E8A830;">info@emlakkit.com</a></p>
+      <p style="color:#C8D4DC;line-height:1.7;">Sorularınız için: <a href="mailto:armagankocabas@gmail.com" style="color:#E8A830;">armagankocabas@gmail.com</a></p>
     `
   };
 
