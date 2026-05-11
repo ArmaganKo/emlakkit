@@ -733,10 +733,10 @@
   <div class="section-label">Yeni Araçlar Geliyor</div>
   <h2>Gelişmeleri Kaçırma</h2>
   <p>Her yeni araç duyurusundan haberdar olmak için e-posta listesine katıl.</p>
-  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:8px;">
-    <input type="email" id="emailInput" placeholder="e-posta adresin" style="background:#141D29;border:1px solid rgba(232,168,48,0.3);border-radius:8px;padding:14px 20px;color:#F0EDE8;font-size:15px;outline:none;width:280px;font-family:'DM Sans',sans-serif;">
-    <button onclick="subscribeEmail()" class="cta-btn" style="cursor:pointer;border:none;">📬 Listeye Katıl</button>
-  </div>
+  <form action="https://formspree.io/f/maqvaple" method="POST" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:8px;" onsubmit="handleSubmit(event)">
+    <input type="email" name="email" placeholder="e-posta adresin" required style="background:#141D29;border:1px solid rgba(232,168,48,0.3);border-radius:8px;padding:14px 20px;color:#F0EDE8;font-size:15px;outline:none;width:280px;font-family:'DM Sans',sans-serif;">
+    <button type="submit" class="cta-btn" style="cursor:pointer;border:none;">📬 Listeye Katıl</button>
+  </form>
   <div id="emailMsg" style="margin-top:16px;font-size:14px;color:var(--gold);display:none;">✅ Teşekkürler! Seni listeye ekledik.</div>
 </div>
 
@@ -763,14 +763,19 @@
 </div>
 
 <script>
-  function subscribeEmail() {
-    const email = document.getElementById('emailInput').value;
-    if (!email || !email.includes('@')) {
-      alert('Lütfen geçerli bir e-posta adresi gir.');
-      return;
-    }
-    document.getElementById('emailMsg').style.display = 'block';
-    document.getElementById('emailInput').value = '';
+  function handleSubmit(e) {
+    e.preventDefault();
+    const form = e.target;
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    }).then(r => {
+      if (r.ok) {
+        document.getElementById('emailMsg').style.display = 'block';
+        form.reset();
+      }
+    });
   }
 
   const modalContent = {
