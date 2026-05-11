@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TAKS KAKS Hesaplama 2026 — Arsa İmar ve Kapasite Analizi | EmlakKit</title>
+<meta name="description" content="Arsa alanı, TAKS ve KAKS değerlerine göre inşaat hakkı, zemin oturumu ve kat başına düşen alanı hesaplayın. Ücretsiz arsa imar analizi.">
+<meta name="keywords" content="TAKS KAKS hesaplama, emsal hesaplama, arsa imar analizi, inşaat alanı hesaplama, kat sayısı hesaplama">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://emlakkit.com/taks-kaks-hesaplama.html">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta property="og:title" content="TAKS KAKS Hesaplama 2026 | EmlakKit">
+<meta property="og:description" content="Arsa imar ve kapasite analizi. İnşaat hakkı, zemin oturumu ve kat başına alan hesaplama.">
+<meta property="og:url" content="https://emlakkit.com/taks-kaks-hesaplama.html">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "TAKS KAKS Hesaplama",
+  "description": "Arsa imar ve kapasite analizi hesaplama aracı",
+  "url": "https://emlakkit.com/taks-kaks-hesaplama.html",
+  "applicationCategory": "FinanceApplication",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "TRY" }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0C1017; --gold: #E8A830; --gold2: #F5C060;
+    --white: #F0EDE8; --muted: #C8D4DC; --border: rgba(232,168,48,0.15); --card: #141D29;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: #0C1017 !important; color: #F0EDE8; font-family: 'DM Sans', sans-serif; line-height: 1.6; }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 24px; height: 64px; display: flex; align-items: center; justify-content: space-between; background: rgba(12,16,23,0.92); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
+  .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px; color: #F0EDE8; text-decoration: none; }
+  .logo span { color: var(--gold); }
+  .nav-desktop { display: flex; gap: 20px; align-items: center; }
+  .nav-desktop a { font-size: 14px; color: var(--muted); text-decoration: none; }
+  .nav-cta { background: var(--gold); color: #0C1017; font-weight: 500; font-size: 13px; padding: 8px 18px; border-radius: 6px; text-decoration: none; }
+  .page-wrap { max-width: 760px; margin: 0 auto; padding: 100px 24px 80px; }
+  .breadcrumb { display: flex; gap: 8px; font-size: 12px; color: var(--muted); margin-bottom: 32px; flex-wrap: wrap; }
+  .breadcrumb a { color: var(--muted); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--gold); }
+  .breadcrumb span { color: var(--gold); }
+  .page-label { font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+  .page-title { font-family: 'Syne', sans-serif; font-size: clamp(28px, 5vw, 44px); font-weight: 800; letter-spacing: -1.5px; margin-bottom: 16px; line-height: 1.1; }
+  .page-subtitle { font-size: 16px; color: var(--muted); margin-bottom: 48px; line-height: 1.7; }
+  .calc-card { background: var(--card); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 36px; margin-bottom: 40px; }
+  .calc-title { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 28px; display: flex; align-items: center; gap: 10px; }
+  .form-group { margin-bottom: 20px; }
+  .form-label { font-size: 12px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; display: block; }
+  .form-input { width: 100%; padding: 14px 18px; background: #0C1017; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #F0EDE8; font-family: 'DM Sans', sans-serif; font-size: 16px; outline: none; transition: border-color 0.2s; }
+  .form-input:focus { border-color: var(--gold); }
+  .form-input::placeholder { color: rgba(200,212,220,0.4); }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  .or-divider { text-align: center; font-size: 12px; color: var(--muted); margin: 12px 0; letter-spacing: 2px; }
+  .alt-input-box { background: rgba(232,168,48,0.05); border: 1px solid rgba(232,168,48,0.15); border-radius: 10px; padding: 20px; margin-bottom: 20px; }
+  .alt-input-box .alt-note { font-size: 12px; color: var(--gold); font-weight: 500; margin-bottom: 16px; }
+  .calc-btn { width: 100%; padding: 16px; background: var(--gold); color: #0C1017; border: none; border-radius: 8px; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 16px; cursor: pointer; transition: background 0.2s; margin-top: 8px; }
+  .calc-btn:hover { background: var(--gold2); }
+  .email-gate { display: none; margin-top: 28px; background: rgba(232,168,48,0.06); border: 1px solid rgba(232,168,48,0.2); border-radius: 12px; padding: 24px; text-align: center; }
+  .email-gate h4 { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+  .email-gate p { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+  .email-gate-form { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+  .email-gate-input { flex: 1; min-width: 200px; padding: 12px 16px; background: #0C1017; border: 1px solid rgba(232,168,48,0.3); border-radius: 8px; color: #F0EDE8; font-family: 'DM Sans', sans-serif; font-size: 14px; outline: none; }
+  .email-gate-btn { padding: 12px 24px; background: var(--gold); color: #0C1017; border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 14px; cursor: pointer; }
+  .result-panel { display: none; margin-top: 28px; background: #0C1017; border: 1px solid rgba(232,168,48,0.2); border-radius: 12px; padding: 24px; }
+  .result-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
+  .result-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 15px; }
+  .result-row:last-child { border-bottom: none; }
+  .result-label { color: var(--muted); }
+  .result-value { font-weight: 600; color: #F0EDE8; font-family: 'Syne', sans-serif; font-size: 16px; }
+  .result-warning { margin-top: 16px; padding: 12px 16px; background: rgba(217,48,47,0.1); border: 1px solid rgba(217,48,47,0.3); border-radius: 8px; font-size: 13px; color: #ff6b6b; line-height: 1.6; display: none; }
+  .result-note { margin-top: 12px; padding: 12px 16px; background: rgba(232,168,48,0.06); border-radius: 8px; font-size: 12px; color: var(--muted); line-height: 1.6; }
+  .seo-content { margin-top: 60px; padding-top: 40px; border-top: 1px solid var(--border); }
+  .seo-content h2 { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+  .seo-content h3 { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 600; margin: 28px 0 12px; }
+  .seo-content p { font-size: 15px; color: var(--muted); line-height: 1.8; margin-bottom: 16px; }
+  .seo-content ul { padding-left: 20px; margin-bottom: 16px; }
+  .seo-content li { font-size: 15px; color: var(--muted); line-height: 1.7; margin-bottom: 6px; }
+  .seo-content strong { color: #F0EDE8; font-weight: 500; }
+  .related { margin-top: 60px; padding-top: 40px; border-top: 1px solid var(--border); }
+  .related h3 { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 20px; }
+  .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+  .related-card { background: var(--card); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 16px; text-decoration: none; color: inherit; transition: all 0.2s; display: block; }
+  .related-card:hover { border-color: rgba(232,168,48,0.3); }
+  .related-card-icon { font-size: 24px; margin-bottom: 8px; }
+  .related-card-name { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 600; }
+  footer { border-top: 1px solid var(--border); padding: 40px 24px; text-align: center; margin-top: 60px; }
+  .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 20px; margin-bottom: 8px; }
+  .footer-logo span { color: var(--gold); }
+  .footer-links { display: flex; gap: 24px; justify-content: center; margin: 12px 0; flex-wrap: wrap; }
+  .footer-links a { font-size: 13px; color: var(--muted); text-decoration: none; }
+  .footer-links a:hover { color: var(--gold); }
+  .footer-copy { font-size: 12px; color: rgba(122,138,154,0.5); margin-top: 8px; }
+  @media (max-width: 600px) { .nav-desktop { display: none; } .calc-card { padding: 20px; } .page-wrap { padding: 90px 16px 60px; } .form-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">Emlak<span>Kit</span></a>
+  <div class="nav-desktop">
+    <a href="index.html">Ana Sayfa</a>
+    <a href="index.html#araclar">Araçlar</a>
+    <a href="blog.html">Blog</a>
+  </div>
+  <a href="index.html#araclar" class="nav-cta">Ücretsiz Başla</a>
+</nav>
+
+<div class="page-wrap">
+
+  <div class="breadcrumb">
+    <a href="index.html">Ana Sayfa</a> /
+    <a href="index.html#araclar">Araçlar</a> /
+    <span>TAKS / KAKS Hesaplama</span>
+  </div>
+
+  <div class="page-label">Hesaplama Aracı</div>
+  <h1 class="page-title">TAKS / KAKS Hesaplama</h1>
+  <p class="page-subtitle">Arsa alanı, TAKS ve KAKS değerlerine göre inşaat hakkı, zemin oturumu ve kat başına düşen alanı saniyeler içinde hesaplayın.</p>
+
+  <div class="calc-card">
+    <div class="calc-title">📐 Arsa İmar ve Kapasite Analizi</div>
+
+    <div class="form-group">
+      <label class="form-label">Arsa Alanı (m²)</label>
+      <input type="number" id="arsaAlani" class="form-input" placeholder="Örn: 1000">
+    </div>
+
+    <div class="form-grid">
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label">KAKS (Emsal)</label>
+        <input type="number" id="kaks" class="form-input" placeholder="Örn: 1.5" step="0.1">
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label">TAKS (Taban)</label>
+        <input type="number" id="taks" class="form-input" placeholder="Örn: 0.25" step="0.05">
+      </div>
+    </div>
+
+    <div class="alt-input-box" style="margin-top:20px;">
+      <div class="alt-note">⚠️ Aşağıdakilerden sadece BİRİNİ doldurun</div>
+      <div class="form-group">
+        <label class="form-label">1. Seçenek — Kat Sayısı</label>
+        <input type="number" id="inputKat" class="form-input" placeholder="Örn: 4" oninput="document.getElementById('inputH').value=''">
+      </div>
+      <div class="or-divider">— VEYA —</div>
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label">2. Seçenek — H Yükseklik (metre)</label>
+        <input type="number" id="inputH" class="form-input" placeholder="Örn: 12.50" oninput="document.getElementById('inputKat').value=''">
+      </div>
+    </div>
+
+    <button class="calc-btn" onclick="hesapla()">HESAPLA VE ANALİZ ET</button>
+
+    <div class="email-gate" id="emailGate">
+      <h4>Sonucu Görmek İçin E-posta Adresinizi Girin</h4>
+      <p>İmar analiz sonucunuzu görün, yeni araç duyurularından haberdar olun.</p>
+      <form class="email-gate-form" action="https://formspree.io/f/maqvaple" method="POST" onsubmit="gosterSonuc(event)">
+        <input type="email" name="email" class="email-gate-input" placeholder="e-posta adresiniz" required>
+        <input type="hidden" name="kaynak" value="TAKS/KAKS Hesaplama">
+        <button type="submit" class="email-gate-btn">Sonucu Gör →</button>
+      </form>
+    </div>
+
+    <div class="result-panel" id="sonucPanel">
+      <div class="result-title">İmar Analiz Sonucu</div>
+      <div class="result-row">
+        <span class="result-label">Emsal İnşaat Hakkı (KAKS)</span>
+        <span class="result-value" id="resNet">—</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">Zemin Oturumu (TAKS)</span>
+        <span class="result-value" id="resTaban">—</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">Belirlenen Kat Sayısı</span>
+        <span class="result-value" id="resKat" style="color:var(--gold);">—</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">Kat Başına Düşen Alan</span>
+        <span class="result-value" id="resKatAlani">—</span>
+      </div>
+      <div class="result-warning" id="uyariH">
+        ⚠️ Kat başına alan TAKS sınırını aşıyor! Kat sayısını artırmalı veya emsali düşürmelisiniz.
+      </div>
+      <div class="result-note">
+        ℹ️ Bu hesaplama tahmini değerler içermektedir. Kesin imar durumu için ilgili belediyenin imar müdürlüğüne başvurunuz.
+      </div>
+    </div>
+  </div>
+
+  <div class="seo-content">
+    <h2>TAKS ve KAKS Nedir? Nasıl Hesaplanır?</h2>
+    <p>İmar planlarında sıkça karşılaşılan TAKS ve KAKS kavramları, bir arsa üzerine yapılabilecek inşaatın sınırlarını belirler. Emlak danışmanları olarak bu değerleri doğru okumak, müşterilere gerçekçi bilgi vermek açısından kritik önem taşır.</p>
+
+    <h3>TAKS Nedir?</h3>
+    <p><strong>TAKS (Taban Alanı Katsayısı)</strong>, yapının zemine oturan bölümünün arsa alanına oranıdır. TAKS değeri 0.25 ise 1.000 m²'lik bir arsada zemin kat en fazla <strong>250 m²</strong> olabilir.</p>
+
+    <h3>KAKS Nedir?</h3>
+    <p><strong>KAKS (Kat Alanı Katsayısı)</strong>, emsal olarak da bilinir. Yapının toplam inşaat alanının arsa alanına oranını gösterir. KAKS değeri 1.5 ise 1.000 m²'lik arsada toplam inşaat alanı en fazla <strong>1.500 m²</strong> olabilir.</p>
+
+    <h3>Kat Sayısı Nasıl Hesaplanır?</h3>
+    <p>Kat sayısı; toplam inşaat hakkının kat başına düşen alana bölünmesiyle bulunur. H (yükseklik) kısıtlaması varsa standart kat yüksekliği 3 metre olarak hesaba katılır.</p>
+
+    <h3>Emlak Danışmanları İçin Önemi</h3>
+    <ul>
+      <li>Arsa değerlendirmelerinde gerçekçi inşaat potansiyelini müşterinize gösterin</li>
+      <li>Yatırımcı müşterilere kapasite analizi sunun</li>
+      <li>Kat irtifakı ve kat mülkiyeti süreçlerinde doğru hesaplama yapın</li>
+    </ul>
+  </div>
+
+  <div class="related">
+    <h3>Diğer Hesaplama Araçları</h3>
+    <div class="related-grid">
+      <a href="tapu-harci-hesaplama.html" class="related-card">
+        <div class="related-card-icon">🏛️</div>
+        <div class="related-card-name">Tapu Harcı Hesaplama</div>
+      </a>
+      <a href="miras-payi-hesaplama.html" class="related-card">
+        <div class="related-card-icon">⚖️</div>
+        <div class="related-card-name">Miras Payı Hesaplama</div>
+      </a>
+      <a href="deger-artis-kazanci.html" class="related-card">
+        <div class="related-card-icon">💹</div>
+        <div class="related-card-name">Değer Artış Kazancı</div>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-logo">Emlak<span>Kit</span></div>
+  <div class="footer-links">
+    <a href="index.html">Ana Sayfa</a>
+    <a href="index.html#araclar">Araçlar</a>
+    <a href="blog.html">Blog</a>
+    <a href="mailto:armagankocabas@gmail.com">İletişim</a>
+  </div>
+  <div class="footer-copy">© 2026 EmlakKit. Tüm hakları saklıdır.</div>
+</footer>
+
+<script>
+  let sonucData = {};
+
+  function hesapla() {
+    const alan = parseFloat(document.getElementById('arsaAlani').value);
+    const kaks = parseFloat(document.getElementById('kaks').value);
+    const taks = parseFloat(document.getElementById('taks').value);
+    const katVal = document.getElementById('inputKat').value;
+    const hVal = document.getElementById('inputH').value;
+
+    if (!alan || !kaks || !taks || (!katVal && !hVal)) {
+      alert('Lütfen tüm alanları doldurunuz.');
+      return;
+    }
+
+    let finalKat = katVal !== '' ? parseFloat(katVal) : parseFloat(hVal) / 3;
+    sonucData = {
+      net: Math.round(alan * kaks),
+      taban: Math.round(alan * taks),
+      kat: finalKat.toFixed(1),
+      katAlani: Math.round((alan * kaks) / finalKat),
+      tabanLimit: alan * taks,
+      uyari: (alan * kaks) / finalKat > alan * taks + 1
+    };
+
+    document.getElementById('emailGate').style.display = 'block';
+    document.getElementById('emailGate').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function gosterSonuc(e) {
+    e.preventDefault();
+    const form = e.target;
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    });
+
+    document.getElementById('resNet').innerText = sonucData.net.toLocaleString('tr-TR') + ' m²';
+    document.getElementById('resTaban').innerText = sonucData.taban.toLocaleString('tr-TR') + ' m²';
+    document.getElementById('resKat').innerText = sonucData.kat + ' Kat';
+    document.getElementById('resKatAlani').innerText = sonucData.katAlani.toLocaleString('tr-TR') + ' m²';
+    document.getElementById('uyariH').style.display = sonucData.uyari ? 'block' : 'none';
+
+    document.getElementById('emailGate').style.display = 'none';
+    document.getElementById('sonucPanel').style.display = 'block';
+    document.getElementById('sonucPanel').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+</script>
+
+</body>
+</html>

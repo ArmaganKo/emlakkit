@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Miras Payı Hesaplama 2026 — Yasal Miras Dağılımı | EmlakKit</title>
+<meta name="description" content="Türk Medeni Kanunu'na göre yasal miras paylarını hesaplayın. Eş, çocuk ve anne-baba senaryoları için anlık miras dağılımı. Ücretsiz.">
+<meta name="keywords" content="miras payı hesaplama, yasal miras payı, miras dağılımı, medeni kanun miras, gayrimenkul miras">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://emlakkit.com/miras-payi-hesaplama.html">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta property="og:title" content="Miras Payı Hesaplama 2026 | EmlakKit">
+<meta property="og:description" content="Türk Medeni Kanunu'na göre yasal miras paylarını hesaplayın.">
+<meta property="og:url" content="https://emlakkit.com/miras-payi-hesaplama.html">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Miras Payı Hesaplama",
+  "description": "Türk Medeni Kanunu'na göre yasal miras payı hesaplama aracı",
+  "url": "https://emlakkit.com/miras-payi-hesaplama.html",
+  "applicationCategory": "FinanceApplication",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "TRY" }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0C1017; --bg2: #131A24; --gold: #E8A830; --gold2: #F5C060;
+    --white: #F0EDE8; --muted: #C8D4DC; --border: rgba(232,168,48,0.15); --card: #141D29;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: #0C1017 !important; color: #F0EDE8; font-family: 'DM Sans', sans-serif; line-height: 1.6; }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 24px; height: 64px; display: flex; align-items: center; justify-content: space-between; background: rgba(12,16,23,0.92); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
+  .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px; color: #F0EDE8; text-decoration: none; }
+  .logo span { color: var(--gold); }
+  .nav-desktop { display: flex; gap: 20px; align-items: center; }
+  .nav-desktop a { font-size: 14px; color: var(--muted); text-decoration: none; }
+  .nav-desktop a:hover { color: var(--white); }
+  .nav-cta { background: var(--gold); color: #0C1017; font-weight: 500; font-size: 13px; padding: 8px 18px; border-radius: 6px; text-decoration: none; }
+  .page-wrap { max-width: 760px; margin: 0 auto; padding: 100px 24px 80px; }
+  .breadcrumb { display: flex; gap: 8px; font-size: 12px; color: var(--muted); margin-bottom: 32px; flex-wrap: wrap; }
+  .breadcrumb a { color: var(--muted); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--gold); }
+  .breadcrumb span { color: var(--gold); }
+  .page-label { font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+  .page-title { font-family: 'Syne', sans-serif; font-size: clamp(28px, 5vw, 44px); font-weight: 800; letter-spacing: -1.5px; margin-bottom: 16px; line-height: 1.1; }
+  .page-subtitle { font-size: 16px; color: var(--muted); margin-bottom: 48px; line-height: 1.7; }
+  .calc-card { background: var(--card); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 36px; margin-bottom: 40px; }
+  .calc-title { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 28px; display: flex; align-items: center; gap: 10px; }
+  .form-group { margin-bottom: 20px; }
+  .form-label { font-size: 12px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; display: block; }
+  .form-input { width: 100%; padding: 14px 18px; background: #0C1017; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #F0EDE8; font-family: 'DM Sans', sans-serif; font-size: 16px; outline: none; transition: border-color 0.2s; }
+  .form-input:focus { border-color: var(--gold); }
+  .form-select { width: 100%; padding: 14px 18px; background: #0C1017; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #F0EDE8; font-family: 'DM Sans', sans-serif; font-size: 15px; outline: none; cursor: pointer; transition: border-color 0.2s; }
+  .form-select:focus { border-color: var(--gold); }
+  .form-select option { background: #141D29; }
+  .calc-btn { width: 100%; padding: 16px; background: var(--gold); color: #0C1017; border: none; border-radius: 8px; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 16px; cursor: pointer; transition: background 0.2s; margin-top: 8px; letter-spacing: 0.5px; }
+  .calc-btn:hover { background: var(--gold2); }
+  .email-gate { display: none; margin-top: 28px; background: rgba(232,168,48,0.06); border: 1px solid rgba(232,168,48,0.2); border-radius: 12px; padding: 24px; text-align: center; }
+  .email-gate h4 { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+  .email-gate p { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+  .email-gate-form { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+  .email-gate-input { flex: 1; min-width: 200px; padding: 12px 16px; background: #0C1017; border: 1px solid rgba(232,168,48,0.3); border-radius: 8px; color: #F0EDE8; font-family: 'DM Sans', sans-serif; font-size: 14px; outline: none; }
+  .email-gate-btn { padding: 12px 24px; background: var(--gold); color: #0C1017; border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 14px; cursor: pointer; }
+  .result-panel { display: none; margin-top: 28px; background: #0C1017; border: 1px solid rgba(232,168,48,0.2); border-radius: 12px; padding: 24px; }
+  .result-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
+  .result-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 15px; }
+  .result-row:last-child { border-bottom: none; }
+  .result-label { color: var(--muted); }
+  .result-value { font-weight: 600; color: #F0EDE8; font-family: 'Syne', sans-serif; font-size: 16px; }
+  .result-note { margin-top: 16px; padding: 12px 16px; background: rgba(232,168,48,0.06); border-radius: 8px; font-size: 12px; color: var(--muted); line-height: 1.6; }
+  .seo-content { margin-top: 60px; padding-top: 40px; border-top: 1px solid var(--border); }
+  .seo-content h2 { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+  .seo-content h3 { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 600; margin: 28px 0 12px; }
+  .seo-content p { font-size: 15px; color: var(--muted); line-height: 1.8; margin-bottom: 16px; }
+  .seo-content ul { padding-left: 20px; margin-bottom: 16px; }
+  .seo-content li { font-size: 15px; color: var(--muted); line-height: 1.7; margin-bottom: 6px; }
+  .seo-content strong { color: #F0EDE8; font-weight: 500; }
+  .related { margin-top: 60px; padding-top: 40px; border-top: 1px solid var(--border); }
+  .related h3 { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 20px; }
+  .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+  .related-card { background: var(--card); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 16px; text-decoration: none; color: inherit; transition: all 0.2s; display: block; }
+  .related-card:hover { border-color: rgba(232,168,48,0.3); }
+  .related-card-icon { font-size: 24px; margin-bottom: 8px; }
+  .related-card-name { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 600; }
+  footer { border-top: 1px solid var(--border); padding: 40px 24px; text-align: center; margin-top: 60px; }
+  .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 20px; margin-bottom: 8px; }
+  .footer-logo span { color: var(--gold); }
+  .footer-links { display: flex; gap: 24px; justify-content: center; margin: 12px 0; flex-wrap: wrap; }
+  .footer-links a { font-size: 13px; color: var(--muted); text-decoration: none; }
+  .footer-links a:hover { color: var(--gold); }
+  .footer-copy { font-size: 12px; color: rgba(122,138,154,0.5); margin-top: 8px; }
+  @media (max-width: 600px) { .nav-desktop { display: none; } .calc-card { padding: 20px; } .page-wrap { padding: 90px 16px 60px; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">Emlak<span>Kit</span></a>
+  <div class="nav-desktop">
+    <a href="index.html">Ana Sayfa</a>
+    <a href="index.html#araclar">Araçlar</a>
+    <a href="blog.html">Blog</a>
+  </div>
+  <a href="index.html#araclar" class="nav-cta">Ücretsiz Başla</a>
+</nav>
+
+<div class="page-wrap">
+
+  <div class="breadcrumb">
+    <a href="index.html">Ana Sayfa</a> /
+    <a href="index.html#araclar">Araçlar</a> /
+    <span>Miras Payı Hesaplama</span>
+  </div>
+
+  <div class="page-label">Hesaplama Aracı</div>
+  <h1 class="page-title">Miras Payı Hesaplama</h1>
+  <p class="page-subtitle">Türk Medeni Kanunu'na göre yasal miras paylarını hesaplayın. Eş, çocuk ve anne-baba senaryoları desteklenmektedir.</p>
+
+  <div class="calc-card">
+    <div class="calc-title">⚖️ Miras Payı Hesaplayıcı</div>
+
+    <div class="form-group">
+      <label class="form-label">Eş Hayatta mı?</label>
+      <select id="esSagMi" class="form-select">
+        <option value="hayir">Hayır</option>
+        <option value="evet">Evet</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Kaç Çocuk Var?</label>
+      <input type="number" id="cocukSayisi" class="form-input" value="0" min="0" placeholder="0">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Anne veya Baba Sağ mı?</label>
+      <select id="anneBabaSag" class="form-select">
+        <option value="hayir">Hayır (Vefat etmiş)</option>
+        <option value="evet">Evet (En az biri sağ)</option>
+      </select>
+    </div>
+
+    <button class="calc-btn" onclick="hesapla()">HİSSELERİ HESAPLA</button>
+
+    <div class="email-gate" id="emailGate">
+      <h4>Sonucu Görmek İçin E-posta Adresinizi Girin</h4>
+      <p>Miras payı dağılımını görün, yeni araç duyurularından haberdar olun.</p>
+      <form class="email-gate-form" action="https://formspree.io/f/maqvaple" method="POST" onsubmit="gosterSonuc(event)">
+        <input type="email" name="email" class="email-gate-input" placeholder="e-posta adresiniz" required>
+        <input type="hidden" name="kaynak" value="Miras Payı Hesaplama">
+        <button type="submit" class="email-gate-btn">Sonucu Gör →</button>
+      </form>
+    </div>
+
+    <div class="result-panel" id="sonucPanel">
+      <div class="result-title">Yasal Miras Dağılımı</div>
+      <div id="sonucRows"></div>
+      <div class="result-note">
+        ⚠️ Bu hesaplama yalnızca yasal mirasçılık senaryolarına göredir. Vasiyetname varsa dağılım değişebilir. Karmaşık durumlarda mutlaka bir hukukçuya danışınız.
+      </div>
+    </div>
+  </div>
+
+  <div class="seo-content">
+    <h2>Türk Medeni Kanunu'na Göre Miras Payları</h2>
+    <p>Gayrimenkul miras işlemlerinde en sık karşılaşılan sorulardan biri yasal miras paylarının nasıl hesaplandığıdır. Türk Medeni Kanunu'na göre mirasçılar ve payları şu şekilde belirlenmektedir.</p>
+
+    <h3>Eş ve Çocuklar Birlikte Mirasçıysa</h3>
+    <p>Miras bırakan kişinin hem eşi hem çocukları varsa, <strong>eş mirasın 1/4'ünü (%25)</strong> alır. Kalan <strong>3/4'ü (%75) çocuklar arasında eşit</strong> olarak paylaşılır.</p>
+
+    <h3>Sadece Çocuklar Mirasçıysa</h3>
+    <p>Eş hayatta değilse mirasın tamamı çocuklar arasında eşit olarak bölüşülür. 2 çocuk varsa her biri 1/2, 3 çocuk varsa her biri 1/3 alır.</p>
+
+    <h3>Eş Var, Çocuk Yoksa</h3>
+    <p>Anne veya baba sağsa eş <strong>1/2 (%50)</strong>, anne-baba <strong>1/2 (%50)</strong> alır. Anne-baba da hayatta değilse eş <strong>3/4 (%75)</strong>, diğer üst soylar <strong>1/4 (%25)</strong> alır.</p>
+
+    <h3>Emlak Danışmanı Olarak Miras İşlemlerinde Ne Yapmalısınız?</h3>
+    <p>Miras yoluyla intikal eden gayrimenkullerde birden fazla mirasçı olması işlemleri karmaşık hale getirebilir. Bu araçla müşterinizin durumunu hızlıca değerlendirin, gerektiğinde hukukçuya yönlendirin.</p>
+  </div>
+
+  <div class="related">
+    <h3>Diğer Hesaplama Araçları</h3>
+    <div class="related-grid">
+      <a href="tapu-harci-hesaplama.html" class="related-card">
+        <div class="related-card-icon">🏛️</div>
+        <div class="related-card-name">Tapu Harcı Hesaplama</div>
+      </a>
+      <a href="taks-kaks-hesaplama.html" class="related-card">
+        <div class="related-card-icon">📐</div>
+        <div class="related-card-name">TAKS/KAKS Hesaplama</div>
+      </a>
+      <a href="deger-artis-kazanci.html" class="related-card">
+        <div class="related-card-icon">💹</div>
+        <div class="related-card-name">Değer Artış Kazancı</div>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-logo">Emlak<span>Kit</span></div>
+  <div class="footer-links">
+    <a href="index.html">Ana Sayfa</a>
+    <a href="index.html#araclar">Araçlar</a>
+    <a href="blog.html">Blog</a>
+    <a href="mailto:armagankocabas@gmail.com">İletişim</a>
+  </div>
+  <div class="footer-copy">© 2026 EmlakKit. Tüm hakları saklıdır.</div>
+</footer>
+
+<script>
+  let sonucMesaji = [];
+
+  function hesapla() {
+    const esSag = document.getElementById('esSagMi').value === 'evet';
+    const cocukSayisi = parseInt(document.getElementById('cocukSayisi').value) || 0;
+    const anneBabaSag = document.getElementById('anneBabaSag').value === 'evet';
+
+    sonucMesaji = [];
+
+    if (esSag && cocukSayisi > 0) {
+      sonucMesaji.push({ label: 'Eşin Payı', value: '1/4 (%25)' });
+      sonucMesaji.push({ label: 'Çocukların Toplam Payı', value: '3/4 (%75)' });
+      sonucMesaji.push({ label: 'Çocuk Başına Pay', value: '3/' + (4 * cocukSayisi) });
+    } else if (!esSag && cocukSayisi > 0) {
+      sonucMesaji.push({ label: 'Çocukların Toplam Payı', value: 'Tamamı (%100)' });
+      sonucMesaji.push({ label: 'Çocuk Başına Pay', value: '1/' + cocukSayisi + ' (%' + Math.round(100/cocukSayisi) + ')' });
+    } else if (esSag && cocukSayisi === 0) {
+      if (anneBabaSag) {
+        sonucMesaji.push({ label: 'Eşin Payı', value: '1/2 (%50)' });
+        sonucMesaji.push({ label: 'Anne / Baba Payı', value: '1/2 (%50)' });
+      } else {
+        sonucMesaji.push({ label: 'Eşin Payı', value: '3/4 (%75)' });
+        sonucMesaji.push({ label: 'Diğer Üst Soylar', value: '1/4 (%25)' });
+      }
+    } else if (!esSag && cocukSayisi === 0 && anneBabaSag) {
+      sonucMesaji.push({ label: 'Anne / Baba', value: 'Tamamı eşit paylaşır' });
+    } else {
+      sonucMesaji.push({ label: 'Durum', value: 'Hukukçuya danışınız' });
+    }
+
+    document.getElementById('emailGate').style.display = 'block';
+    document.getElementById('emailGate').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function gosterSonuc(e) {
+    e.preventDefault();
+    const form = e.target;
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    });
+
+    const rows = sonucMesaji.map(r =>
+      `<div class="result-row"><span class="result-label">${r.label}</span><span class="result-value">${r.value}</span></div>`
+    ).join('');
+
+    document.getElementById('sonucRows').innerHTML = rows;
+    document.getElementById('emailGate').style.display = 'none';
+    document.getElementById('sonucPanel').style.display = 'block';
+    document.getElementById('sonucPanel').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+</script>
+
+</body>
+</html>

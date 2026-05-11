@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0d0d0f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>FSBO İlk Arama Simülatörü — Sahibinden Satıcıyla Pratik Yap | EmlakKit</title>
+<meta name="description" content="FSBO görüşmelerine hazırlanın. 35 gerçek senaryo, anlık geri bildirim, skor sistemi. Ücretsiz.">
+<meta name="keywords" content="FSBO simülatör, sahibinden satış, emlak danışmanı eğitim, FSBO itiraz">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://emlakkit.com/fsbo-simulatoru.html">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#0d0d0f; --surface:#16161a; --surface2:#1e1e24; --border:#2a2a35;
+    --gold:#c9a84c; --gold-light:#e8c97a; --gold-dim:rgba(201,168,76,0.15);
+    --green:#4caf7a; --green-dim:rgba(76,175,122,0.12);
+    --red:#e05555; --red-dim:rgba(224,85,85,0.12);
+    --blue:#5b8dee; --text:#e8e8f0; --text-muted:#7a7a90; --text-dim:#4a4a60;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:76px 20px 20px}
+  body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.4}
+  .wrapper{max-width:720px;width:100%;position:relative;z-index:1}
+  .header{text-align:center;padding:40px 0 32px;animation:fadeDown .6s ease both}
+  .header-badge{display:inline-flex;align-items:center;gap:8px;background:var(--gold-dim);border:1px solid rgba(201,168,76,.3);color:var(--gold);font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:6px 14px;border-radius:20px;margin-bottom:20px}
+  .header h1{font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,44px);font-weight:900;line-height:1.1;margin-bottom:12px}
+  .header h1 span{color:var(--gold)}
+  .header p{color:var(--text-muted);font-size:15px;line-height:1.6;max-width:500px;margin:0 auto}
+  .scoreboard{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+  .score-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center}
+  .score-card .label{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px}
+  .score-card .value{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--gold);line-height:1}
+  .score-card .value.green{color:var(--green)}
+  .score-card .value.blue{color:var(--blue)}
+  .progress-bar{height:4px;background:var(--border);border-radius:2px;margin-bottom:24px;overflow:hidden}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:2px;transition:width .6s cubic-bezier(.4,0,.2,1)}
+  .phone-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;margin-bottom:16px}
+  .phone-header{background:var(--surface2);padding:16px 20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border)}
+  .caller-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#3a3a50,#252535);display:flex;align-items:center;justify-content:center;font-size:20px;border:2px solid var(--border);flex-shrink:0}
+  .caller-info .name{font-weight:600;font-size:15px}
+  .caller-info .status{font-size:12px;color:var(--green);display:flex;align-items:center;gap:5px}
+  .caller-info .status::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block;animation:pulse 1.5s infinite}
+  .phone-duration{margin-left:auto;font-size:13px;color:var(--text-muted);font-variant-numeric:tabular-nums}
+  .conversation{padding:24px 20px;min-height:160px}
+  .scenario-label{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:16px}
+  .message{display:flex;gap:12px;margin-bottom:16px;animation:fadeUp .4s ease both}
+  .message.user{flex-direction:row-reverse}
+  .msg-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;background:var(--surface2);border:1px solid var(--border)}
+  .msg-bubble{max-width:80%;padding:12px 16px;border-radius:16px;font-size:14px;line-height:1.6;color:var(--text)}
+  .message:not(.user) .msg-bubble{background:var(--surface2);border:1px solid var(--border);border-top-left-radius:4px}
+  .message.user .msg-bubble{background:var(--gold-dim);border:1px solid rgba(201,168,76,.25);border-top-right-radius:4px;color:var(--gold-light)}
+  .typing{display:flex;align-items:center;gap:12px;padding:0 0 8px}
+  .typing-dots{display:flex;gap:5px;padding:12px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:16px;border-top-left-radius:4px}
+  .typing-dots span{width:6px;height:6px;border-radius:50%;background:var(--text-dim);animation:typingBounce 1.2s infinite}
+  .typing-dots span:nth-child(2){animation-delay:.2s}
+  .typing-dots span:nth-child(3){animation-delay:.4s}
+  .options-section{padding:0 20px 24px;border-top:1px solid var(--border);padding-top:20px}
+  .options-label{font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:12px}
+  .option-btn{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px 18px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.55;text-align:left;cursor:pointer;margin-bottom:8px;transition:all .2s ease;display:flex;align-items:flex-start;gap:12px}
+  .option-btn:hover:not(:disabled){border-color:rgba(201,168,76,.4);background:var(--gold-dim);transform:translateX(4px)}
+  .option-btn:disabled{cursor:default}
+  .option-btn.correct{border-color:var(--green);background:var(--green-dim)}
+  .option-btn.partial{border-color:var(--gold);background:var(--gold-dim)}
+  .option-btn.wrong{border-color:var(--red);background:var(--red-dim);color:var(--text-muted)}
+  .option-btn.selected-wrong{border-color:var(--red);background:var(--red-dim)}
+  .option-indicator{width:22px;height:22px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:2px;transition:all .2s}
+  .option-btn.correct .option-indicator{background:var(--green);color:white}
+  .option-btn.partial .option-indicator{background:var(--gold);color:#0d0d0f}
+  .option-btn.wrong .option-indicator,.option-btn.selected-wrong .option-indicator{background:var(--red);color:white}
+  .option-score-badge{margin-left:auto;flex-shrink:0;font-size:12px;font-weight:700;padding:3px 8px;border-radius:20px;opacity:0;transition:opacity .3s}
+  .option-btn.correct .option-score-badge{opacity:1;background:rgba(76,175,122,.2);color:var(--green)}
+  .option-btn.partial .option-score-badge{opacity:1;background:var(--gold-dim);color:var(--gold)}
+  .option-btn.wrong .option-score-badge,.option-btn.selected-wrong .option-score-badge{opacity:1;background:rgba(224,85,85,.2);color:var(--red)}
+  .feedback-box{margin:0 20px 20px;padding:14px 18px;border-radius:12px;font-size:13px;line-height:1.6;display:none}
+  .feedback-box.show{display:block;animation:fadeUp .3s ease both}
+  .feedback-box.correct{background:var(--green-dim);border:1px solid rgba(76,175,122,.3);color:#a0e8c0}
+  .feedback-box.partial{background:var(--gold-dim);border:1px solid rgba(201,168,76,.3);color:var(--gold-light)}
+  .feedback-box.wrong{background:var(--red-dim);border:1px solid rgba(224,85,85,.3);color:#f0a0a0}
+  .feedback-title{font-weight:700;margin-bottom:4px}
+  .next-btn{display:none;width:calc(100% - 40px);margin:0 20px 24px;background:var(--gold);color:#0d0d0f;border:none;border-radius:12px;padding:15px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s ease}
+  .next-btn:hover{background:var(--gold-light);transform:translateY(-1px)}
+  .next-btn.show{display:block;animation:fadeUp .3s ease both}
+  .result-screen{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:40px 32px;text-align:center;display:none}
+  .result-screen.show{display:block;animation:fadeUp .5s ease both}
+  .result-emoji{font-size:64px;margin-bottom:16px;display:block}
+  .result-level{font-family:'Playfair Display',serif;font-size:32px;font-weight:900;color:var(--gold);margin-bottom:8px}
+  .result-score-big{font-size:56px;font-weight:700;font-family:'Playfair Display',serif;color:var(--text);margin:16px 0 8px;line-height:1}
+  .result-score-big span{color:var(--gold);font-size:32px}
+  .result-description{color:var(--text-muted);font-size:15px;line-height:1.7;max-width:480px;margin:0 auto 28px}
+  .result-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px}
+  .result-stat{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px}
+  .result-stat .rs-val{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--gold)}
+  .result-stat .rs-label{font-size:12px;color:var(--text-dim);margin-top:4px}
+  .result-cta{background:var(--gold);color:#0d0d0f;border:none;border-radius:12px;padding:15px 32px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-right:12px;transition:all .2s}
+  .result-cta:hover{background:var(--gold-light);transform:translateY(-1px)}
+  .result-retry{background:transparent;color:var(--text-muted);border:1px solid var(--border);border-radius:12px;padding:15px 32px;font-family:'DM Sans',sans-serif;font-size:15px;cursor:pointer;transition:all .2s}
+  .result-retry:hover{border-color:var(--gold);color:var(--gold)}
+  .intro-screen{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:40px 32px;text-align:center;margin-bottom:20px}
+  .intro-screen h2{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;margin-bottom:16px}
+  .intro-screen p{color:var(--text-muted);font-size:14px;line-height:1.7;margin-bottom:24px}
+  .intro-rules{display:flex;flex-direction:column;gap:10px;text-align:left;margin-bottom:28px}
+  .intro-rule{display:flex;align-items:center;gap:12px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px 16px;font-size:14px;color:var(--text-muted)}
+  .rule-icon{font-size:20px;flex-shrink:0}
+  .start-btn{background:var(--gold);color:#0d0d0f;border:none;border-radius:12px;padding:16px 40px;font-family:'DM Sans',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:all .2s}
+  .start-btn:hover{background:var(--gold-light);transform:translateY(-2px)}
+  .pool-badge{display:inline-block;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:12px;color:var(--text-dim);margin-top:12px}
+  .footer-note{text-align:center;font-size:12px;color:var(--text-dim);margin-top:16px}
+  @keyframes fadeDown{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+  @keyframes typingBounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+  @keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-4px)}40%,80%{transform:translateX(4px)}}
+  .shake{animation:shake .4s ease}
+  .emlakkit-nav{position:fixed;top:0;left:0;right:0;z-index:9999;padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between;background:rgba(13,13,15,0.97);backdrop-filter:blur(16px);border-bottom:1px solid rgba(201,168,76,0.2)}
+  .emlakkit-nav .nav-logo{font-family:'DM Sans',sans-serif;font-weight:800;font-size:20px;color:#F0EDE8;text-decoration:none}
+  .emlakkit-nav .nav-logo span{color:#E8A830}
+  .emlakkit-nav .nav-links{display:flex;gap:20px;align-items:center}
+  .emlakkit-nav .nav-links a{font-size:13px;color:#C8D4DC;text-decoration:none}
+  .emlakkit-nav .nav-cta-btn{background:#E8A830;color:#0C1017;font-weight:600;font-size:12px;padding:7px 16px;border-radius:6px;text-decoration:none}
+  @media(max-width:600px){.emlakkit-nav .nav-links{display:none}}
+
+  /* ── TABLET ── */
+  @media(max-width:600px){
+    body{padding:12px}
+    .header{padding:24px 0 20px}
+    .header p{font-size:14px}
+    .scoreboard{gap:8px}
+    .score-card{padding:12px 6px}
+    .score-card .label{font-size:10px;letter-spacing:1px}
+    .score-card .value{font-size:22px}
+    .intro-screen,.result-screen{padding:24px 18px}
+    .intro-screen h2{font-size:20px}
+    .intro-rule{font-size:13px;padding:10px 12px}
+    .rule-icon{font-size:18px}
+  }
+
+  /* ── MOBILE ── */
+  @media(max-width:430px){
+    body{padding:8px}
+    .header{padding:16px 0 16px}
+    .header-badge{font-size:10px;padding:5px 10px;letter-spacing:1.5px}
+    .header h1{font-size:26px}
+    .header p{font-size:13px}
+
+    /* Scoreboard */
+    .scoreboard{gap:6px;margin-bottom:16px}
+    .score-card{padding:10px 4px;border-radius:10px}
+    .score-card .label{font-size:9px;letter-spacing:.8px;margin-bottom:4px}
+    .score-card .value{font-size:20px}
+
+    /* Progress */
+    .progress-bar{margin-bottom:16px}
+
+    /* Phone card */
+    .phone-card{border-radius:16px}
+    .phone-header{padding:12px 14px;gap:10px}
+    .caller-avatar{width:38px;height:38px;font-size:17px}
+    .caller-info .name{font-size:14px}
+    .caller-info .status{font-size:11px}
+    .phone-duration{font-size:12px}
+
+    /* Conversation */
+    .conversation{padding:16px 14px;min-height:120px}
+    .scenario-label{font-size:10px;margin-bottom:12px}
+    .msg-avatar{width:30px;height:30px;font-size:14px;flex-shrink:0}
+    .msg-bubble{font-size:13px;padding:10px 13px;max-width:85%}
+    .message{gap:8px;margin-bottom:12px}
+
+    /* Options */
+    .options-section{padding:0 14px 16px;padding-top:16px}
+    .options-label{font-size:10px;margin-bottom:10px}
+    .option-btn{
+      padding:12px 14px;
+      font-size:13px;
+      gap:10px;
+      margin-bottom:7px;
+      border-radius:10px;
+      /* Daha büyük dokunma alanı */
+      min-height:52px;
+      /* Mobilde hover transform yok */
+      transform:none !important;
+    }
+    .option-indicator{width:20px;height:20px;font-size:9px;margin-top:1px}
+    .option-score-badge{font-size:11px;padding:2px 6px}
+
+    /* Feedback */
+    .feedback-box{margin:0 14px 14px;padding:12px 14px;font-size:12px}
+    .feedback-title{font-size:13px}
+
+    /* Next button */
+    .next-btn{width:calc(100% - 28px);margin:0 14px 16px;padding:14px;font-size:14px;border-radius:10px}
+
+    /* Intro */
+    .intro-screen{padding:20px 16px;border-radius:16px}
+    .intro-screen h2{font-size:19px;margin-bottom:12px}
+    .intro-screen p{font-size:13px;margin-bottom:18px}
+    .intro-rules{gap:8px;margin-bottom:20px}
+    .intro-rule{font-size:12px;padding:9px 11px;gap:10px;border-radius:9px}
+    .rule-icon{font-size:16px}
+    .start-btn{padding:14px 32px;font-size:15px;width:100%}
+    .pool-badge{font-size:11px;margin-top:10px}
+
+    /* Result */
+    .result-screen{padding:24px 16px;border-radius:16px}
+    .result-emoji{font-size:52px;margin-bottom:12px}
+    .result-level{font-size:24px}
+    .result-score-big{font-size:44px}
+    .result-score-big span{font-size:24px}
+    .result-description{font-size:13px;margin-bottom:20px}
+    .result-stats{gap:8px;margin-bottom:20px}
+    .result-stat{padding:12px 8px;border-radius:10px}
+    .result-stat .rs-val{font-size:20px}
+    .result-stat .rs-label{font-size:11px}
+    /* Butonlar dikey sıralanır */
+    .result-cta,.result-retry{
+      display:block;
+      width:100%;
+      padding:14px;
+      font-size:14px;
+      margin:0 0 10px 0;
+      border-radius:10px;
+    }
+
+    /* Footer */
+    .footer-note{font-size:11px;margin-top:12px;padding:0 4px}
+  }
+
+  .option-btn:active:not(:disabled){
+    background:var(--gold-dim);
+    border-color:rgba(201,168,76,.5);
+    transform:scale(0.99);
+  }
+  .start-btn:active{transform:scale(0.98)}
+  .next-btn:active{transform:scale(0.98)}
+  .result-cta:active{transform:scale(0.98)}
+  .result-retry:active{transform:scale(0.98)}
+
+  @media(hover:none){
+    .option-btn:hover:not(:disabled){
+      border-color:var(--border);
+      background:var(--surface2);
+      transform:none;
+    }
+    .start-btn:hover,.next-btn:hover,.result-cta:hover,.result-retry:hover{
+      transform:none;
+    }
+  }
+</style>
+</head>
+<body>
+<nav class="emlakkit-nav">
+  <a href="index.html" class="nav-logo">Emlak<span>Kit</span></a>
+  <div class="nav-links">
+    <a href="index.html">Ana Sayfa</a>
+    <a href="index.html#araclar">Araçlar</a>
+    <a href="blog.html">Blog</a>
+  </div>
+  <a href="index.html#araclar" class="nav-cta-btn">Ücretsiz Başla</a>
+</nav>
+<div class="wrapper">
+  <div class="header">
+    <div class="header-badge">📞 Eğitim Aracı</div>
+    <h1>FSBO <span>İlk Arama</span><br>Simülatörü</h1>
+    <p>Gerçek FSBO itirazlarıyla pratik yap. En iyi cevabı seç, puan kazan, satış reflekslerini geliştir.</p>
+  </div>
+
+  <div class="intro-screen" id="intro-screen">
+    <h2>Hazır mısın?</h2>
+    <p>Her turda 35 senaryo havuzundan rastgele 10 FSBO itirazı seçilir. Şıkların sırası da her seferinde karışır.</p>
+    <div class="intro-rules">
+      <div class="intro-rule"><span class="rule-icon">🎯</span><span><strong>3 seçenek</strong> — her sorunun bir en iyisi, bir ortası, bir yanlışı var</span></div>
+      <div class="intro-rule"><span class="rule-icon">⭐</span><span><strong>En iyi cevap 10 puan</strong>, orta cevap 5 puan, yanlış cevap 0 puan</span></div>
+      <div class="intro-rule"><span class="rule-icon">📖</span><span><strong>Kitap tabanlı</strong> — senaryolar "Soğuk Aramadan Sıcak Satışa" kitabına dayalıdır</span></div>
+      <div class="intro-rule"><span class="rule-icon">🔀</span><span><strong>Her turda farklı</strong> — 35 senaryodan rastgele 10 gelir</span></div>
+    </div>
+    <button class="start-btn" onclick="startQuiz()">Aramayı Başlat 📞</button>
+    <div class="pool-badge">📚 35 Senaryo Havuzu</div>
+  </div>
+
+  <div id="quiz-screen" style="display:none;">
+    <div class="scoreboard">
+      <div class="score-card"><div class="label">Puan</div><div class="value" id="score-display">0</div></div>
+      <div class="score-card"><div class="label">Doğru</div><div class="value green" id="correct-display">0</div></div>
+      <div class="score-card"><div class="label">Soru</div><div class="value blue" id="question-display">0/10</div></div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    <div class="phone-card" id="phone-card">
+      <div class="phone-header">
+        <div class="caller-avatar" id="caller-avatar">🏠</div>
+        <div class="caller-info">
+          <div class="name" id="caller-name">Yükleniyor...</div>
+          <div class="status">Görüşme devam ediyor</div>
+        </div>
+        <div class="phone-duration" id="timer">00:00</div>
+      </div>
+      <div class="conversation" id="conversation">
+        <div class="scenario-label" id="scenario-label">Senaryo 1 / 10</div>
+        <div id="messages-container"></div>
+        <div class="typing" id="typing-indicator" style="display:none;">
+          <div class="msg-avatar">🏠</div>
+          <div class="typing-dots"><span></span><span></span><span></span></div>
+        </div>
+      </div>
+      <div class="options-section" id="options-section" style="display:none;">
+        <div class="options-label">Nasıl cevap verirsiniz?</div>
+        <div id="options-container"></div>
+      </div>
+      <div class="feedback-box" id="feedback-box">
+        <div class="feedback-title" id="feedback-title"></div>
+        <div id="feedback-text"></div>
+      </div>
+      <button class="next-btn" id="next-btn" onclick="nextQuestion()">Sonraki Senaryo →</button>
+    </div>
+  </div>
+
+  <div class="result-screen" id="result-screen">
+    <span class="result-emoji" id="result-emoji">🏆</span>
+    <div class="result-level" id="result-level"></div>
+    <div class="result-score-big" id="result-score"><span>/100</span></div>
+    <p class="result-description" id="result-description"></p>
+    <div class="result-stats">
+      <div class="result-stat"><div class="rs-val" id="rs-correct">0</div><div class="rs-label">En İyi Cevap</div></div>
+      <div class="result-stat"><div class="rs-val" id="rs-partial">0</div><div class="rs-label">Orta Cevap</div></div>
+      <div class="result-stat"><div class="rs-val" id="rs-wrong">0</div><div class="rs-label">Yanlış Cevap</div></div>
+    </div>
+    <button class="result-cta" onclick="window.open('https://www.armagankocabas.com/dijital-araclar-ve-kaynaklar/soguk-aramadan-sicak-satisa-fsbonun-gucu','_blank')">📖 Kitabı İncele</button>
+    <button class="result-retry" onclick="restartQuiz()">🔄 Tekrar Dene</button>
+  </div>
+
+  <div class="footer-note">EmlakKit · <a href="https://emlakkit.com" style="color:var(--gold);text-decoration:none;">emlakkit.com</a> · Armağan Kocabaş tarafından hazırlanmıştır</div>
+</div>
+
+<script>
+// ============================================================
+// 35 SENARYO HAVUZU
+// Mevcut senaryolar + kitaptaki itirazlar entegre edildi
+// ============================================================
+const allScenarios = [
+
+  // ─── MEVCUT SENARYOLAR ───────────────────────────────────
+
+  {
+    caller:"Mehmet Bey", avatar:"🧔",
+    context:"Evini Sahibinden.com'da 2 haftadır yayınlamış, gören var ama teklif yok.",
+    objection:"Zaten ilan verdim, geliyor görenler. Neden sizi tutayım, komisyon vermek istemiyorum.",
+    options:[
+      {text:"Anlıyorum Mehmet Bey. İlan vermek başlangıç, nitelikli alıcı bulmak bambaşka bir iştir. Şu an kapınıza gelenlerin kaçı gerçek alıcı, kaçı sadece meraktan geziyor sizce?", type:"correct", points:10, feedbackTitle:"🎯 Mükemmel!", feedback:"Savunmaya geçmek yerine soru sorarak müşterinin kendi durumunu sorgulamasını sağladınız. 'Gerçek alıcı kaçı?' sorusu müşterinin kendi problemini fark etmesine yardım eder."},
+      {text:"Bizim alıcı ağımız oldukça geniş Mehmet Bey. Portföyünüzü sisteme girince çok daha fazla kişiye ulaşır, süreci hızlandırabilir ve daha iyi teklifler alabilirsiniz.", type:"partial", points:5, feedbackTitle:"⚡ Fena Değil", feedback:"Doğru bilgi verdiniz ancak bu siz merkezli bir yaklaşım. Müşteri 'bana ne kazandırır?' diye düşünür. Soruyla müşteriyi konuşturmak çok daha güçlü bir giriş olurdu."},
+      {text:"Komisyonumuz sadece yüzde iki Mehmet Bey, sektörde çok düşük bir oran. Üstelik satış gerçekleşmeden bir kuruş almıyoruz, tamamen size risksiz bir iş birliği.", type:"wrong", points:0, feedbackTitle:"❌ Çok Erken", feedback:"Güven kurmadan komisyon konuşmak büyük hata. Müşteri hâlâ 'neden ihtiyacım var?' sorusunun cevabını arıyor. Fiyat konuşması için çok erken bir noktadasınız."}
+    ]
+  },
+  {
+    caller:"Hasan Bey", avatar:"🧑",
+    context:"Evi 6 aydır satılıkta, fiyatı yüksek, onlarca emlakçıyı geri çevirmiş.",
+    objection:"Onlarca emlakçı aradı beni, hepsine hayır dedim. Sizi neden dinleyeyim ki?",
+    options:[
+      {text:"Çok doğru soruyorsunuz Hasan Bey. Arayıp gidenler zaten evi satamadı. Ben de o listede olmak istemiyorum. Şunu sormak istiyorum: 6 ay daha geçse ve ev satılmazsa ne olur?", type:"correct", points:10, feedbackTitle:"🎯 Güçlü Giriş!", feedback:"Rekabetten kendinizi ayırdınız ve müşteriyi geleceği düşündürdünüz. '6 ay sonra ne olur?' sorusu çok kuvvetli — müşteri kendi motivasyonunu kendisi keşfeder."},
+      {text:"Biz RE/MAX'ın geniş ağına sahibiz Hasan Bey, Türkiye genelinde binlerce danışman var. Bu güç evinizi doğru alıcıya ulaştırmak için gerçek bir avantaj sağlar.", type:"partial", points:5, feedbackTitle:"⚡ Orta", feedback:"Marka gücü bir avantaj ama müşteri 'başkaları da geldi' modunda. Kurumsal kimlik savunmadan daha az etkili; müşteriyi konuşturmak daha iyi sonuç verir."},
+      {text:"Anlıyorum Hasan Bey, ama bize bir kez görüşme fırsatı versek farklı olduğumuzu gösterebiliriz. Sadece 15 dakika yeterli, boşa gittiğini düşünmezsiniz.", type:"wrong", points:0, feedbackTitle:"❌ Zayıf Pozisyon", feedback:"Yalvaran tonda bir rica — müşteri kontrolü elinde tutuyor, siz pozisyon kaybediyorsunuz. FSBO aramalarında çaresizlik asla işe yaramaz."}
+    ]
+  },
+  {
+    caller:"Fatma Hanım", avatar:"👩‍🦱",
+    context:"Satmak istiyor ama eşi karşı, ikisi arasında ciddi anlaşmazlık var.",
+    objection:"Eşim pek sıcak bakmıyor bu işe. Sonra tekrar ararım belki, şu an olmaz.",
+    options:[
+      {text:"Anlıyorum Fatma Hanım. Bir öneri yapabilir miyim? Eşinizle birlikte 20 dakikalık bilgilendirme görüşmesi yapalım, hiçbir yükümlülük olmadan, sadece rakamları birlikte görün.", type:"correct", points:10, feedbackTitle:"🎯 Doğru Strateji!", feedback:"Eşi engel görmeden sürece dahil etmeye çalıştınız. 'Yükümlülük yok' ifadesi direnci düşürür. İkinci karar vericiye ulaşmak için randevu önermek çok akıllıca."},
+      {text:"Evinizi sattığınızda ne kadar kazanacağınızı birlikte hesaplayalım Fatma Hanım. Somut rakamları görünce eşiniz de düşüncelerini değiştirebilir, çoğunda öyle oluyor.", type:"partial", points:5, feedbackTitle:"⚡ İyi Ama Eksik", feedback:"Para motivasyonu işe yarıyor ama eşin direncini anlamadan atlamak riskli. Önce o direncin nedenini anlamak, sonra rakamlarla gitmek çok daha sağlam."},
+      {text:"Tamam Fatma Hanım, ne zaman karar verirseniz arayın o zaman. Ben buradayım, hazır olduğunuzda görüşürüz, hiç acelesi yok.", type:"wrong", points:0, feedbackTitle:"❌ Pasif Kapanış", feedback:"Müşteri 'sonra ararım' diyorsa hiçbir zaman aramaz. Her görüşme somut bir sonraki adımla bitmelidir, inisiyatif tamamen müşteride kaldı."}
+    ]
+  },
+  {
+    caller:"Kemal Bey", avatar:"👨‍💼",
+    context:"Yüksek fiyat biçmiş, komşusunun satışını kendi fiyatına dayanak gösteriyor.",
+    objection:"Komşum üst kattaki daireyi geçen ay şu fiyata sattı. Ben de aşağısını altında satmam.",
+    options:[
+      {text:"Komşunuzun satışı çok değerli bir referans Kemal Bey. O daire hangi kattaydı, yenileme yapılmış mıydı? Alıcılar her daireyi ayrı değerlendiriyor, küçük farklar büyük ayrım yaratıyor.", type:"correct", points:10, feedbackTitle:"🎯 Çok Zekice!", feedback:"Müşterinin referansını reddetmeden üzerine sorular sordunuz. Karşılaştırmanın eksikliklerini müşterinin kendisinin fark etmesini sağladınız. Empati ve ikna harika birleşti."},
+      {text:"O satış birkaç ay önce Kemal Bey, piyasa o zamandan bu yana değişti. Güncel işlem verilerine birlikte bakalım, gerçekçi bir fiyat birlikte belirleyelim.", type:"partial", points:5, feedbackTitle:"⚡ Orta", feedback:"Mantıklı argüman ama müşterinin referansını doğrudan çürütmek savunmacılığa yol açabilir. Veri vermeden önce biraz daha empati kurulmalıydı."},
+      {text:"Piyasa sürekli değişiyor Kemal Bey, o fiyat artık geçerli olmayabilir. Sizi yanlış fiyatla ilerletmek istemiyorum, gerçekçi bir noktada kalalım.", type:"wrong", points:0, feedbackTitle:"❌ Kanıtsız İddia", feedback:"Kanıtsız uyarı işe yaramaz, müşteri direnci artar. 'Piyasa değişti' demek yetmez, nasıl değiştiğini veriyle göstermek gerekir."}
+    ]
+  },
+  {
+    caller:"Volkan Bey", avatar:"👨‍🦱",
+    context:"Evi internette satılık, telefona çok agresif cevap verdi.",
+    objection:"Sizi aramam bile güç bela. Numaramı nereden buldunuz? Bu bir taciz.",
+    options:[
+      {text:"Haklısınız Volkan Bey, izinsiz aranmak can sıkıcı olabilir. İlanınızı Sahibinden'de gördüm, oradan ulaştım. Sadece 30 saniye konuşabilir miyiz, sonra istediğinizi yapabilirsiniz.", type:"correct", points:10, feedbackTitle:"🎯 Soğukkanlı Ustalık!", feedback:"Savunmaya geçmeden açıkça kaynağı söylediniz, sonra süreci yönlendirdiniz. '30 saniye' teklifi çok düşük bir bariyer, reddetmesi zorlaşır. Saldırgan müşterilerde sakinlik en güçlü silahtır."},
+      {text:"Özür dilerim Volkan Bey, ilan üzerinden ulaştım. Amacım sadece yardımcı olmak, eğer ilgilenmiyorsanız hemen kapatabilirsiniz elbette, saygı duyarım.", type:"partial", points:5, feedbackTitle:"⚡ Nazik Ama Pasif", feedback:"Özür yerinde ama hemen kontrolü bıraktınız. 'Kapatabilirsiniz' demek müşteriyi kapatmaya davet ediyor. Biraz daha inisiyatif alarak süreci yönlendirebilirdiniz."},
+      {text:"Çok özür dilerim Volkan Bey, bir daha aramayacağım. Rahatsızlık verdimse üzgünüm, iyi günler diliyor ve sizi bırakıyorum hemen.", type:"wrong", points:0, feedbackTitle:"❌ Tamamen Bıraktınız", feedback:"Bu müşteri sizi test etti ve siz çekildikten. Agresif açılış çoğu zaman ilginin işaretidir. Sakin kalıp '30 saniye' teklifini yapan biri bu portföyü kazanabilirdi."}
+    ]
+  },
+  {
+    caller:"Derya Hanım", avatar:"👩‍🦰",
+    context:"Daha önce kötü bir emlakçı deneyimi yaşamış, güveni kalmamış.",
+    objection:"Geçen sene bir emlakçıyla çalıştım, berbat deneyimdi. Artık güvenmiyorum bu sektöre.",
+    options:[
+      {text:"Yaşadığınız için gerçekten üzgünüm Derya Hanım, çok haksız bir deneyim. Merak ediyorum — sizi en çok ne üzmüştü o süreçte? Neyin yanlış gittiğini anlamadan size nasıl farklı olduğumu gösteremem.", type:"correct", points:10, feedbackTitle:"🎯 Empati + Akıl", feedback:"Önce acıyı kabul ettiniz, savunmaya geçmediniz. Sonra 'ne oldu?' diye sordunuz — bu hem anlama fırsatı hem de 'önemlisin' mesajı. Güven ancak bu şekilde inşa edilir."},
+      {text:"Ben farklıyım Derya Hanım, bunu ispatlamak isterim. Size referanslarımı ve geçmiş satışlarımı gösterebilirim, karar vermeden önce bunlara bakabilirsiniz.", type:"partial", points:5, feedbackTitle:"⚡ Mantıklı Ama Soğuk", feedback:"Referanslar önemli ama müşteri şu an duygusal modda. 'Ben farklıyım' demek acıyı kabul etmeden yapılan bir hamle — müşteri dinlemeye hazır değil henüz."},
+      {text:"Ne yazık ki böyle çalışanlar var sektörde Derya Hanım. Ama ben tam tersiyim, iletişimim açık ve şeffaf. Bir şans tanırsanız bunu gösterebilirim size.", type:"wrong", points:0, feedbackTitle:"❌ Savunmacı", feedback:"Sektörü korumak yerine müşteriyi merkeze almalıydınız. 'Ben farklıyım' demek ayrıştırmaz — müşteri bunu her emlakçıdan duymuştur. Önce acıyı anlamak çok daha güçlü."}
+    ]
+  },
+  {
+    caller:"Zeynep Hanım", avatar:"👩‍💼",
+    context:"Evi çok yüksek fiyata koymuş, fiyatı düşürmeyi kesinlikle reddediyor.",
+    objection:"Bu fiyatın altına inmem. Almak isteyen alır, istemeyenle işim yok.",
+    options:[
+      {text:"Anlıyorum Zeynep Hanım, değerinizi bilmek önemli. Merak ettim — eviniz bu fiyatla ne kadar süredir piyasada? Bunu bilmek doğru adımı birlikte belirlemek için önemli.", type:"correct", points:10, feedbackTitle:"🎯 Değere Yönlendirme!", feedback:"Fiyatı tartışmadınız, süreyi sordunuz. Müşterinin kendi cevabı en ikna edici argümandır. Bu sorudan sonra gerçekliğe çok daha yumuşak bir geçiş yapılabilir."},
+      {text:"Zeynep Hanım, piyasa fiyatının üzerindeki evler çok uzun süre satılamıyor. Bekleyince hem sizi yoruyor hem de evinizin değer algısını düşürüyor giderek.", type:"partial", points:5, feedbackTitle:"⚡ Doğru Bilgi, Sert Ton", feedback:"Bilgi doğru ama doğrudan söylemek müşteriyi savunmaya iter. Aynı mesajı soru formatında sunmak çok daha az direnç yaratır."},
+      {text:"Anlıyorum Zeynep Hanım. O zaman biraz bekleyelim, belki doğru alıcı çıkar. Fiyatınıza ilgilenen biri çıkarsa hemen sizi arayacağım.", type:"wrong", points:0, feedbackTitle:"❌ Sorunu Ertelemek", feedback:"Müşteriyi olduğu gibi bıraktıktan, problemi çözmediniz. Danışman olarak fiyat konusunda dürüst olmak uzun vadede güven inşa eder."}
+    ]
+  },
+  {
+    caller:"Müge Hanım", avatar:"🧕",
+    context:"Evinde kiracı var, kiracı çıkana kadar kimseyle görüşmek istemiyor.",
+    objection:"Kiracım var, çıkana kadar beklemeliyim. Şu an görüşme yapmanın anlamı yok.",
+    options:[
+      {text:"Anlıyorum Müge Hanım. Kiracı çıkana kadar hazırlığı şimdi yapmak çok avantajlı. Fiyat tespiti, alıcı taraması, evrak hazırlığı tamamlanır, kiracı çıkınca direkt satışa girersiniz.", type:"correct", points:10, feedbackTitle:"🎯 Öngörülü Hamle!", feedback:"Müşterinin 'bekle' mantığını kırmadan ona ek değer sundunuz. 'Hazırlığı şimdi yapalım' çerçevesi çok akıllıca; hem müşteri haklı görünüyor hem de ilerleme var."},
+      {text:"Müge Hanım, kiracınız çıkmadan da alıcılarla görüşüp şimdi anlaşabilirsiniz. Alıcı kiracı çıkana kadar bekler, böyle satışlar çok yapılıyor.", type:"partial", points:5, feedbackTitle:"⚡ Doğru Ama Riskli", feedback:"Seçenek var ama kiracılı satış müşteriye karmaşık gelebilir. Önce konfor alanında kalarak hazırlık önerisi çok daha az direnç yaratırdı."},
+      {text:"Haklısınız Müge Hanım, kiracı çıkıncaya kadar bekleyelim. O zaman beni arayın, hemen başlarız birlikte çalışmaya.", type:"wrong", points:0, feedbackTitle:"❌ Fırsatı Harcadınız", feedback:"Müşteri sizi bekleme moduna soktu ve siz kabul ettiniz. Bir danışman bu süreyi değere çevirmeli, boş geçirmemelidir."}
+    ]
+  },
+  {
+    caller:"Sema Hanım", avatar:"👩‍🎓",
+    context:"Kardeşiyle ortak mülk var, kardeş satmak istemiyor, aralarında ciddi anlaşmazlık.",
+    objection:"Kardeşimle ortak bu ev, o satmak istemiyor. Ben ne yapayım ki?",
+    options:[
+      {text:"Çok zorlu bir durum Sema Hanım, anlıyorum. Peki kardeşinizin neden satmak istemediğini biliyor musunuz? Sebebin duygusal mı ekonomik mi olduğu çok farklı çözümler getirir.", type:"correct", points:10, feedbackTitle:"🎯 Kök Sorunu Bulmak!", feedback:"Hukuki çözüm önermeden önce direncin nedenini anlamaya çalıştınız. Sebebi bilmeden çözüm sunmak körü körüne ilerlemektir; çok doğru bir yaklaşım."},
+      {text:"Sema Hanım, ortaklık davasıyla mahkeme yoluyla satış yapılabiliyor. Hukuki süreç uzun ama bir çıkış yolu var, bunu bilmeniz önemli.", type:"partial", points:5, feedbackTitle:"⚡ Bilgi Doğru", feedback:"Hukuki bilgi değerli ama mahkeme seçeneğini ilk sırada sunmak aile ilişkisini zedeler. Önce anlaşarak çözüm, sonra alternatifler konuşulmalıydı."},
+      {text:"Çok zor bir durum Sema Hanım. Kardeşinizi ikna edemezseniz pek bir şey yapılamıyor maalesef, hukuki süreç de çok uzun sürer.", type:"wrong", points:0, feedbackTitle:"❌ Çıkmaz Sokak", feedback:"Müşteriye 'çözüm yok' mesajı verdiniz. Danışman çözüm üretir, çıkmaz sokak göstermez. Direncin nedenini anlamak ve arabuluculuk teklifi çok daha iyi olurdu."}
+    ]
+  },
+  {
+    caller:"Nalan Hanım", avatar:"👩‍🎤",
+    context:"Satmak istiyor ama okul döneminde çocuğunu taşımak istemiyor, yazı bekliyor.",
+    objection:"Çocuğum okul döneminde, okul bitmeden taşınamam. Yaz olmadan satmak istemiyorum.",
+    options:[
+      {text:"Çok anlamlı bir öncelik Nalan Hanım. Şu an hazırlıkları başlatıp yaz başında süreci tamamlamak ister misiniz? Erkenden hazırlanırsak yaza girerken direkt kapanış yapabiliriz.", type:"correct", points:10, feedbackTitle:"🎯 Zamanlama ile Değer!", feedback:"Müşterinin kısıtını saydıktan sonra ona o kısıt içinde en iyi stratejiyi sundunuz. Bu danışmanın değerini somut şekilde gösterir."},
+      {text:"Anlıyorum Nalan Hanım, okul bitmeden taşınmak çok zor. O zaman yaza girerken görüşelim, o zaman her şey çok daha kolay olur.", type:"partial", points:5, feedbackTitle:"⚡ Empati Var Ama...", feedback:"Empati kuruyorsunuz ama 4-6 aylık hazırlık sürecini harcıyorsunuz. Şimdi başlamak yaza avantajla girmenizi sağlardı."},
+      {text:"Tabii Nalan Hanım, anlıyorum. O zaman yaza yakın beni arayın, o dönemde talep de artar, iyi bir zamanlama olur.", type:"wrong", points:0, feedbackTitle:"❌ Fırsatı Harcadınız", feedback:"Müşteriyi beklemeye bıraktınız. Şu an başlanan hazırlık, yaz geldiğinde çok büyük avantaj yaratır. Bu fırsatı aktif tutmak görevinizdi."}
+    ]
+  },
+  {
+    caller:"Caner Bey", avatar:"🧑‍💻",
+    context:"Mühendis, her şeyi kontrol etmek istiyor, süreçleri kendisi yönetmek istiyor.",
+    objection:"Her şeyi kendim araştırırım, yasal süreçleri de öğrenirim. Gerçekten size ihtiyacım var mı?",
+    options:[
+      {text:"Araştırmayı sevmek çok değerli Caner Bey. Peki fiyat müzakeresi sırasında karşı tarafla nasıl konumlanacağınızı düşündünüz mü? O an için hazır hissediyor musunuz?", type:"correct", points:10, feedbackTitle:"🎯 Boşluğu Buldunuz!", feedback:"Müşterinin gücünü onaylayıp tek zayıf noktasını soru olarak sordunuz. Bu hem saygı hem de gerçek katma değerin nerede olduğunu gösterir."},
+      {text:"Caner Bey, yasal süreçler gerçekten karmaşık. Yanlış bir adım çok ciddi maddi ve hukuki sonuçlar doğurabilir, bu riski göz ardı etmemek lazım.", type:"partial", points:5, feedbackTitle:"⚡ Doğru Ama Korkutucu", feedback:"Bilgi doğru ama korkutma müşteriyi savunmaya geçirir. Aynı mesajı müşterinin gücünü onaylayarak sunmak çok daha akıllıca bir yaklaşım."},
+      {text:"Tabii Caner Bey, araştırırsanız gerçekten çok şeyi öğrenebilirsiniz. Ama yine de bir sorunuz olursa bana ulaşabilirsiniz, yardımcı olurum.", type:"wrong", points:0, feedbackTitle:"❌ Değerinizi Kendiniz Sildikten", feedback:"Müşteriyi tamamen kendi başına bıraktıktan. Danışmanlığın gerçek değerini — müzakere ve konum yönetimi — hiç konuşmadınız."}
+    ]
+  },
+  {
+    caller:"Deniz Hanım", avatar:"👩‍🔬",
+    context:"Eşi vefat etmiş, o evde çok anı var, satmayı düşünmek bile zoruna gidiyor.",
+    objection:"Eşim bu evde çok yıl geçirdi. Satmayı düşünmek bile çok zor geliyor şu an.",
+    options:[
+      {text:"Çok anlıyorum Deniz Hanım, bu kadar önemli bir evde karar vermek gerçekten zaman alıyor. Şu an herhangi bir baskı altında değilsiniz, sadece seçenekleri bilmek ister misiniz?", type:"correct", points:10, feedbackTitle:"🎯 İnsan Önce!", feedback:"Satıştan hiç bahsetmeden duygusal gerçeği kabul ettiniz. 'Sadece seçenekleri bilmek ister misiniz?' sorusu baskısız ve saygılı bir kapı açar. Güven böyle inşa edilir."},
+      {text:"Anlıyorum Deniz Hanım, zor bir süreç. Ama ev boş kaldıkça hem bakım hem maliyet hem de değer kaybı olabilir, bunu da göz önünde bulundurmanız önemli.", type:"partial", points:5, feedbackTitle:"⚡ Gerçek Ama Zamansız", feedback:"Bilgi doğru ama yas tutan birine bunu söylemek çok sert gelir. Bu konuşma en az birkaç görüşme sonrasına aittir. Empati her zaman önce gelmelidir."},
+      {text:"Tabii Deniz Hanım, acele etmeyin. Hazır hissedince beni arayın, o zaman konuşuruz. Şu an rahat olmanız çok daha önemli.", type:"wrong", points:0, feedbackTitle:"❌ Köprüsüz Ayrılış", feedback:"'Beni arayın' demek pasif. Bir sonraki temas için nazik ama somut bir kapı açmak çok daha iyiydi. Güven ilişkisi kurmak için bu an çok değerliydi."}
+    ]
+  },
+
+  // ─── KİTAPTAN EKLENEN YENİ SENARYOLAR ───────────────────
+
+  {
+    caller:"Selim Bey", avatar:"🧔‍♀️",
+    context:"İlanı çok görüntülenmiş, bu yüzden hızla satacağına inanıyor.",
+    objection:"Zaten çok ilgi var, alanlar sıraya girmiş. Neden size ihtiyacım olsun ki?",
+    options:[
+      {text:"Harika, ilgi çok iyi bir işaret Selim Bey. Peki ilgilenenler banka kredisine uygun mu, tapu sürecinde tüm yasal işlemleri yapabilirler mi? İlgili çok, doğru alıcı başka bir şey.", type:"correct", points:10, feedbackTitle:"🎯 İlgi ≠ Satış!", feedback:"Kitabın da altını çizdiği gibi: ilgiyle satışın farklı olduğunu anlattınız. 'Doğru alıcı' vurgusu çok güçlü — müşteri bu farkı kendisi düşünmeye başlar."},
+      {text:"Selim Bey, ilgi yoğunsa fiyatınızı biraz daha yüksek tutarak çok daha kazançlı çıkabilirsiniz. Bu konuda size strateji yardımı yapabilirim.", type:"partial", points:5, feedbackTitle:"⚡ Farklı Açı", feedback:"Fiyat stratejisi iyi bir ek değer ama asıl meseleyi — ilginin kalitesini — atladınız. Nitelikli alıcı vurgusu burada çok daha güçlü olurdu."},
+      {text:"Tamam Selim Bey, siz bilirsiniz. İleri de bir sorun çıkarsa beni arayabilirsiniz, yardımcı olmaktan memnuniyet duyarım.", type:"wrong", points:0, feedbackTitle:"❌ Fırsatı Kaçırdınız", feedback:"'Sorun çıkarsa arayın' demek değer sunmak değil. Müşteri şu an savunmasız bir noktada — nitelikli alıcı farkını göstermek için mükemmel bir an."}
+    ]
+  },
+  {
+    caller:"Bahar Hanım", avatar:"👩‍🌾",
+    context:"Sürecin çok uzun sürdüğünden yakınıyor, hızlı satış bekliyordu.",
+    objection:"Aylardır satıyorum, süreç çok uzun sürüyor. Bu iş böyle olmaz.",
+    options:[
+      {text:"Evet, piyasada göründüğünden çok daha karmaşık bir süreç var Bahar Hanım. Doğru fiyatlandırma ve pazarlama stratejisiyle mülkünüzü doğru alıcıya çok daha hızlı ulaştırabilirim.", type:"correct", points:10, feedbackTitle:"🎯 Strateji Sundu!", feedback:"Müşterinin sıkıntısını kabul ettikten sonra hemen çözüme geçtiniz. 'Doğru strateji = daha hızlı' mesajı net ve ikna edici. Kitabın tavsiyesiyle birebir örtüşüyor."},
+      {text:"Bahar Hanım, bu süreçte piyasa çok değişken. Biraz daha beklemek doğru alıcıyı getirebilir, sabırlı olmak çoğu zaman işe yarıyor.", type:"partial", points:5, feedbackTitle:"⚡ Yanlış Yön", feedback:"Müşteri süreci kısaltmak istiyor, siz daha fazla bekletiyorsunuz. Strateji değişikliği önermek çok daha doğru bir refleks olurdu."},
+      {text:"Anlıyorum Bahar Hanım, bu süreç gerçekten sabır ister. Her satış kendine özgü, doğru zaman gelince alıcı çıkar.", type:"wrong", points:0, feedbackTitle:"❌ Teselli Değil, Çözüm", feedback:"Müşteri çözüm arıyor, teselli değil. 'Doğru zaman gelince' demek danışmanın hiçbir değer katmadığını gösterir. Yeni bir strateji önermeliydiniz."}
+    ]
+  },
+  {
+    caller:"Ferhat Bey", avatar:"👨‍🔧",
+    context:"İlanını kaldırmış, çok yorulmuş ve satmaktan vazgeçmiş.",
+    objection:"İlanı kaldırdım, artık satmaktan vazgeçtim. Çok yoruldum bu işten.",
+    options:[
+      {text:"Anlıyorum Ferhat Bey, bu süreç gerçekten yorucu olabiliyor. Farklı bir pazarlama stratejisi ve profesyonel destekle çok daha kısa sürede sonuç alınabileceğini biliyor muydunuz?", type:"correct", points:10, feedbackTitle:"🎯 Yeniden Umut!", feedback:"Kitabın da vurguladığı gibi: ilanını kaldıranlar en büyük fırsattır. Yorgunluğu kabul edip 'farklı strateji' ile umut verdiniz. Bu portföy başkasının eline geçmeden yakalanabilir."},
+      {text:"Ferhat Bey, bu işi profesyonele bırakırsanız siz hiç uğraşmak zorunda kalmayacaksınız. Ben her şeyi hallederim, siz sadece karar verin.", type:"partial", points:5, feedbackTitle:"⚡ İyi Ama Muğlak", feedback:"'Ben hallederim' ifadesi güven verir ama somut değil. Neden farklı olacağını, hangi stratejiyle hareket edeceğinizi açıklamak çok daha ikna edici olurdu."},
+      {text:"Anlıyorum Ferhat Bey, tabii ki zorundaki değilsiniz. Satmak istediğinizde beni arayabilirsiniz, o zaman başlarız.", type:"wrong", points:0, feedbackTitle:"❌ Geri Adım", feedback:"Bu müşteri en kıymetli FSBO tiplerinden biri: yorgun, pes etmiş. Şimdi doğru bir teklif yapılsa kapı açılır. 'Sonra arayın' demek bu fırsatı tamamen harcadı."}
+    ]
+  },
+  {
+    caller:"Ceyda Hanım", avatar:"👩‍🎨",
+    context:"Evinin çok değerli olduğunu düşünüyor, profesyonel yardıma gerek yok diyor.",
+    objection:"Benim evim zaten değerli, herkes bakıyor. Profesyonel yardıma gerek yok.",
+    options:[
+      {text:"Kesinlikle haklısınız, mülkünüz gerçekten çok değerli. İşte bu yüzden doğru kitleye en iyi şekilde sunulması gerekiyor. Değerli şeyler değerine layık bir sunum hak eder.", type:"correct", points:10, feedbackTitle:"🎯 Değeri Onayladınız!", feedback:"Müşterinin gururunu zedelemeden, aksine onu destekleyerek hizmetinizi konumlandırdınız. 'Değerli şeyler değerine layık sunum hak eder' çok güçlü bir çerçeveleme."},
+      {text:"Ceyda Hanım, değerli evler de doğru pazarlanmazsa uzun süre satılmıyor. Fiyatı ne kadar yüksek olursa olsun strateji şart, bunu göz ardı etmemeli.", type:"partial", points:5, feedbackTitle:"⚡ Doğru Ama Ters Vurgu", feedback:"Bilgi doğru ama gururu zedeleyebilirsiniz. Müşterinin bakış açısını önce onaylayıp sonra değer sunmak çok daha az direnç yaratır."},
+      {text:"Anlıyorum Ceyda Hanım, o zaman kendi başınıza devam edebilirsiniz. İhtiyaç duyarsanız buradayım.", type:"wrong", points:0, feedbackTitle:"❌ Teslim Oldunuz", feedback:"Değerli bir portföy önünüzde duruyordu ve geri çekildikten. Müşterinin bakışını onaylayıp üzerine değer inşa etmek mümkündü."}
+    ]
+  },
+  {
+    caller:"Murat Bey", avatar:"🧑‍🎓",
+    context:"Başka emlakçıların ücretsiz hizmet verdiğini öğrenmiş, neden ücret ödeyeceğini sorguluyor.",
+    objection:"Diğer emlakçılar ücretsiz hizmet veriyor. Neden size para ödeyeyim ki?",
+    options:[
+      {text:"Ücretsiz hizmetler cazip görünebilir Murat Bey. Ama sınırlı pazarlama ve eksik takip yüzünden mülk gerçek değerinin altında satılabiliyor. Net kârınıza bakalım mı?", type:"correct", points:10, feedbackTitle:"🎯 Değeri Kanıtlayın!", feedback:"Kitabın da söylediği gibi: ücretsiz hizmetin sakladığı maliyeti göstermek çok güçlü. 'Net kârınıza bakalım' sorusu müşteriyi somut düşünmeye davet ediyor."},
+      {text:"Murat Bey, hiçbir şey bedava değil. Ücretsiz hizmet verenlerin başka bir yerden kazandığını unutmamak lazım, bunu iyi değerlendirin.", type:"partial", points:5, feedbackTitle:"⚡ Doğru Ama Eksik", feedback:"Gerçeği söylediniz ama müşteriye somut kazanç göstermediniz. 'Net kâr' hesabı yapmak çok daha ikna edici bir kapanış olurdu."},
+      {text:"Anlıyorum Murat Bey, bu sizin tercihiniz tabii. Eğer ücretsiz hizmetle ilerlemek isterseniz beni arayabilirsiniz.", type:"wrong", points:0, feedbackTitle:"❌ Rakibinize Yönlendirdiniz", feedback:"Müşteriyi ücretsiz rakibe adeta gönderdiniz. Ücretsizin maliyetini gösterip net kâr hesabı yapmak bu itirazı tamamen tersine çevirebilirdi."}
+    ]
+  },
+  {
+    caller:"Özge Hanım", avatar:"👩‍🔬",
+    context:"Size neden güveneceğini bilmiyor, yeni tanışıyorlar.",
+    objection:"Size neden güveneyim? Sizi hiç tanımıyorum.",
+    options:[
+      {text:"Çok yerinde bir soru Özge Hanım. Size önceki müşterilerimin deneyimlerini gösteren referanslar verebilirim. Sürecin her adımında şeffaf raporlama yaparak her aşamadan haberdar olmanızı sağlarım.", type:"correct", points:10, feedbackTitle:"🎯 Şeffaflık ile Güven!", feedback:"Kitabın da vurguladığı gibi: referans ve şeffaf raporlama güveni adım adım inşa eder. Savunmaya geçmeden doğrudan kanıt sundunuz — çok doğru refleks."},
+      {text:"Anlıyorum Özge Hanım, güven zaman alıyor. Beni biraz araştırın, sosyal medyamda müşteri yorumlarım var. Kendinize göre değerlendirin.", type:"partial", points:5, feedbackTitle:"⚡ Pasif Yaklaşım", feedback:"Araştırmayı müşteriye bırakmak doğru ama pasif. 'Ben göstereyim' demek çok daha aktif ve güven verici. Referansı siz sunun, bekletmeyin."},
+      {text:"Güven zaman içinde oluşur Özge Hanım. Ben elimden geleni yapacağım, zamanla göreceksiniz nasıl biri olduğumu.", type:"wrong", points:0, feedbackTitle:"❌ Muğlak Söz", feedback:"'Zamanla göreceksiniz' somut hiçbir şey ifade etmiyor. Müşteri şu an referans ve somut kanıt istiyor, soyut vaat değil."}
+    ]
+  },
+  {
+    caller:"Ahmet Bey", avatar:"👨‍🌾",
+    context:"Piyasa iyi diye düşünüyor, satmak için acele etmiyor.",
+    objection:"Ben acele etmiyorum. Piyasa iyi gidiyor, istediğim zaman satarım.",
+    options:[
+      {text:"Acele etmek zorunda değilsiniz Ahmet Bey, kesinlikle. Ama piyasa koşulları değişkendir. Şu anki avantajlı dönemi ve faiz, arz gibi faktörleri birlikte değerlendirmenizi öneririm.", type:"correct", points:10, feedbackTitle:"🎯 Zamanlamayı Kullanın!", feedback:"Kitabın da önerdiği gibi: zamanlama esnekliğine saygı gösterip piyasa risklerini anlattınız. Faiz ve arz vurgusu çok somut ve ikna edici."},
+      {text:"Ahmet Bey, piyasa her zaman bu kadar iyi kalmaz. Fırsatı kaçırırsanız sonra çok üzülürsünüz, şu an çok uygun bir dönem.", type:"partial", points:5, feedbackTitle:"⚡ Korkutma Taktiği", feedback:"Bilgi doğru ama korkutma baskı hissi yaratır. Aynı mesajı olumlu çerçevede sunmak — 'şu an avantajlı bir dönem' — çok daha az direnç yaratır."},
+      {text:"Tamam Ahmet Bey, siz bilirsiniz. Satmaya karar verdiğinizde beni arayın, yardımcı olurum.", type:"wrong", points:0, feedbackTitle:"❌ Beklemeye Bıraktınız", feedback:"Kitabın da söylediği gibi: iletişimi kesmemek şart. 'Aylık kısa raporla ilişkiyi sıcak tut' prensibi burada uygulanmalıydı. Bugün vermese bile 3-4 ay sonra verebilir."}
+    ]
+  },
+  {
+    caller:"Sıla Hanım", avatar:"👩‍💼",
+    context:"Arkadaşı satması gerektiğini söylemiş, ona güveniyor.",
+    objection:"Arkadaşım satmamı önerdi, onun tavsiyesine güveniyorum.",
+    options:[
+      {text:"Arkadaş tavsiyesi gerçekten değerli Sıla Hanım. Her mülk farklı olduğu için, size ikinci bir görüş olarak ücretsiz bir analiz sunabilirim. Kararınızı çok daha sağlıklı verirsiniz.", type:"correct", points:10, feedbackTitle:"🎯 Danışman Rolü!", feedback:"Kitabın da söylediği gibi: tavsiyeye saygı duyup alternatif profesyonel görüş sundunuz. 'Ücretsiz analiz' teklifi çok düşük bir bariyer, reddetmesi zorlaşır."},
+      {text:"Sıla Hanım, arkadaşınız piyasayı sizin kadar iyi bilmeyebilir. Profesyonel bir değerlendirme çok daha sağlıklı bir karar almanızı sağlar.", type:"partial", points:5, feedbackTitle:"⚡ Arkadaşı Küçümseme Riski", feedback:"Doğru mesaj ama arkadaşı küçümsemek müşteriyi savunmaya geçirebilir. Tavsiyeye saygı duyarak üzerine değer inşa etmek çok daha güvenli."},
+      {text:"Tabii Sıla Hanım, arkadaşınıza güvenmeniz normal. O zaman o yönde devam edin, başarılar.", type:"wrong", points:0, feedbackTitle:"❌ Tamamen Bıraktınız", feedback:"Arkadaş tavsiyesini destekleyip müşteriyi tamamen bıraktınız. 'İkinci görüş' teklifi hem değer katar hem de müşteriyi kaybetmeden kapıyı açık tutar."}
+    ]
+  },
+  {
+    caller:"Emre Bey", avatar:"👨‍🎤",
+    context:"Daha önce ilan vermiş, satılmamış, bu yüzden pes etmiş.",
+    objection:"Daha önce ilan verdim, aylar geçti satılmadı. Bu ev satılmaz.",
+    options:[
+      {text:"Geçmiş deneyim çok değerli Emre Bey. İsterseniz birlikte eski ilanı ve stratejiyi gözden geçirelim. Bazen küçük bir değişiklik — fiyat, fotoğraf, sunum — çok büyük fark yaratıyor.", type:"correct", points:10, feedbackTitle:"🎯 Deneyimi Değere Çevir!", feedback:"Kitabın da vurguladığı gibi: başarısızlık hikâyesini 'deneyim' olarak konumlandırdınız. 'Küçük değişiklik büyük fark' mesajı umut verir ve somut bir sonraki adım yaratır."},
+      {text:"Emre Bey, o dönemde piyasa çok farklıydı. Şu an koşullar daha iyi, tekrar denemeye değer olabilir.", type:"partial", points:5, feedbackTitle:"⚡ Piyasaya Attınız", feedback:"Piyasa değişimi geçerli bir argüman ama müşteriyi analiz etmeden sadece 'piyasa değişti' demek yüzeysel kalır. Eski stratejinin sorununu bulmak çok daha güçlü."},
+      {text:"Anlıyorum Emre Bey, uzun süre çalışıp satamamak çok yorucu. Eğer tekrar denemek isterseniz buradayım.", type:"wrong", points:0, feedbackTitle:"❌ Pasif Kaldınız", feedback:"Sempati kurdunuz ama hiçbir değer sunmadınız. Müşteri 'neden bu sefer farklı olacak?' sorusunun cevabını istiyor. Eski stratejiyi analiz etme teklifi bu soruyu cevaplayabilirdi."}
+    ]
+  },
+  {
+    caller:"Tarık Bey", avatar:"🧔‍♂️",
+    context:"Dairesini 3 yıl önce pahalıya almış, zararına satmak istemiyor.",
+    objection:"Ben bu evi 1.8 milyona aldım. 1.6'ya satmam, zarar etmem.",
+    options:[
+      {text:"Çok anlıyorum Tarık Bey, 1.8'e alınan evi 1.6'ya satmak gerçekten zor. Şu an piyasa fiyatı nerede biliyor musunuz? Bazen fark sandığınızdan az çıkıyor, birlikte bakalım.", type:"correct", points:10, feedbackTitle:"🎯 Empatiyle Başladınız!", feedback:"Dirençle savaşmak yerine acıyı kabul edip müşteriyi gerçekliğe yumuşakça taşıdınız. 'Biliyor musunuz?' sorusu bilgi açığını müşterinin kendisinin fark etmesini sağlar."},
+      {text:"Tarık Bey, satın alma fiyatı ne olursa olsun piyasa sadece bugünkü değeri biliyor. Geçmişe değil geleceğe bakarak karar vermek çok daha sağlıklı.", type:"partial", points:5, feedbackTitle:"⚡ Mantıklı Ama Sert", feedback:"Doğru bilgi ama müşterinin acısını yok saymak kızdırabilir. Aynı mesajı önce empatiyle başlatmak çok daha yumuşak bir giriş sağlardı."},
+      {text:"Anlaşıldı Tarık Bey, siz de haklısınız. O zaman piyasa yukarı çıkana kadar bekleyelim, fiyat istediğinize gelince tekrar konuşuruz.", type:"wrong", points:0, feedbackTitle:"❌ Gerçeklikten Kaçış", feedback:"Müşteriye yanlış umut vermek etik değil. Danışman olarak gerçekçi olmak uzun vadede güven inşa eder. Müşteriyi olduğu gibi bırakmak çözüm değil."}
+    ]
+  },
+  {
+    caller:"Rıza Bey", avatar:"👨‍🦳",
+    context:"Alıcı bulmak çok kolay, neden yardıma ihtiyaç duysun diye düşünüyor.",
+    objection:"Alıcı bulmak kolay, piyasada çok talep var. Sizi neden tutayım ki?",
+    options:[
+      {text:"Evet, alıcı bulmak kolay olabilir Rıza Bey. Ama finansal olarak güçlü, ciddi ve banka kredisine uygun bir alıcı bulmak çok farklı bir uzmanlık ister.", type:"correct", points:10, feedbackTitle:"🎯 Nitelikli Alıcı Farkı!", feedback:"Kitabın da vurguladığı gibi: 'alıcı bulmak ≠ doğru alıcı bulmak' farkını net anlattınız. Ön yeterlilik vurgusu çok somut ve ikna edici."},
+      {text:"Rıza Bey, tapu sürecinde çok karmaşık işlemler var. Profesyonel destek olmadan bu süreç çok zorlanabilir, riskleri göz ardı etmemeli.", type:"partial", points:5, feedbackTitle:"⚡ Süreç Odaklı", feedback:"Tapu sürecini vurgulamak doğru ama 'alıcı kalitesi' meselesi çok daha kritik. Kitabın önerisi olan nitelikli alıcı vurgusu çok daha güçlü bir argüman."},
+      {text:"Tamam Rıza Bey, piyasa gerçekten iyi. O zaman kendi başınıza da deneyebilirsiniz, sorun yaşarsanız beni arayın.", type:"wrong", points:0, feedbackTitle:"❌ Rakibiniz Oldu", feedback:"Müşteriyi kendi başına bırakıp adeta rekabete davet ettiniz. Alıcı kalitesinin neden kritik olduğunu anlatmak bu portföyü kazandırabilirdi."}
+    ]
+  },
+  {
+    caller:"İpek Hanım", avatar:"👩‍🎓",
+    context:"Pazarlık yapıp fiyat düşürmeye hazır, bunu tek çözüm olarak görüyor.",
+    objection:"Pazarlığa açığım, gerekirse fiyat indiririm. Satılsın da ne yaparsam.",
+    options:[
+      {text:"İpek Hanım, fiyat indirmeden önce doğru alıcıyı ve doğru pazarlama stratejisini kullanarak hedefinize ulaşmak mümkün. Hemen indirmek en son seçenek olmalı.", type:"correct", points:10, feedbackTitle:"🎯 Değeri Korudu!", feedback:"Kitabın da altını çizdiği gibi: fiyat indirmeden önce doğru strateji denemek şart. Müşteriyi 'hemen indir' refleksinden kurtarıp değer bazlı pazarlamaya yönlendirdiniz."},
+      {text:"İpek Hanım, fiyat indirmek bazen alıcıları cezbeder ama çok hızlı indirmek de güvensizlik yaratabilir. Dikkatli bir strateji belirleyelim.", type:"partial", points:5, feedbackTitle:"⚡ Orta Düzey", feedback:"Doğru uyarı ama 'fiyat indirmeden de satılabilir' mesajını vermediniz. Kitabın önerisi olan değer bazlı pazarlama yaklaşımını sunmak çok daha güçlüydü."},
+      {text:"Anlıyorum İpek Hanım, fiyat esnekliği satışı hızlandırır. O zaman ne kadar indirim düşünüyorsunuz, birlikte bir rakam belirleyelim.", type:"wrong", points:0, feedbackTitle:"❌ Değeri Düşürdünüz", feedback:"Müşteriyle birlikte indirim konuşmaya başladınız — bu değeri düşürür. Önce doğru stratejiyi denemek gerektiğini anlatmak hem müşteriye hem size kazandırırdı."}
+    ]
+  },
+  {
+    caller:"Gökhan Bey", avatar:"👨‍💼",
+    context:"Geçen ayki analize göre daha yüksek teklif almış ama kabul etmemiş.",
+    objection:"Geçen ay yaptığınız analizden yüksek teklif aldım ve satmadım. Şimdi ne olacak?",
+    options:[
+      {text:"O teklif gerçekten çok iyiymiş Gökhan Bey. O dönemde piyasa daha hareketliydi. Şu an verilere bakıldığında talepte yavaşlama var. Bugünkü piyasayı birlikte güncel verilerle analiz edelim.", type:"correct", points:10, feedbackTitle:"🎯 Piyasa Gerçeği!", feedback:"Kitabın da söylediği gibi: piyasa gerçeğini yumuşakça anlattınız. 'Birlikte analiz edelim' teklifi müşteriye kontrolü hissettirirken sizi sürece dahil ediyor — çok zekice."},
+      {text:"Gökhan Bey, o teklifi neden kabul etmediniz? Şu an piyasa biraz değişti, o fiyatı tekrar bulmak zorlaşabilir.", type:"partial", points:5, feedbackTitle:"⚡ Sorgulama Yöntemi", feedback:"Neden satmadığını sormak bilgi verir ama müşteriyi pişman hissettirme riski taşır. Piyasa gerçeğini nezaketle anlatmak ve birlikte analiz teklifi çok daha yapıcı."},
+      {text:"Anlıyorum Gökhan Bey, geçmiş teklif çok iyiymiş. Şu an da benzer teklifler çıkabilir, biraz daha beklemek mantıklı olabilir.", type:"wrong", points:0, feedbackTitle:"❌ Yanlış Umut", feedback:"Piyasa yavaşlamışken 'benzer teklif çıkar' demek yanlış yönlendirme. Güncel veriyle dürüst bir analiz yapmak hem etik hem de müşteriyle güven inşa eder."}
+    ]
+  },
+  {
+    caller:"Sevda Hanım", avatar:"👩‍🍳",
+    context:"Zaten müşteri bulmuş ama tapu ve yasal süreçleri düşünmemiş.",
+    objection:"Zaten müşterim var, alıcı hazır. Size gerek yok bu aşamada.",
+    options:[
+      {text:"Harika Sevda Hanım! Ama süreci profesyonelle yürütmek önemli. Tapu işlemleri, hukuki kontroller ve sözleşme detayları aşamasında ciddi riskler olabilir, bunu atlamamak lazım.", type:"correct", points:10, feedbackTitle:"🎯 Alıcı ≠ Güvenli Satış!", feedback:"Kitabın da vurguladığı gibi: alıcı bulmak güvenli satış değil. Hukuki riskler somut ve ürkütücü — müşteri bu aşamada sizin değerinizi anlıyor."},
+      {text:"Sevda Hanım, alıcınız ciddi mi? Ön ödeme için anlaştınız mı? Bazen bu aşamada anlaşmalar bozuluyor, iyi düşünün.", type:"partial", points:5, feedbackTitle:"⚡ Alıcıyı Sorgulama", feedback:"Alıcının ciddiyetini sorgulamak doğru ama müşteri savunmaya geçebilir. Hukuki riskler üzerinden gitmek çok daha tarafsız ve somut bir yaklaşım."},
+      {text:"Anlıyorum Sevda Hanım, müşteri bulduysanız harika. Tapu gününde sorun çıkarsa beni arayın, o zaman devreye girebilirim.", type:"wrong", points:0, feedbackTitle:"❌ Çok Geç Kalınır", feedback:"Tapu gününde sorun çıkarsa iş işten geçmiş olur. Şimdi devreye girerek süreci doğru yönetmek hem müşteriyi korur hem de sizin değerinizi gösterir."}
+    ]
+  }
+
+];
+
+const QUESTIONS_PER_ROUND = 10;
+let activeScenarios = [];
+let currentQ=0, score=0, correctCount=0, partialCount=0, wrongCount=0;
+let timerInterval=null, timerSeconds=0, answered=false;
+
+function shuffle(arr){
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function startQuiz(){
+  activeScenarios=shuffle(allScenarios).slice(0,QUESTIONS_PER_ROUND);
+  document.getElementById('intro-screen').style.display='none';
+  document.getElementById('quiz-screen').style.display='block';
+  startTimer();
+  loadQuestion();
+}
+
+function startTimer(){
+  timerSeconds=0;
+  timerInterval=setInterval(()=>{
+    timerSeconds++;
+    const m=String(Math.floor(timerSeconds/60)).padStart(2,'0');
+    const s=String(timerSeconds%60).padStart(2,'0');
+    document.getElementById('timer').textContent=`${m}:${s}`;
+  },1000);
+}
+
+function loadQuestion(){
+  answered=false;
+  const q=activeScenarios[currentQ];
+  document.getElementById('score-display').textContent=score;
+  document.getElementById('correct-display').textContent=correctCount;
+  document.getElementById('question-display').textContent=`${currentQ+1}/${QUESTIONS_PER_ROUND}`;
+  document.getElementById('progress-fill').style.width=`${(currentQ/QUESTIONS_PER_ROUND)*100}%`;
+  document.getElementById('caller-avatar').textContent=q.avatar;
+  document.getElementById('caller-name').textContent=q.caller;
+  document.getElementById('scenario-label').textContent=`Senaryo ${currentQ+1} / ${QUESTIONS_PER_ROUND}`;
+  document.getElementById('messages-container').innerHTML='';
+  document.getElementById('options-section').style.display='none';
+  document.getElementById('feedback-box').className='feedback-box';
+  document.getElementById('next-btn').className='next-btn';
+
+  const container=document.getElementById('messages-container');
+  setTimeout(()=>{
+    const ctx=document.createElement('div');
+    ctx.style.cssText='font-size:12px;color:var(--text-dim);background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;margin-bottom:12px;animation:fadeUp .3s ease both;';
+    ctx.textContent='📋 '+q.context;
+    container.appendChild(ctx);
+  },200);
+  setTimeout(()=>{document.getElementById('typing-indicator').style.display='flex';},600);
+  setTimeout(()=>{
+    document.getElementById('typing-indicator').style.display='none';
+    const msg=document.createElement('div');
+    msg.className='message';
+    msg.innerHTML=`<div class="msg-avatar">${q.avatar}</div><div class="msg-bubble">${q.objection}</div>`;
+    container.appendChild(msg);
+    setTimeout(()=>{
+      document.getElementById('options-section').style.display='block';
+      loadOptions(shuffle(q.options));
+    },400);
+  },2000);
+}
+
+function loadOptions(options){
+  const container=document.getElementById('options-container');
+  container.innerHTML='';
+  const letters=['A','B','C'];
+  options.forEach((opt,i)=>{
+    const btn=document.createElement('button');
+    btn.className='option-btn';
+    btn.innerHTML=`<div class="option-indicator">${letters[i]}</div><div style="flex:1">${opt.text}</div><div class="option-score-badge">+${opt.points}</div>`;
+    btn.onclick=()=>selectOption(i,options);
+    container.appendChild(btn);
+  });
+}
+
+function selectOption(idx,options){
+  if(answered)return;
+  answered=true;
+  const chosen=options[idx];
+  const btns=document.querySelectorAll('.option-btn');
+  const msg=document.createElement('div');
+  msg.className='message user';
+  msg.innerHTML=`<div class="msg-avatar">🗣️</div><div class="msg-bubble">${chosen.text}</div>`;
+  document.getElementById('messages-container').appendChild(msg);
+  btns.forEach((btn,i)=>{
+    btn.disabled=true;
+    const opt=options[i];
+    if(opt.type==='correct'){btn.classList.add('correct');btn.querySelector('.option-indicator').textContent='✓';}
+    else if(opt.type==='partial'){btn.classList.add('partial');btn.querySelector('.option-indicator').textContent='~';}
+    else{btn.classList.add(i===idx?'selected-wrong':'wrong');btn.querySelector('.option-indicator').textContent='✗';}
+  });
+  score+=chosen.points;
+  if(chosen.type==='correct')correctCount++;
+  else if(chosen.type==='partial')partialCount++;
+  else{wrongCount++;document.getElementById('phone-card').classList.add('shake');setTimeout(()=>document.getElementById('phone-card').classList.remove('shake'),500);}
+  document.getElementById('score-display').textContent=score;
+  document.getElementById('correct-display').textContent=correctCount;
+  const fb=document.getElementById('feedback-box');
+  fb.className=`feedback-box show ${chosen.type}`;
+  document.getElementById('feedback-title').textContent=chosen.feedbackTitle;
+  document.getElementById('feedback-text').textContent=chosen.feedback;
+  const nextBtn=document.getElementById('next-btn');
+  nextBtn.className='next-btn show';
+  nextBtn.textContent=currentQ<activeScenarios.length-1?'Sonraki Senaryo →':'Sonuçları Gör 🏆';
+}
+
+function nextQuestion(){
+  currentQ++;
+  if(currentQ>=activeScenarios.length)showResult();
+  else loadQuestion();
+}
+
+function showResult(){
+  clearInterval(timerInterval);
+  document.getElementById('quiz-screen').style.display='none';
+  const maxScore=QUESTIONS_PER_ROUND*10;
+  const pct=score/maxScore;
+  let emoji,level,desc;
+  if(pct>=0.85){emoji='🏆';level='FSBO Ustası';desc=`${score}/${maxScore} puan ile mükemmel performans! FSBO dönüşümünde refleksleriniz çok güçlü. Kitabın sayfaları adeta içinize işlemiş gibi görünüyor.`;}
+  else if(pct>=0.65){emoji='🎯';level='Gelişen Satıcı';desc=`${score}/${maxScore} puanla çok iyi! Temel FSBO tekniklerini kavramışsınız. Birkaç kritik noktada biraz daha çalışmak sizi üst seviyeye taşır.`;}
+  else if(pct>=0.40){emoji='📈';level='Çıraklık Aşamasında';desc=`${score}/${maxScore} puan — doğru yoldasınız. FSBO görüşmeleri gerçekten uzmanlık gerektiriyor. Doğru cevap açıklamalarını inceleyip tekrar deneyin.`;}
+  else{emoji='📚';level='Öğrenme Modunda';desc=`${score}/${maxScore} puan — endişelenmeyin, bu simülatörün amacı tam da bu! 35 senaryo havuzundan her turda farklı 10 soru geliyor, tekrar deneyin.`;}
+  document.getElementById('result-emoji').textContent=emoji;
+  document.getElementById('result-level').textContent=level;
+  document.getElementById('result-score').innerHTML=`${score}<span>/${maxScore}</span>`;
+  document.getElementById('result-description').textContent=desc;
+  document.getElementById('rs-correct').textContent=correctCount;
+  document.getElementById('rs-partial').textContent=partialCount;
+  document.getElementById('rs-wrong').textContent=wrongCount;
+  document.getElementById('result-screen').className='result-screen show';
+}
+
+function restartQuiz(){
+  currentQ=0;score=0;correctCount=0;partialCount=0;wrongCount=0;answered=false;
+  clearInterval(timerInterval);
+  activeScenarios=shuffle(allScenarios).slice(0,QUESTIONS_PER_ROUND);
+  document.getElementById('result-screen').className='result-screen';
+  document.getElementById('quiz-screen').style.display='block';
+  document.getElementById('score-display').textContent='0';
+  document.getElementById('correct-display').textContent='0';
+  document.getElementById('progress-fill').style.width='0%';
+  startTimer();
+  loadQuestion();
+}
+</script>
+</body>
+</html>
