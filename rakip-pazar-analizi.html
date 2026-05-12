@@ -48,9 +48,9 @@ body.theme-custom{--c1:#1a2744;--c2:#D4A843;--c3:#FFFFFF}
 .photo-zone input{position:absolute;top:0;left:0;right:0;bottom:0;opacity:0;cursor:pointer;width:100%;height:100%}
 .photo-preview{width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid var(--c1,#1a2744);margin:0 auto 8px;display:block}
 .prop-photos{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
-.prop-photo-item{aspect-ratio:1;border-radius:6px;overflow:hidden;border:1px solid #e5e7eb;position:relative;background:#f8f8f8}
+.prop-photo-item{aspect-ratio:16/9;border-radius:6px;overflow:hidden;border:1px solid #e5e7eb;position:relative;background:#f8f8f8}
 .prop-photo-item img{width:100%;height:100%;object-fit:cover}
-.prop-photo-add{border:2px dashed #d1d5db;border-radius:6px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;cursor:pointer;background:#fafafa;font-size:28px;color:#ccc;position:relative;transition:.15s}
+.prop-photo-add{border:2px dashed #d1d5db;border-radius:6px;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;cursor:pointer;background:#fafafa;font-size:28px;color:#ccc;position:relative;transition:.15s}
 .prop-photo-add:hover{border-color:var(--c1,#1a2744)}
 .prop-photo-add input{position:absolute;top:0;left:0;right:0;bottom:0;opacity:0;cursor:pointer;width:100%;height:100%}
 .rm-photo{position:absolute;top:3px;right:3px;background:rgba(0,0,0,.55);color:#fff;border:none;border-radius:50%;width:18px;height:18px;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center}
@@ -96,13 +96,13 @@ body.theme-custom{--c1:#1a2744;--c2:#D4A843;--c3:#FFFFFF}
 .report-cma td{padding:7px 10px;border-bottom:1px solid #f0f2f5}
 .report-cma tr:nth-child(even) td{background:#fafafa}
 .hl-row td{background:#fff8e1 !important;font-weight:700;color:var(--c1,#1a2744)}
-.mkt-tag{display:inline-block;background:var(--c1,#1a2744);color:#fff;font-size:10px;padding:3px 9px;border-radius:12px;margin:3px 3px 3px 0}
+.mkt-tag{display:inline-block;background:var(--c1,#1a2744);color:#fff;font-size:10px;padding:3px 9px;border-radius:12px;margin:3px 3px 3px 0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .agent-bio-box{display:flex;gap:20px;align-items:flex-start;padding:16px;background:#fafafa;border-radius:10px;border:1px solid #e5e7eb}
 .agent-bio-photo{width:70px;height:70px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid var(--c1,#1a2744)}
 .agent-bio-text h3{font-size:14px;font-weight:700;margin-bottom:2px}
 .agent-bio-text p{font-size:12px;color:#666;line-height:1.5;margin-top:6px}
 .prop-photos-report{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
-.prop-photos-report img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:6px}
+.prop-photos-report img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:6px}
 .preview-actions{display:flex;gap:10px;padding:16px;background:#fff;border:1px solid #e5e7eb;border-bottom:none;align-items:center;flex-wrap:wrap}
 .preview-actions h3{font-size:14px;font-weight:600;margin-right:auto}
 .preview-wrap{background:#e8eaed;padding:24px;border-radius:0 0 12px 12px;overflow-x:auto}
@@ -146,6 +146,8 @@ body.theme-custom{--c1:#1a2744;--c2:#D4A843;--c3:#FFFFFF}
   .app,.topbar,.steps,.preview-actions,.panel,.panel-wrap>:not(#panel6),#panel6>:not(#preview-wrap),#preview-wrap>:not(.preview-wrap){display:none !important}
   .app,#panel6,#preview-wrap,.preview-wrap,#report-output{display:block !important;height:auto !important;overflow:visible !important;padding:0 !important;margin:0 !important;border:none !important;background:transparent !important}
   .report-page{box-shadow:none !important;margin:0 auto !important;page-break-after:always !important;width:100% !important;max-width:794px !important;transform:none !important;display:block !important;visibility:visible !important}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+  .mkt-tag{background:var(--c1,#1a2744) !important;color:#fff !important;border:none !important}
   @page{margin:0;size:A4 portrait}
 }
 </style>
@@ -449,77 +451,77 @@ body.theme-custom{--c1:#1a2744;--c2:#D4A843;--c3:#FFFFFF}
       </div>
       <div class="mkt-group-label">📋 Evrak, Süreç ve Hukuki Destek</div>
       <div class="mkt-grid">
-        <label class="mkt-item checked"><input type="checkbox" value="Tüm evrak ve bürokratik işlemlerde destek (avukat + mali müşavir)" checked onchange="tglMkt(this)"> Evrak + hukuki destek</label>
-        <label class="mkt-item"><input type="checkbox" value="Satış sözleşmesi, yer gösterme formu gibi evrakları örnekleriyle açıklama" onchange="tglMkt(this)"> Evrak örnekleriyle anlatım</label>
-        <label class="mkt-item checked"><input type="checkbox" value="Satıcı için iletişim planı ve haftalık raporlama taahhüdü" checked onchange="tglMkt(this)"> Haftalık raporlama taahhüdü</label>
-        <label class="mkt-item"><input type="checkbox" value="Satıcı giderleri, masraflar ve net bedel hesap föyü (Excel)" onchange="tglMkt(this)"> Net bedel hesap föyü (Excel)</label>
-        <label class="mkt-item"><input type="checkbox" value="Tapuya dair tüm yasal detayların kontrolü" onchange="tglMkt(this)"> Tapu yasal kontrol</label>
-        <label class="mkt-item"><input type="checkbox" value="Kaparo formu ve satış kapama evraklarının açıklanması" onchange="tglMkt(this)"> Kaparo + kapama evrakları</label>
+        <label class="mkt-item checked"><input type="checkbox" value="Tüm evrak ve bürokratik işlemlerde destek (avukat + mali müşavir)" checked> Evrak + hukuki destek</label>
+        <label class="mkt-item"><input type="checkbox" value="Satış sözleşmesi, yer gösterme formu gibi evrakları örnekleriyle açıklama"> Evrak örnekleriyle anlatım</label>
+        <label class="mkt-item checked"><input type="checkbox" value="Satıcı için iletişim planı ve haftalık raporlama taahhüdü" checked> Haftalık raporlama taahhüdü</label>
+        <label class="mkt-item"><input type="checkbox" value="Satıcı giderleri, masraflar ve net bedel hesap föyü (Excel)"> Net bedel hesap föyü (Excel)</label>
+        <label class="mkt-item"><input type="checkbox" value="Tapuya dair tüm yasal detayların kontrolü"> Tapu yasal kontrol</label>
+        <label class="mkt-item"><input type="checkbox" value="Kaparo formu ve satış kapama evraklarının açıklanması"> Kaparo + kapama evrakları</label>
       </div>
       <div class="mkt-group-label">💰 Fiyatlandırma Stratejisi</div>
       <div class="mkt-grid">
-        <label class="mkt-item checked"><input type="checkbox" value="Fiyat Piramidi ile fiyatlandırma stratejisinin sunumu" checked onchange="tglMkt(this)"> Fiyat Piramidi sunumu</label>
-        <label class="mkt-item"><input type="checkbox" value="Piyasa koşullarına göre fiyat analizi güncellemesi" onchange="tglMkt(this)"> Fiyat analizi güncellemesi</label>
-        <label class="mkt-item"><input type="checkbox" value="Gerekli hallerde lisanlı eksper desteği" onchange="tglMkt(this)"> Lisanlı eksper desteği</label>
+        <label class="mkt-item checked"><input type="checkbox" value="Fiyat Piramidi ile fiyatlandırma stratejisinin sunumu" checked> Fiyat Piramidi sunumu</label>
+        <label class="mkt-item"><input type="checkbox" value="Piyasa koşullarına göre fiyat analizi güncellemesi"> Fiyat analizi güncellemesi</label>
+        <label class="mkt-item"><input type="checkbox" value="Gerekli hallerde lisanlı eksper desteği"> Lisanlı eksper desteği</label>
       </div>
       <div class="mkt-group-label">🏠 Ev Hazırlığı ve Sahneleme</div>
       <div class="mkt-grid">
-        <label class="mkt-item"><input type="checkbox" value="Temizlik, bakım, küçük onarım – Ev Sahneleme hizmeti" onchange="tglMkt(this)"> Ev sahneleme hizmeti</label>
-        <label class="mkt-item"><input type="checkbox" value="Gösterim kontrol listesi – ev hazırlık rehberi" onchange="tglMkt(this)"> Gösterim kontrol listesi</label>
-        <label class="mkt-item"><input type="checkbox" value="Satıcıya mülkü daha satılabilir kılmak için değişiklik önerileri" onchange="tglMkt(this)"> Satılabilirlik önerileri</label>
+        <label class="mkt-item"><input type="checkbox" value="Temizlik, bakım, küçük onarım – Ev Sahneleme hizmeti"> Ev sahneleme hizmeti</label>
+        <label class="mkt-item"><input type="checkbox" value="Gösterim kontrol listesi – ev hazırlık rehberi"> Gösterim kontrol listesi</label>
+        <label class="mkt-item"><input type="checkbox" value="Satıcıya mülkü daha satılabilir kılmak için değişiklik önerileri"> Satılabilirlik önerileri</label>
       </div>
       <div class="mkt-group-label">📸 Görsel Prodüksiyon</div>
       <div class="mkt-grid">
-        <label class="mkt-item checked"><input type="checkbox" value="Profesyonel fotoğraf çekimi" checked onchange="tglMkt(this)"> Profesyonel fotoğraf</label>
-        <label class="mkt-item"><input type="checkbox" value="Drone / hava fotoğrafı ve video çekimi" onchange="tglMkt(this)"> Drone çekimi</label>
-        <label class="mkt-item checked"><input type="checkbox" value="Profesyonel video ve sanal tur sunumu" checked onchange="tglMkt(this)"> Video + sanal tur</label>
-        <label class="mkt-item"><input type="checkbox" value="Profesyonel grafik tasarımcıyla çalışma (broşür, sosyal medya, sunum)" onchange="tglMkt(this)"> Grafik tasarım desteği</label>
+        <label class="mkt-item checked"><input type="checkbox" value="Profesyonel fotoğraf çekimi" checked> Profesyonel fotoğraf</label>
+        <label class="mkt-item"><input type="checkbox" value="Drone / hava fotoğrafı ve video çekimi"> Drone çekimi</label>
+        <label class="mkt-item checked"><input type="checkbox" value="Profesyonel video ve sanal tur sunumu" checked> Video + sanal tur</label>
+        <label class="mkt-item"><input type="checkbox" value="Profesyonel grafik tasarımcıyla çalışma (broşür, sosyal medya, sunum)"> Grafik tasarım desteği</label>
       </div>
       <div class="mkt-group-label">🌐 Dijital Pazarlama ve Portallar</div>
       <div class="mkt-grid">
-        <label class="mkt-item checked"><input type="checkbox" value="Sahibinden.com – nitelikli ilan girişi ve öne çıkarma" checked onchange="tglMkt(this)"> Sahibinden.com</label>
-        <label class="mkt-item checked"><input type="checkbox" value="Emlakjet – nitelikli ilan girişi ve öne çıkarma" checked onchange="tglMkt(this)"> Emlakjet</label>
-        <label class="mkt-item"><input type="checkbox" value="Hepsiemlak – nitelikli ilan girişi ve öne çıkarma" onchange="tglMkt(this)"> Hepsiemlak</label>
-        <label class="mkt-item"><input type="checkbox" value="remax.com.tr ilanı + erişim rakamları takibi" onchange="tglMkt(this)"> remax.com.tr</label>
-        <label class="mkt-item"><input type="checkbox" value="Mülk için özel web sayfası oluşturma" onchange="tglMkt(this)"> Mülke özel web sayfası</label>
-        <label class="mkt-item"><input type="checkbox" value="Yurtdışı ilan siteleri – yabancı yatırımcı ağı" onchange="tglMkt(this)"> Yurtdışı ilan siteleri</label>
-        <label class="mkt-item"><input type="checkbox" value="Portal reklamlarının haftalık güncellenmesi ve taze tutulması" onchange="tglMkt(this)"> Haftalık reklam tazeleme</label>
+        <label class="mkt-item checked"><input type="checkbox" value="Sahibinden.com – nitelikli ilan girişi ve öne çıkarma" checked> Sahibinden.com</label>
+        <label class="mkt-item checked"><input type="checkbox" value="Emlakjet – nitelikli ilan girişi ve öne çıkarma" checked> Emlakjet</label>
+        <label class="mkt-item"><input type="checkbox" value="Hepsiemlak – nitelikli ilan girişi ve öne çıkarma"> Hepsiemlak</label>
+        <label class="mkt-item"><input type="checkbox" value="remax.com.tr ilanı + erişim rakamları takibi"> remax.com.tr</label>
+        <label class="mkt-item"><input type="checkbox" value="Mülk için özel web sayfası oluşturma"> Mülke özel web sayfası</label>
+        <label class="mkt-item"><input type="checkbox" value="Yurtdışı ilan siteleri – yabancı yatırımcı ağı"> Yurtdışı ilan siteleri</label>
+        <label class="mkt-item"><input type="checkbox" value="Portal reklamlarının haftalık güncellenmesi ve taze tutulması"> Haftalık reklam tazeleme</label>
       </div>
       <div class="mkt-group-label">📱 Sosyal Medya</div>
       <div class="mkt-grid">
-        <label class="mkt-item checked"><input type="checkbox" value="Instagram organik paylaşımlar" checked onchange="tglMkt(this)"> Instagram organik</label>
-        <label class="mkt-item"><input type="checkbox" value="Instagram sponsorlu / ücretli reklam" onchange="tglMkt(this)"> Instagram reklamı</label>
-        <label class="mkt-item"><input type="checkbox" value="Facebook ücretli reklam kampanyası" onchange="tglMkt(this)"> Facebook reklamı</label>
-        <label class="mkt-item"><input type="checkbox" value="LinkedIn paylaşımı" onchange="tglMkt(this)"> LinkedIn</label>
-        <label class="mkt-item checked"><input type="checkbox" value="YouTube kanalında mülk tanıtımı ve sanal video turu" checked onchange="tglMkt(this)"> YouTube tanıtım videosu</label>
-        <label class="mkt-item"><input type="checkbox" value="TikTok video paylaşımı" onchange="tglMkt(this)"> TikTok</label>
+        <label class="mkt-item checked"><input type="checkbox" value="Instagram organik paylaşımlar" checked> Instagram organik</label>
+        <label class="mkt-item"><input type="checkbox" value="Instagram sponsorlu / ücretli reklam"> Instagram reklamı</label>
+        <label class="mkt-item"><input type="checkbox" value="Facebook ücretli reklam kampanyası"> Facebook reklamı</label>
+        <label class="mkt-item"><input type="checkbox" value="LinkedIn paylaşımı"> LinkedIn</label>
+        <label class="mkt-item checked"><input type="checkbox" value="YouTube kanalında mülk tanıtımı ve sanal video turu" checked> YouTube tanıtım videosu</label>
+        <label class="mkt-item"><input type="checkbox" value="TikTok video paylaşımı"> TikTok</label>
       </div>
       <div class="mkt-group-label">✉️ Doğrudan İletişim ve Ağ</div>
       <div class="mkt-grid">
-        <label class="mkt-item checked"><input type="checkbox" value="WhatsApp bülteni ile potansiyel alıcılara duyuru" checked onchange="tglMkt(this)"> WhatsApp bülteni</label>
-        <label class="mkt-item"><input type="checkbox" value="E-posta bülteni ile veri tabanındaki alıcı ve yatırımcılara duyuru" onchange="tglMkt(this)"> E-posta bülteni</label>
-        <label class="mkt-item"><input type="checkbox" value="Komşu mektubu çalışması" onchange="tglMkt(this)"> Komşu mektubu</label>
-        <label class="mkt-item"><input type="checkbox" value="Tüm alıcı adaylarına en geç 1 saat içinde geri dönüş" onchange="tglMkt(this)"> 1 saatte geri dönüş taahhüdü</label>
-        <label class="mkt-item"><input type="checkbox" value="Günlük veri tabanı araması – mülkün alıcısı etki çevrenizde olabilir" onchange="tglMkt(this)"> Günlük veri tabanı araması</label>
+        <label class="mkt-item checked"><input type="checkbox" value="WhatsApp bülteni ile potansiyel alıcılara duyuru" checked> WhatsApp bülteni</label>
+        <label class="mkt-item"><input type="checkbox" value="E-posta bülteni ile veri tabanındaki alıcı ve yatırımcılara duyuru"> E-posta bülteni</label>
+        <label class="mkt-item"><input type="checkbox" value="Komşu mektubu çalışması"> Komşu mektubu</label>
+        <label class="mkt-item"><input type="checkbox" value="Tüm alıcı adaylarına en geç 1 saat içinde geri dönüş"> 1 saatte geri dönüş taahhüdü</label>
+        <label class="mkt-item"><input type="checkbox" value="Günlük veri tabanı araması – mülkün alıcısı etki çevrenizde olabilir"> Günlük veri tabanı araması</label>
       </div>
       <div class="mkt-group-label">🤝 Emlakçı Ağı ve Paylaşım</div>
       <div class="mkt-grid">
-        <label class="mkt-item"><input type="checkbox" value="RE/MAX sistemindeki ~4.000 danışmana paylaşım duyurusu" onchange="tglMkt(this)"> RE/MAX 4.000 danışman ağı</label>
-        <label class="mkt-item"><input type="checkbox" value="Bölgedeki güvenilir 200 yerel ve global emlakçıyla paylaşım" onchange="tglMkt(this)"> 200 yerel/global emlakçı paylaşımı</label>
-        <label class="mkt-item"><input type="checkbox" value="Ofis haftalık toplantısında mülkün tanıtımı" onchange="tglMkt(this)"> Ofis toplantısında tanıtım</label>
+        <label class="mkt-item"><input type="checkbox" value="RE/MAX sistemindeki ~4.000 danışmana paylaşım duyurusu"> RE/MAX 4.000 danışman ağı</label>
+        <label class="mkt-item"><input type="checkbox" value="Bölgedeki güvenilir 200 yerel ve global emlakçıyla paylaşım"> 200 yerel/global emlakçı paylaşımı</label>
+        <label class="mkt-item"><input type="checkbox" value="Ofis haftalık toplantısında mülkün tanıtımı"> Ofis toplantısında tanıtım</label>
       </div>
       <div class="mkt-group-label">🏷️ Fiziksel Pazarlama ve Etkinlik</div>
       <div class="mkt-grid">
-        <label class="mkt-item"><input type="checkbox" value="Evde branda ve afiş çalışması" onchange="tglMkt(this)"> Branda ve afiş</label>
-        <label class="mkt-item checked"><input type="checkbox" value="Açık ev (open house) organizasyonu" checked onchange="tglMkt(this)"> Açık ev organizasyonu</label>
-        <label class="mkt-item"><input type="checkbox" value="Potansiyel alıcıların kaydedilmesi ve sıkı takibi" onchange="tglMkt(this)"> Alıcı kayıt ve takip</label>
+        <label class="mkt-item"><input type="checkbox" value="Evde branda ve afiş çalışması"> Branda ve afiş</label>
+        <label class="mkt-item checked"><input type="checkbox" value="Açık ev (open house) organizasyonu" checked> Açık ev organizasyonu</label>
+        <label class="mkt-item"><input type="checkbox" value="Potansiyel alıcıların kaydedilmesi ve sıkı takibi"> Alıcı kayıt ve takip</label>
       </div>
       <div class="mkt-group-label">🎯 Müzakere, Kapanış ve Satış Sonrası</div>
       <div class="mkt-grid">
-        <label class="mkt-item checked"><input type="checkbox" value="Teklif sunumlarında satıcı temsilciliği ve pazarlık" checked onchange="tglMkt(this)"> Teklif ve pazarlık temsili</label>
-        <label class="mkt-item"><input type="checkbox" value="Kapanış öncesi ve kapanış işlemlerinin yönetimi" onchange="tglMkt(this)"> Kapanış süreci yönetimi</label>
-        <label class="mkt-item"><input type="checkbox" value="Alıcı finansman ve kredi konularında destek" onchange="tglMkt(this)"> Finansman desteği</label>
-        <label class="mkt-item"><input type="checkbox" value="Satıcının bir sonraki evini bulma konusunda yardım" onchange="tglMkt(this)"> Sonraki ev arayışı desteği</label>
+        <label class="mkt-item checked"><input type="checkbox" value="Teklif sunumlarında satıcı temsilciliği ve pazarlık" checked> Teklif ve pazarlık temsili</label>
+        <label class="mkt-item"><input type="checkbox" value="Kapanış öncesi ve kapanış işlemlerinin yönetimi"> Kapanış süreci yönetimi</label>
+        <label class="mkt-item"><input type="checkbox" value="Alıcı finansman ve kredi konularında destek"> Finansman desteği</label>
+        <label class="mkt-item"><input type="checkbox" value="Satıcının bir sonraki evini bulma konusunda yardım"> Sonraki ev arayışı desteği</label>
       </div>
       <div class="grid1" style="margin-top:16px">
         <div class="field"><label>Ek taahhüt notu (isteğe bağlı)</label>
@@ -633,6 +635,22 @@ function selectAllMkt(state){
   });
 }
 function tglMkt(cb){cb.closest('.mkt-item').classList.toggle('checked',cb.checked);}
+// Mac/iOS uyumlu event delegation
+document.addEventListener('change',function(e){
+  if(e.target&&e.target.type==='checkbox'&&e.target.closest('.mkt-item')){
+    tglMkt(e.target);
+  }
+});
+document.addEventListener('click',function(e){
+  var item=e.target.closest('.mkt-item');
+  if(item){
+    var cb=item.querySelector('input[type=checkbox]');
+    if(cb&&e.target!==cb){
+      cb.checked=!cb.checked;
+      tglMkt(cb);
+    }
+  }
+});
 function getCma(){
   return Array.from(document.querySelectorAll('#cma-body tr')).map(function(tr){
     var td=tr.querySelectorAll('td');
@@ -647,14 +665,14 @@ function buildPyramid(kisa,orta,uzun){
   var k=toTL(kisa),o=toTL(orta),u=toTL(uzun);
   return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 230" style="width:100%;max-width:520px;display:block">'+
     '<defs><filter id="psh"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.18"/></filter></defs>'+
-    '<polygon points="160,15 109,78 211,78" fill="'+c1+'" filter="url(#psh)"/>'+
-    '<polygon points="109,78 211,78 256,143 64,143" fill="'+c1+'" opacity="0.78" filter="url(#psh)"/>'+
-    '<polygon points="64,143 256,143 300,210 20,210" fill="'+c1+'" opacity="0.55" filter="url(#psh)"/>'+
-    '<line x1="211" y1="46" x2="340" y2="46" stroke="'+c1+'" stroke-width="1" stroke-dasharray="2,2" opacity="0.4"/>'+
-    '<line x1="234" y1="110" x2="340" y2="110" stroke="'+c1+'" stroke-width="1" stroke-dasharray="2,2" opacity="0.4"/>'+
-    '<line x1="278" y1="176" x2="340" y2="176" stroke="'+c1+'" stroke-width="1" stroke-dasharray="2,2" opacity="0.4"/>'+
-    '<line x1="109" y1="78" x2="211" y2="78" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>'+
-    '<line x1="64" y1="143" x2="256" y2="143" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>'+
+    '<polygon points="160,15 114,78 206,78" fill="'+c1+'" filter="url(#psh)"/>'+
+    '<polygon points="114,78 206,78 252,143 68,143" fill="'+c1+'" opacity="0.78" filter="url(#psh)"/>'+
+    '<polygon points="68,143 252,143 300,210 20,210" fill="'+c1+'" opacity="0.55" filter="url(#psh)"/>'+
+    '<line x1="206" y1="46" x2="335" y2="46" stroke="'+c1+'" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>'+
+    '<line x1="252" y1="110" x2="335" y2="110" stroke="'+c1+'" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>'+
+    '<line x1="300" y1="176" x2="335" y2="176" stroke="'+c1+'" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>'+
+    '<line x1="114" y1="78" x2="206" y2="78" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/>'+
+    '<line x1="68" y1="143" x2="252" y2="143" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/>'+
     '<g transform="translate(345,28)"><rect width="190" height="36" rx="6" fill="'+c1+'" opacity="0.95"/><circle cx="14" cy="18" r="5" fill="#dc2626"/><text x="26" y="14" font-family="Segoe UI,Arial" font-size="9" font-weight="700" fill="white" opacity="0.85">UZUN VADE · 120+ gün</text><text x="26" y="28" font-family="Segoe UI,Arial" font-size="13" font-weight="700" fill="white">'+u+'</text></g>'+
     '<g transform="translate(345,92)"><rect width="190" height="36" rx="6" fill="'+c1+'" opacity="0.85"/><circle cx="14" cy="18" r="5" fill="#facc15"/><text x="26" y="14" font-family="Segoe UI,Arial" font-size="9" font-weight="700" fill="white" opacity="0.85">ORTA VADE · 60–120 gün</text><text x="26" y="28" font-family="Segoe UI,Arial" font-size="13" font-weight="700" fill="white">'+o+'</text></g>'+
     '<g transform="translate(345,158)"><rect width="190" height="36" rx="6" fill="'+c1+'" opacity="0.7"/><circle cx="14" cy="18" r="5" fill="#22c55e"/><text x="26" y="14" font-family="Segoe UI,Arial" font-size="9" font-weight="700" fill="white" opacity="0.95">KISA VADE · 30–60 gün</text><text x="26" y="28" font-family="Segoe UI,Arial" font-size="13" font-weight="700" fill="white">'+k+'</text></g>'+

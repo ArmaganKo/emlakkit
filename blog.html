@@ -143,7 +143,7 @@
   /* POSTS GRID */
   .posts-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 16px;
   }
   .post-card {
@@ -239,7 +239,11 @@
   .footer-links a { font-size: 13px; color: var(--muted); text-decoration: none; }
   .footer-links a:hover { color: var(--gold); }
 
+  @media (max-width: 900px) {
+    .posts-grid { grid-template-columns: repeat(2, 1fr); }
+  }
   @media (max-width: 700px) {
+    .posts-grid { grid-template-columns: 1fr; }
     .featured-post { grid-template-columns: 1fr; }
     .featured-img { min-height: 160px; }
     .featured-body { padding: 24px; }

@@ -577,7 +577,26 @@ body>*:not(#print-frame){display:none!important}
           <img id="pp-img" alt="">
           <input type="file" accept="image/*" id="pp-input" onchange="handleProfilePhoto(this)">
         </div>
-        <div class="pp-info">
+      </div>
+      <!-- PROFİL FOTOĞRAFI KIRPMA -->
+      <div class="inline-crop" id="pp-crop" style="margin-top:10px">
+        <div class="inline-crop-title">✂️ Profil fotoğrafını düzenle</div>
+        <div class="crop-layout">
+          <div class="crop-viewport" id="pp-crop-vp" style="border-radius:50%;width:160px;height:160px">
+            <img id="pp-crop-img" src="" alt="crop" draggable="false">
+          </div>
+          <div class="crop-controls">
+            <div><label>Yakınlaştır <span id="pp-zoom-val">100%</span></label><input type="range" id="pp-crop-zoom" min="50" max="300" value="100" oninput="applyPPCrop()"></div>
+            <div><label>Yatay</label><input type="range" id="pp-crop-x" min="-150" max="150" value="0" oninput="applyPPCrop()"></div>
+            <div><label>Dikey</label><input type="range" id="pp-crop-y" min="-150" max="150" value="0" oninput="applyPPCrop()"></div>
+            <div class="crop-btns">
+              <button class="crop-cancel" onclick="cancelPPCrop()">İptal</button>
+              <button class="crop-confirm" onclick="confirmPPCrop()">✓ Onayla</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display:none" class="pp-info">
           <strong>Profil Fotoğrafı</strong>
           <p>Raporlardaki imza kutusunda görünür<br>JPG / PNG · Kare format önerilir</p>
           <button style="margin-top:6px;background:none;border:1.5px solid #e5e7eb;padding:6px 12px;border-radius:6px;font-size:11px;cursor:pointer;font-family:inherit" onclick="document.getElementById('pp-input').click()">Fotoğraf seç</button>
@@ -725,8 +744,52 @@ function saveProfile(){
 function handleProfilePhoto(inp){
   var f=inp.files[0];if(!f)return;
   var r=new FileReader();r.onload=function(e){
-    var b64=e.target.result;profileB64=b64;showPPImg(b64);
+    openPPCrop(e.target.result);
   };r.readAsDataURL(f);
+}
+function openPPCrop(src){
+  var cropDiv=document.getElementById('pp-crop');
+  document.getElementById('pp-crop-img').src=src;
+  document.getElementById('pp-crop-zoom').value=100;
+  document.getElementById('pp-crop-x').value=0;
+  document.getElementById('pp-crop-y').value=0;
+  document.getElementById('pp-zoom-val').textContent='100%';
+  cropDiv.classList.add('show');
+  // show pp-info
+  document.querySelector('.pp-info').style.display='none';
+  setTimeout(function(){ applyPPCrop(); cropDiv.scrollIntoView({behavior:'smooth',block:'nearest'}); },50);
+}
+function applyPPCrop(){
+  var zoom=parseInt(document.getElementById('pp-crop-zoom').value);
+  var tx=parseInt(document.getElementById('pp-crop-x').value);
+  var ty=parseInt(document.getElementById('pp-crop-y').value);
+  document.getElementById('pp-zoom-val').textContent=zoom+'%';
+  var img=document.getElementById('pp-crop-img');
+  img.style.width=zoom+'%'; img.style.height=zoom+'%';
+  img.style.left='calc(50% - '+zoom/2+'% + '+tx+'px)';
+  img.style.top='calc(50% - '+zoom/2+'% + '+ty+'px)';
+}
+function cancelPPCrop(){
+  document.getElementById('pp-crop').classList.remove('show');
+  document.getElementById('pp-input').value='';
+  document.querySelector('.pp-info').style.display='';
+}
+function confirmPPCrop(){
+  var vp=document.getElementById('pp-crop-vp');
+  var img=document.getElementById('pp-crop-img');
+  var vw=vp.offsetWidth, vh=vp.offsetHeight;
+  var c=document.createElement('canvas'); c.width=vw; c.height=vh;
+  var ctx=c.getContext('2d');
+  ctx.beginPath(); ctx.arc(vw/2,vh/2,vw/2,0,Math.PI*2); ctx.clip();
+  var ir=img.getBoundingClientRect(), vr=vp.getBoundingClientRect();
+  var dx=ir.left-vr.left, dy=ir.top-vr.top;
+  var scale=ir.width/img.naturalWidth;
+  ctx.drawImage(img,-dx/scale,-dy/scale,img.naturalWidth,img.naturalHeight,0,0,img.naturalWidth*scale,img.naturalHeight*scale);
+  profileB64=c.toDataURL('image/jpeg',0.92);
+  document.getElementById('pp-crop').classList.remove('show');
+  document.querySelector('.pp-info').style.display='';
+  showPPImg(profileB64);
+  sched();
 }
 function showPPImg(src){
   var img=document.getElementById('pp-img');var icon=document.getElementById('pp-icon');
