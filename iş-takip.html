@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#080d1a">
+<meta name="apple-mobile-web-app-title" content="İş Takip">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="İş Takip">
+<meta name="description" content="Emlak danışmanı iş takip paneli — Arama, görüşme, ilan, teklif ve satış verilerini günlük takip edin. Ücretsiz, PWA.">
+<meta name="keywords" content="emlak iş takip, gayrimenkul performans takip, emlak danışmanı panel">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://emlakkit.com/is-takip-sistemi.html">
+<title>İş Takip Paneli | EmlakKit</title>
+<link id="pwa-manifest" rel="manifest">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#080d1a;--bg2:#0d1526;--bg3:#0f172a;
+  --border:#1e293b;--border2:#334155;
+  --text:#e2e8f0;--muted:#94a3b8;--dim:#475569;--faint:#334155;
+  --red:#e11d48;--red2:#9f1239;
+}
+html{height:100%;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+input[type=number]{-moz-appearance:textfield;-webkit-appearance:none;appearance:none}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+input,select{font-size:16px !important}
+input[type=date]{color-scheme:dark}
+input[type=date]::-webkit-calendar-picker-indicator{filter:invert(0.5)}
+
+/* HEADER */
+header{
+  position:sticky;top:0;z-index:200;
+  background:rgba(8,13,26,0.97);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  height:60px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 16px;
+}
+.logo{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.logo-icon{width:36px;height:36px;min-width:36px;background:linear-gradient(135deg,var(--red),var(--red2));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.logo-text{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;letter-spacing:-.3px}
+.logo-sub{font-size:10px;color:var(--dim);margin-top:1px}
+.desktop-nav{display:none;gap:3px}
+.nav-btn{padding:6px 11px;border-radius:8px;border:none;cursor:pointer;font-size:12px;font-weight:500;background:transparent;color:var(--dim);transition:all .15s;font-family:'DM Sans',sans-serif;white-space:nowrap;min-height:36px}
+.nav-btn.active{background:var(--red);color:#fff}
+
+/* BOTTOM NAV */
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:200;
+  background:rgba(8,13,26,0.97);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-top:1px solid var(--border);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+.bottom-nav-inner{display:flex;justify-content:space-around;align-items:center;height:56px}
+.bnav-btn{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:2px;flex:1;height:100%;border:none;background:transparent;
+  color:var(--dim);cursor:pointer;padding:6px 2px;
+  font-family:'DM Sans',sans-serif;
+}
+.bnav-btn.active{color:var(--red)}
+.bnav-icon{font-size:20px;line-height:1}
+.bnav-label{font-size:10px;font-weight:500}
+
+/* MAIN */
+main{max-width:1200px;margin:0 auto;padding:16px 14px;padding-bottom:calc(70px + env(safe-area-inset-bottom,0px))}
+h1{font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:700;letter-spacing:-.4px;margin-bottom:4px}
+h1 span{color:var(--red)}
+.subtitle{color:var(--dim);font-size:12px;margin-bottom:18px}
+
+.tab{display:none}.tab.active{display:block}
+
+/* KPI */
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.kpi-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:13px;position:relative;overflow:hidden}
+.kpi-bar-bg{position:absolute;top:0;left:0;right:0;height:3px;background:var(--faint)}
+.kpi-bar{position:absolute;top:0;left:0;height:3px;border-radius:2px;transition:width .6s}
+.kpi-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:7px}
+.kpi-icon{font-size:19px}
+.kpi-pct{font-size:10px;font-weight:600;padding:2px 6px;border-radius:20px}
+.kpi-pct.good{color:#22c55e;background:#052e16}
+.kpi-pct.mid{color:#f59e0b;background:#451a03}
+.kpi-pct.low{color:var(--dim);background:var(--bg3)}
+.kpi-val{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;margin-bottom:2px}
+.kpi-label{font-size:11px;color:var(--muted);margin-bottom:3px;line-height:1.3}
+.kpi-goal{font-size:10px;color:var(--dim)}
+
+/* CHARTS */
+.charts-row{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:12px}
+.chart-box{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:14px}
+.chart-title{font-size:12px;font-weight:600;color:var(--muted);margin-bottom:12px;font-family:'Space Grotesk',sans-serif}
+
+/* DATE ROW */
+.date-row{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px}
+.date-input{background:var(--bg2);border:1px solid var(--border2);border-radius:10px;color:var(--text);padding:10px 12px;font-size:16px !important;outline:none;min-height:44px}
+
+/* DAILY FORM */
+.form-grid{display:grid;grid-template-columns:1fr;gap:11px;margin-bottom:16px}
+.form-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:14px 14px 18px;position:relative}
+.form-card-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.form-icon-wrap{width:40px;height:40px;min-width:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px}
+.form-label{font-size:14px;font-weight:600;color:#cbd5e1}
+.form-goal{font-size:11px;color:var(--dim);margin-top:2px}
+.form-controls{display:flex;align-items:center;gap:8px;width:100%}
+.btn-pm{
+  width:48px;height:48px;min-width:48px;
+  border-radius:10px;border:1px solid var(--border2);background:var(--bg3);
+  color:var(--muted);cursor:pointer;font-size:26px;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:400;line-height:1;
+  -webkit-user-select:none;user-select:none;
+}
+.btn-pm:active{background:var(--border2);color:var(--text)}
+.form-input{
+  flex:1;min-width:0;text-align:center;
+  background:var(--bg3);border-radius:10px;
+  font-size:24px !important;font-weight:700;
+  padding:10px 2px;outline:none;
+  font-family:'Space Grotesk',sans-serif;
+  border:1.5px solid var(--border2);
+  color:inherit;min-height:48px;
+  -webkit-appearance:none;
+}
+.form-pct{font-size:12px;color:var(--dim);min-width:34px;text-align:right;font-weight:600}
+.form-progress{position:absolute;bottom:0;left:0;right:0;height:4px;background:var(--faint);border-radius:0 0 14px 14px;overflow:hidden}
+.form-progress-fill{height:100%;transition:width .3s}
+
+/* SAVE BTN */
+.save-btn{
+  background:linear-gradient(135deg,var(--red),var(--red2));
+  color:#fff;border:none;border-radius:14px;
+  padding:16px;font-size:16px;font-weight:600;
+  cursor:pointer;width:100%;
+  font-family:'Space Grotesk',sans-serif;
+  box-shadow:0 4px 20px rgba(225,29,72,.35);
+  min-height:54px;
+}
+.save-btn:active{opacity:.85}
+.save-btn.saved{background:linear-gradient(135deg,#22c55e,#16a34a)}
+
+/* WEEKLY */
+.week-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:18px;border-radius:14px;border:1px solid var(--border)}
+.week-table{background:var(--bg2);min-width:540px;border-radius:14px;overflow:hidden}
+.week-row{display:grid;grid-template-columns:120px repeat(7,1fr)}
+.week-head-cell{padding:9px 5px;text-align:center;border-left:1px solid var(--border)}
+.week-head-cell:first-child{border-left:none;padding:9px 10px;text-align:left}
+.week-row-border{border-bottom:1px solid rgba(30,41,59,.7)}
+.week-cell{padding:8px 5px;text-align:center;border-left:1px solid rgba(15,23,42,.8)}
+.week-cell:first-child{padding:8px 10px;display:flex;align-items:center;gap:5px;font-size:10px;color:var(--muted);border-left:none;white-space:nowrap;overflow:hidden}
+.week-val{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700}
+.week-day-today{background:rgba(225,29,72,.05)}
+
+/* PROGRESS */
+.progress-list{display:flex;flex-direction:column;gap:10px}
+.progress-row{display:flex;align-items:center;gap:8px}
+.progress-icon{font-size:14px;width:20px;text-align:center;flex-shrink:0}
+.progress-label{width:130px;font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex-shrink:0}
+.progress-track{flex:1;height:6px;background:var(--border);border-radius:4px;overflow:hidden;min-width:30px}
+.progress-fill{height:100%;border-radius:4px;transition:width .5s}
+.progress-nums{min-width:70px;text-align:right;font-size:10px;font-weight:600;font-family:'Space Grotesk',sans-serif;flex-shrink:0}
+
+/* MONTHLY */
+.month-kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+.month-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:13px;text-align:center}
+.month-icon{font-size:20px;margin-bottom:6px}
+.month-val{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;margin-bottom:2px}
+.month-label{font-size:10px;color:var(--dim);margin-bottom:7px;line-height:1.3}
+.month-bar{height:4px;background:var(--border);border-radius:3px;overflow:hidden}
+.month-bar-fill{height:100%;border-radius:3px}
+.month-pct{font-size:10px;margin-top:4px;font-weight:600}
+.month-sel{display:flex;gap:8px;flex-wrap:wrap}
+.month-sel select{background:var(--bg2);border:1px solid var(--border2);border-radius:8px;color:var(--text);padding:10px 10px;font-size:16px !important;outline:none;min-height:44px}
+
+/* GOALS */
+.goals-grid{display:grid;grid-template-columns:1fr;gap:13px;margin-bottom:20px}
+.goal-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:16px}
+.goal-card-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.goal-icon-wrap{width:42px;height:42px;min-width:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:21px}
+.goal-input{
+  width:100%;background:var(--bg3);border:1px solid var(--border2);
+  border-radius:10px;font-size:24px !important;font-weight:700;
+  padding:12px 14px;outline:none;
+  font-family:'Space Grotesk',sans-serif;margin-bottom:12px;
+  color:inherit;min-height:52px;-webkit-appearance:none;
+}
+.goal-periods{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px}
+.goal-period{background:var(--bg3);border-radius:8px;padding:8px 6px;text-align:center}
+.goal-period-label{font-size:10px;color:var(--dim);margin-bottom:3px}
+.goal-period-val{font-size:12px;font-weight:700;color:var(--faint);font-family:'Space Grotesk',sans-serif}
+
+/* NAV ARROWS */
+.nav-arr{background:var(--bg2);border:1px solid var(--border2);color:var(--muted);border-radius:8px;padding:10px 12px;cursor:pointer;font-size:12px;font-weight:500;font-family:'DM Sans',sans-serif;min-height:44px}
+.nav-arr.accent{color:var(--red);border-color:var(--red)}
+
+/* TOAST */
+.toast{
+  position:fixed;bottom:calc(66px + env(safe-area-inset-bottom,0px));right:14px;
+  background:#22c55e;color:#fff;padding:11px 18px;
+  border-radius:12px;font-weight:600;font-size:13px;
+  box-shadow:0 6px 20px rgba(0,0,0,.4);
+  transition:all .3s;opacity:0;transform:translateY(10px);
+  pointer-events:none;z-index:999;font-family:'DM Sans',sans-serif;
+  max-width:calc(100vw - 28px);
+}
+.toast.show{opacity:1;transform:translateY(0)}
+
+/* FOOTER */
+footer{text-align:center;padding:20px 14px;color:var(--dim);font-size:12px;border-top:1px solid var(--border);margin-top:24px}
+footer a{color:var(--red);text-decoration:none;font-weight:600}
+
+/* ─── TABLET 600px+ ─── */
+@media(min-width:600px){
+  main{padding:22px 20px;padding-bottom:calc(70px + env(safe-area-inset-bottom,0px))}
+  h1{font-size:22px}
+  .kpi-grid{grid-template-columns:repeat(3,1fr)}
+  .form-grid{grid-template-columns:repeat(2,1fr)}
+  .goals-grid{grid-template-columns:repeat(2,1fr)}
+  .month-kpi-grid{grid-template-columns:repeat(3,1fr)}
+  .charts-row{grid-template-columns:1fr 1fr}
+}
+
+/* ─── DESKTOP 920px+ ─── */
+@media(min-width:920px){
+  header{height:64px;padding:0 28px}
+  .logo-text{font-size:15px}
+  .logo-sub{font-size:11px}
+  .desktop-nav{display:flex}
+  .bottom-nav{display:none}
+  main{padding:28px 28px 60px}
+  h1{font-size:24px}
+  .kpi-grid{grid-template-columns:repeat(5,1fr)}
+  .form-grid{grid-template-columns:repeat(3,1fr)}
+  .goals-grid{grid-template-columns:repeat(3,1fr)}
+  .month-kpi-grid{grid-template-columns:repeat(5,1fr)}
+  .toast{bottom:28px}
+}
+</style>
+</head>
+<body>
+
+
+<!-- PWA INSTALL BANNER -->
+<div id="install-banner" style="display:none;position:fixed;bottom:70px;left:12px;right:12px;z-index:500;background:#0f172a;border:1px solid #e11d48;border-radius:14px;padding:14px 16px;align-items:flex-start;gap:12px;box-shadow:0 8px 30px rgba(0,0,0,.6)">
+  <div style="flex:1">
+    <div style="font-size:13px;font-weight:700;color:#e2e8f0;margin-bottom:6px;font-family:'Space Grotesk',sans-serif">📲 Uygulamayı Yükle</div>
+    <div id="install-msg" style="font-size:12px;color:#94a3b8;line-height:1.6"></div>
+    <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+      <button id="install-btn" onclick="installApp()" style="background:#e11d48;color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">Uygulamayı Yükle</button>
+      <button onclick="dismissInstall()" style="background:#1e293b;color:#94a3b8;border:1px solid #334155;border-radius:8px;padding:8px 14px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif">Daha Sonra</button>
+    </div>
+  </div>
+  <button onclick="dismissInstall()" style="background:transparent;border:none;color:#475569;font-size:20px;cursor:pointer;padding:0;line-height:1;flex-shrink:0">×</button>
+</div>
+
+<div class="toast" id="toast">✅ Kaydedildi!</div>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">🏡</div>
+    <div>
+      <div class="logo-text">İş Takip Paneli</div>
+      <div class="logo-sub"><a href="index.html" style="color:var(--dim);text-decoration:none;">← EmlakKit</a></div>
+    </div>
+  </div>
+  <nav class="desktop-nav">
+    <button class="nav-btn active" onclick="showTab('dashboard',this)">📊 Dashboard</button>
+    <button class="nav-btn" onclick="showTab('daily',this)">📝 Günlük</button>
+    <button class="nav-btn" onclick="showTab('weekly',this)">📅 Haftalık</button>
+    <button class="nav-btn" onclick="showTab('monthly',this)">📆 Aylık</button>
+    <button class="nav-btn" onclick="showTab('goals',this)">🎯 Hedefler</button>
+  </nav>
+</header>
+
+<div class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <button class="bnav-btn active" data-tab="dashboard" onclick="showTab('dashboard',this)">
+      <span class="bnav-icon">📊</span><span class="bnav-label">Dashboard</span>
+    </button>
+    <button class="bnav-btn" data-tab="daily" onclick="showTab('daily',this)">
+      <span class="bnav-icon">📝</span><span class="bnav-label">Günlük</span>
+    </button>
+    <button class="bnav-btn" data-tab="weekly" onclick="showTab('weekly',this)">
+      <span class="bnav-icon">📅</span><span class="bnav-label">Haftalık</span>
+    </button>
+    <button class="bnav-btn" data-tab="monthly" onclick="showTab('monthly',this)">
+      <span class="bnav-icon">📆</span><span class="bnav-label">Aylık</span>
+    </button>
+    <button class="bnav-btn" data-tab="goals" onclick="showTab('goals',this)">
+      <span class="bnav-icon">🎯</span><span class="bnav-label">Hedefler</span>
+    </button>
+  </div>
+</div>
+
+<div id="info-banner" style="background:#1e1a0e;border-bottom:1px solid #854d0e;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12px;color:#fbbf24;line-height:1.4">
+  <span>⚠️ <strong>Veri Uyarısı:</strong> Veriler yalnızca bu tarayıcıya kaydedilir. Farklı cihaz veya tarayıcıda açarsan veriler görünmez.</span>
+  <button onclick="document.getElementById('info-banner').style.display='none'" style="background:transparent;border:none;color:#fbbf24;font-size:18px;cursor:pointer;flex-shrink:0;line-height:1;padding:0 4px">×</button>
+</div>
+
+<main>
+
+<!-- DASHBOARD -->
+<div class="tab active" id="tab-dashboard">
+  <h1>Bugün — <span id="today-label"></span></h1>
+  <p class="subtitle">Günlük hedeflerine genel bakış</p>
+
+  <!-- NASIL KULLANILIR -->
+  <div id="howto-box" style="background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--red);border-radius:14px;padding:20px;margin-bottom:24px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px">
+        📋 Nasıl Kullanılır?
+      </div>
+      <button onclick="toggleHowto()" id="howto-toggle" style="background:var(--bg3);border:1px solid var(--border2);color:var(--muted);border-radius:8px;padding:5px 12px;cursor:pointer;font-size:12px;font-family:'DM Sans',sans-serif">Gizle</button>
+    </div>
+    <div id="howto-content">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px">
+
+        <div style="background:var(--bg3);border-radius:10px;padding:14px">
+          <div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:8px;display:flex;align-items:center;gap:7px">
+            <span style="background:var(--red);color:#fff;border-radius:50%;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0">1</span>
+            Hedefleri Belirle
+          </div>
+          <p style="font-size:12px;color:var(--muted);line-height:1.7">
+            Sistemi kullanmaya başlamadan önce <strong style="color:var(--text)">🎯 Hedefler</strong> sekmesine giderek günlük aktivite hedeflerini gir. Her alan için gerçekçi ve ulaşılabilir günlük hedefler belirle.<br><br>
+            <span style="color:#f59e0b">⚠️ Yalnızca <strong>Ciro</strong> alanına günlük değil <strong>yıllık</strong> ciro hedefinizi girin.</span> Sistem bu rakamı otomatik olarak günlük, haftalık ve aylık hedeflere böler.
+          </p>
+        </div>
+
+        <div style="background:var(--bg3);border-radius:10px;padding:14px">
+          <div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:8px;display:flex;align-items:center;gap:7px">
+            <span style="background:var(--red);color:#fff;border-radius:50%;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0">2</span>
+            Günlük Takip Yap
+          </div>
+          <p style="font-size:12px;color:var(--muted);line-height:1.7">
+            Her gün sonunda <strong style="color:var(--text)">📝 Günlük</strong> sekmesine girerek o gün gerçekleştirdiğin aktiviteleri kaydet. Tarihin doğru seçili olduğunu kontrol et.<br><br>
+            FSBO aramaları, etki çevresi iletişimi, esnaf &amp; meslektaş ziyareti, randevu ve portföy yetkileri dahil tüm alanları eksiksiz doldur. <strong style="color:var(--text)">Kaydet butonuna basmayı unutma.</strong>
+          </p>
+        </div>
+
+        <div style="background:var(--bg3);border-radius:10px;padding:14px">
+          <div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:8px;display:flex;align-items:center;gap:7px">
+            <span style="background:var(--red);color:#fff;border-radius:50%;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0">3</span>
+            Sonuçları Takip Et
+          </div>
+          <p style="font-size:12px;color:var(--muted);line-height:1.7">
+            Günlük veriler girildiğinde <strong style="color:var(--text)">📅 Haftalık</strong> ve <strong style="color:var(--text)">📆 Aylık</strong> raporlar <strong style="color:#22c55e">otomatik olarak güncellenir.</strong><br><br>
+            Dashboard'dan bugünkü performansını anlık takip et. Her aktivite için hedefe göre yüzdelik ilerleme ayrı ayrı gösterilir.
+          </p>
+        </div>
+
+        <div style="background:var(--bg3);border-radius:10px;padding:14px">
+          <div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:8px;display:flex;align-items:center;gap:7px">
+            <span style="background:var(--red);color:#fff;border-radius:50%;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0">💡</span>
+            Profesyonel İpucu
+          </div>
+          <p style="font-size:12px;color:var(--muted);line-height:1.7">
+            Başarılı bir emlak danışmanı aktivitelerini <strong style="color:var(--text)">tutarlı ve disiplinli</strong> şekilde takip eder. Günlük küçük adımlar, aylık büyük sonuçlar doğurur.<br><br>
+            Bu sistem; <em style="color:var(--text)">soğuk aramadan sıcak satışa</em> uzanan sürecin her adımını ölçülebilir hale getirir.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="kpi-grid" id="kpi-grid"></div>
+  <div class="charts-row">
+    <div class="chart-box">
+      <div class="chart-title">📞 Son 30 Gün — FSBO & Randevu</div>
+      <canvas id="chart-line"></canvas>
+    </div>
+    <div class="chart-box">
+      <div class="chart-title">🏠 Aylık Portföy</div>
+      <canvas id="chart-portfolio"></canvas>
+    </div>
+  </div>
+  <div class="chart-box">
+    <div class="chart-title">📱 Son 4 Hafta — Sosyal, Blog, Etki Çevresi</div>
+    <canvas id="chart-social"></canvas>
+  </div>
+</div>
+
+<!-- GÜNLÜK -->
+<div class="tab" id="tab-daily">
+  <div class="date-row">
+    <div>
+      <h1>📝 Günlük Takip</h1>
+      <p class="subtitle">Aktivitelerini gir ve kaydet</p>
+    </div>
+    <input type="date" class="date-input" id="daily-date" onchange="renderDailyForm()">
+  </div>
+  <div class="form-grid" id="daily-form"></div>
+  <button class="save-btn" id="save-btn" onclick="saveDaily()">💾 Kaydet</button>
+</div>
+
+<!-- HAFTALIK -->
+<div class="tab" id="tab-weekly">
+  <div class="date-row">
+    <div>
+      <h1>📅 Haftalık Takip</h1>
+      <p class="subtitle" id="week-subtitle"></p>
+    </div>
+    <div style="display:flex;gap:7px;align-items:center;flex-wrap:wrap">
+      <button class="nav-arr" onclick="changeWeek(1)">← Önceki</button>
+      <button class="nav-arr accent" id="btn-this-week" onclick="changeWeek(0)" style="display:none">Bu Hafta</button>
+      <button class="nav-arr" onclick="changeWeek(-1)">Sonraki →</button>
+    </div>
+  </div>
+  <div class="week-scroll">
+    <div class="week-table" id="week-table"></div>
+  </div>
+  <div class="chart-box">
+    <div class="chart-title">Haftalık Toplam vs Hedef</div>
+    <div class="progress-list" id="week-progress"></div>
+  </div>
+</div>
+
+<!-- AYLIK -->
+<div class="tab" id="tab-monthly">
+  <div class="date-row">
+    <div>
+      <h1>📆 Aylık Takip</h1>
+      <p class="subtitle" id="month-subtitle"></p>
+    </div>
+    <div class="month-sel">
+      <select id="month-sel" onchange="renderMonthly()">
+        <option value="0">Ocak</option><option value="1">Şubat</option><option value="2">Mart</option>
+        <option value="3">Nisan</option><option value="4">Mayıs</option><option value="5">Haziran</option>
+        <option value="6">Temmuz</option><option value="7">Ağustos</option><option value="8">Eylül</option>
+        <option value="9">Ekim</option><option value="10">Kasım</option><option value="11">Aralık</option>
+      </select>
+      <select id="year-sel" onchange="renderMonthly()"></select>
+    </div>
+  </div>
+  <div class="month-kpi-grid" id="month-kpi"></div>
+  <div class="chart-box">
+    <div class="chart-title">Gerçekleşen vs Hedef</div>
+    <canvas id="chart-monthly"></canvas>
+  </div>
+</div>
+
+<!-- HEDEFLER -->
+<div class="tab" id="tab-goals">
+  <h1>🎯 Günlük Hedefler</h1>
+  <p class="subtitle">Günlük hedefleri gir — haftalık, aylık, yıllık otomatik hesaplanır</p>
+  <div class="goals-grid" id="goals-grid"></div>
+  <button class="save-btn" id="goals-save-btn" onclick="saveGoals()">💾 Hedefleri Kaydet</button>
+</div>
+
+</main>
+
+<footer style="background:var(--bg2);border-top:2px solid var(--red);margin-top:32px;padding:28px 20px;text-align:center">
+  <div style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:var(--text);margin-bottom:10px">
+    © 2026 EmlakKit — Armağan Kocabaş
+  </div>
+  <div style="display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:18px;font-size:14px;font-weight:600">
+    <a href="https://www.emlakkit.com" target="_blank"
+      style="color:var(--red);text-decoration:none;display:flex;align-items:center;gap:6px">
+      🌐 www.emlakkit.com
+    </a>
+    <span style="color:var(--border2)">·</span>
+    <a href="mailto:armagankocabas@gmail.com"
+      style="color:var(--red);text-decoration:none;display:flex;align-items:center;gap:6px">
+      ✉️ armagankocabas@gmail.com
+    </a>
+  </div>
+</footer>
+
+<script>
+const METRICS=[
+  {id:"fsbo",      label:"FSBO Aramaları",          icon:"📞",color:"#ef4444"},
+  {id:"etki",      label:"Etki Çevresi İletişimi",  icon:"💬",color:"#f97316"},
+  {id:"esnaf",     label:"Esnaf Ziyareti",           icon:"🏪",color:"#eab308"},
+  {id:"meslektas", label:"Meslektaş Ziyareti",       icon:"🤝",color:"#22c55e"},
+  {id:"blog",      label:"Blog Yazıları",            icon:"✍️",color:"#06b6d4"},
+  {id:"sosyal",    label:"Sosyal Medya İçeriği",     icon:"📱",color:"#8b5cf6"},
+  {id:"randevu",   label:"Alınan Randevu",           icon:"📅",color:"#ec4899"},
+  {id:"satilik",   label:"Satılık Portföy Yetki",    icon:"🏠",color:"#10b981"},
+  {id:"kiralik",   label:"Kiralık Portföy Yetki",   icon:"🔑",color:"#3b82f6"},
+  {id:"ciro",      label:"Ciro (₺)",                 icon:"💰",color:"#f59e0b",isCurrency:true},
+];
+const MONTHS_TR=["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
+const DAYS_TR=["Pzt","Sal","Çar","Per","Cum","Cmt","Paz"];
+const DEF={fsbo:10,etki:20,esnaf:2,meslektas:1,blog:0,sosyal:1,randevu:2,satilik:1,kiralik:1,ciro:50000};
+
+function loadGoals(){try{return JSON.parse(localStorage.getItem('emlak_goals'))||DEF;}catch{return DEF;}}
+function loadEntries(){try{return JSON.parse(localStorage.getItem('emlak_entries'))||{};}catch{return{};}}
+function saveEntries(e){localStorage.setItem('emlak_entries',JSON.stringify(e));}
+function saveGoalsData(g){localStorage.setItem('emlak_goals',JSON.stringify(g));}
+
+let goals=loadGoals(),entries=loadEntries(),weekOffset=0;
+let chartLine,chartPortfolio,chartSocial,chartMonthly;
+
+function todayStr(){return new Date().toISOString().split('T')[0];}
+function pct(v,g){return g>0?Math.round(v/g*100):0;}
+function currency(n){return n>=1000000?(n/1000000).toFixed(1)+'M':n>=1000?(n/1000).toFixed(0)+'K':String(n);}
+function fmtDate(d){return new Date(d+'T12:00:00').toLocaleDateString('tr-TR',{day:'2-digit',month:'short'});}
+function addDays(s,n){const d=new Date(s+'T12:00:00');d.setDate(d.getDate()+n);return d.toISOString().split('T')[0];}
+function getMon(s){const d=new Date(s+'T12:00:00'),w=d.getDay();d.setDate(d.getDate()+(w===0?-6:1-w));return d.toISOString().split('T')[0];}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+
+function showTab(name,btn){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.nav-btn,.bnav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  document.querySelectorAll('.nav-btn,.bnav-btn').forEach(b=>{if(b===btn||b.dataset.tab===name)b.classList.add('active');});
+  if(name==='dashboard')renderDashboard();
+  if(name==='daily')renderDailyForm();
+  if(name==='weekly')renderWeekly();
+  if(name==='monthly')renderMonthly();
+  if(name==='goals')renderGoals();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// DASHBOARD
+function renderDashboard(){
+  document.getElementById('today-label').textContent=new Date().toLocaleDateString('tr-TR',{weekday:'long',day:'numeric',month:'long'});
+  const data=entries[todayStr()]||{};
+  const grid=document.getElementById('kpi-grid');
+  grid.innerHTML='';
+  METRICS.forEach(({id,label,icon,color,isCurrency})=>{
+    const val=data[id]||0,g=goals[id]||0,p=pct(val,g);
+    const cls=p>=100?'good':p>=50?'mid':'low';
+    grid.innerHTML+=`<div class="kpi-card">
+      <div class="kpi-bar-bg"></div><div class="kpi-bar" style="width:${Math.min(p,100)}%;background:${color}"></div>
+      <div class="kpi-header"><span class="kpi-icon">${icon}</span><span class="kpi-pct ${cls}">${p}%</span></div>
+      <div class="kpi-val" style="color:${color}">${isCurrency?'₺'+currency(val):val}</div>
+      <div class="kpi-label">${label}</div>
+      <div class="kpi-goal">Hedef: ${isCurrency?'₺'+currency(g):g}</div>
+    </div>`;
+  });
+  renderCharts();
+}
+
+function cOpts(){
+  return{
+    responsive:true,maintainAspectRatio:true,
+    plugins:{legend:{labels:{color:'#94a3b8',font:{size:10},boxWidth:10,padding:10}}},
+    scales:{
+      x:{ticks:{color:'#475569',font:{size:9},maxRotation:0},grid:{color:'rgba(30,41,59,.5)'},border:{display:false}},
+      y:{ticks:{color:'#475569',font:{size:9}},grid:{color:'rgba(30,41,59,.5)'},border:{display:false},beginAtZero:true}
+    }
+  };
+}
+
+function renderCharts(){
+  const lbl=[],f30=[],r30=[];
+  for(let i=29;i>=0;i--){const d=addDays(todayStr(),-i);lbl.push(i%6===0?fmtDate(d):'');f30.push(entries[d]?.fsbo||0);r30.push(entries[d]?.randevu||0);}
+  if(chartLine)chartLine.destroy();
+  chartLine=new Chart(document.getElementById('chart-line').getContext('2d'),{type:'line',data:{labels:lbl,datasets:[
+    {label:'FSBO',data:f30,borderColor:'#ef4444',backgroundColor:'rgba(239,68,68,.1)',borderWidth:2,pointRadius:0,tension:.3,fill:true},
+    {label:'Randevu',data:r30,borderColor:'#ec4899',backgroundColor:'rgba(236,72,153,.1)',borderWidth:2,pointRadius:0,tension:.3,fill:true}
+  ]},options:cOpts()});
+
+  const sa=[],ka=[];
+  MONTHS_TR.forEach((_,mi)=>{let s=0,k=0;Object.entries(entries).forEach(([d,v])=>{if(new Date(d+'T12:00:00').getMonth()===mi){s+=v.satilik||0;k+=v.kiralik||0;}});sa.push(s);ka.push(k);});
+  if(chartPortfolio)chartPortfolio.destroy();
+  chartPortfolio=new Chart(document.getElementById('chart-portfolio').getContext('2d'),{type:'bar',data:{labels:MONTHS_TR.map(m=>m.slice(0,3)),datasets:[
+    {label:'Satılık',data:sa,backgroundColor:'#10b981',borderRadius:3},
+    {label:'Kiralık',data:ka,backgroundColor:'#3b82f6',borderRadius:3}
+  ]},options:cOpts()});
+
+  const wl=[],ws=[],wb=[],we=[];
+  for(let w=3;w>=0;w--){let s=0,b=0,e=0;for(let d=0;d<7;d++){const dt=addDays(todayStr(),-(w*7+d));s+=entries[dt]?.sosyal||0;b+=entries[dt]?.blog||0;e+=entries[dt]?.etki||0;}
+    wl.push(w===0?'Bu Hafta':w+'H Önce');ws.push(s);wb.push(b);we.push(e);}
+  if(chartSocial)chartSocial.destroy();
+  chartSocial=new Chart(document.getElementById('chart-social').getContext('2d'),{type:'bar',data:{labels:wl,datasets:[
+    {label:'Sosyal',data:ws,backgroundColor:'#8b5cf6',borderRadius:3},
+    {label:'Blog',data:wb,backgroundColor:'#06b6d4',borderRadius:3},
+    {label:'Etki',data:we,backgroundColor:'#f97316',borderRadius:3}
+  ]},options:cOpts()});
+}
+
+// DAILY
+function renderDailyForm(){
+  const el=document.getElementById('daily-date');
+  if(!el.value)el.value=todayStr();
+  const date=el.value,data=entries[date]||{};
+  document.getElementById('daily-form').innerHTML='';
+  METRICS.forEach(({id,label,icon,color,isCurrency})=>{
+    const val=data[id]||0,g=goals[id]||0,p=pct(val,g);
+    const gd=isCurrency?'₺'+g.toLocaleString('tr-TR'):g;
+    document.getElementById('daily-form').innerHTML+=`<div class="form-card">
+      <div class="form-card-header">
+        <div class="form-icon-wrap" style="background:${color}1a">${icon}</div>
+        <div><div class="form-label">${label}</div><div class="form-goal">Hedef: ${gd}</div></div>
+      </div>
+      <div class="form-controls">
+        <button class="btn-pm" ontouchstart="changeVal('${id}',-1)" onclick="changeVal('${id}',-1)" type="button">−</button>
+        <input class="form-input" id="inp-${id}" type="number" min="0" value="${val}"
+          style="color:${color};border-color:${p>=100?color:'var(--border2)'}"
+          oninput="onIC('${id}','${color}')">
+        <button class="btn-pm" ontouchstart="changeVal('${id}',1)" onclick="changeVal('${id}',1)" type="button">+</button>
+        <span class="form-pct" id="pct-${id}" style="color:${p>=100?'#22c55e':p>=50?'#f59e0b':'var(--dim)'}">${p}%</span>
+      </div>
+      <div class="form-progress"><div class="form-progress-fill" id="prog-${id}" style="width:${Math.min(p,100)}%;background:${color}"></div></div>
+    </div>`;
+  });
+}
+
+function changeVal(id,delta){
+  const inp=document.getElementById('inp-'+id);
+  if(!inp)return;
+  inp.value=Math.max(0,(parseInt(inp.value)||0)+delta);
+  const m=METRICS.find(x=>x.id===id);
+  if(m)onIC(id,m.color);
+}
+
+function onIC(id,color){
+  const val=parseInt(document.getElementById('inp-'+id)?.value)||0;
+  const g=goals[id]||0,p=pct(val,g);
+  const pe=document.getElementById('pct-'+id);
+  const pr=document.getElementById('prog-'+id);
+  const ip=document.getElementById('inp-'+id);
+  if(pe){pe.textContent=p+'%';pe.style.color=p>=100?'#22c55e':p>=50?'#f59e0b':'var(--dim)';}
+  if(pr)pr.style.width=Math.min(p,100)+'%';
+  if(ip&&color)ip.style.borderColor=p>=100?color:'var(--border2)';
+}
+
+function saveDaily(){
+  const date=document.getElementById('daily-date').value||todayStr();
+  const data={};
+  METRICS.forEach(({id})=>{data[id]=parseInt(document.getElementById('inp-'+id)?.value)||0;});
+  entries[date]=data;saveEntries(entries);
+  toast('✅ '+fmtDate(date)+' kaydedildi!');
+  const btn=document.getElementById('save-btn');
+  btn.classList.add('saved');btn.textContent='✅ Kaydedildi!';
+  setTimeout(()=>{btn.classList.remove('saved');btn.textContent='💾 Kaydet';},2000);
+}
+
+// WEEKLY
+function changeWeek(dir){if(dir===0)weekOffset=0;else weekOffset+=dir;renderWeekly();}
+
+function renderWeekly(){
+  const base=addDays(todayStr(),-weekOffset*7);
+  const mon=getMon(base);
+  const days=Array.from({length:7},(_,i)=>addDays(mon,i));
+  const td=todayStr();
+  document.getElementById('week-subtitle').textContent=fmtDate(days[0])+' — '+new Date(days[6]+'T12:00:00').toLocaleDateString('tr-TR',{day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('btn-this-week').style.display=weekOffset===0?'none':'';
+
+  let html=`<div class="week-row week-row-border" style="background:var(--bg3)">
+    <div class="week-head-cell" style="font-size:10px;color:var(--dim);font-weight:600">AKTİVİTE</div>
+    ${days.map(d=>`<div class="week-head-cell ${d===td?'week-day-today':''}">
+      <div style="font-size:9px;color:var(--dim)">${DAYS_TR[(new Date(d+'T12:00:00').getDay()+6)%7]}</div>
+      <div style="font-size:12px;font-weight:700;color:${d===td?'var(--red)':'var(--muted)'}">${new Date(d+'T12:00:00').getDate()}</div>
+    </div>`).join('')}
+  </div>`;
+  METRICS.forEach(({id,label,icon,color})=>{
+    html+=`<div class="week-row week-row-border">
+      <div class="week-cell">${icon} <span>${label}</span></div>
+      ${days.map(d=>{const val=entries[d]?.[id]||0,p=pct(val,goals[id]||0);
+        return `<div class="week-cell ${d===td?'week-day-today':''}">
+          <div class="week-val" style="color:${val===0?'var(--faint)':p>=100?'#22c55e':color}">${val||'—'}</div>
+          ${val>0?`<div style="font-size:8px;color:var(--dim)">${p}%</div>`:''}
+        </div>`;}).join('')}
+    </div>`;
+  });
+  document.getElementById('week-table').innerHTML=html;
+
+  const tot={},wg={};
+  METRICS.forEach(({id})=>{tot[id]=0;wg[id]=(goals[id]||0)*7;});
+  days.forEach(d=>{if(entries[d])METRICS.forEach(({id})=>{tot[id]+=(entries[d][id]||0);});});
+
+  document.getElementById('week-progress').innerHTML='';
+  METRICS.forEach(({id,label,icon,color,isCurrency})=>{
+    const val=tot[id],g=wg[id],p=Math.min(pct(val,g),100);
+    document.getElementById('week-progress').innerHTML+=`<div class="progress-row">
+      <span class="progress-icon">${icon}</span>
+      <span class="progress-label">${label}</span>
+      <div class="progress-track"><div class="progress-fill" style="width:${p}%;background:${color}"></div></div>
+      <span class="progress-nums" style="color:${color}">${isCurrency?'₺'+currency(val):val}<span style="color:var(--faint)">/${isCurrency?'₺'+currency(g):g}</span></span>
+    </div>`;
+  });
+}
+
+// MONTHLY
+function initMonthSel(){
+  const ys=document.getElementById('year-sel'),cur=new Date().getFullYear();
+  for(let y=cur-1;y<=cur+1;y++){const o=document.createElement('option');o.value=y;o.textContent=y;if(y===cur)o.selected=true;ys.appendChild(o);}
+  document.getElementById('month-sel').value=new Date().getMonth();
+}
+
+function renderMonthly(){
+  const mi=parseInt(document.getElementById('month-sel').value);
+  const yr=parseInt(document.getElementById('year-sel').value);
+  document.getElementById('month-subtitle').textContent=MONTHS_TR[mi]+' '+yr;
+  const tot={};METRICS.forEach(({id})=>{tot[id]=0;});
+  Object.entries(entries).forEach(([d,v])=>{const dt=new Date(d+'T12:00:00');if(dt.getMonth()===mi&&dt.getFullYear()===yr)METRICS.forEach(({id})=>{tot[id]+=(v[id]||0);});});
+  const mg={};METRICS.forEach(({id})=>{mg[id]=(goals[id]||0)*30;});
+
+  document.getElementById('month-kpi').innerHTML='';
+  METRICS.forEach(({id,label,icon,color,isCurrency})=>{
+    const val=tot[id],g=mg[id],p=Math.min(pct(val,g),100);
+    const pc=p>=100?'#22c55e':p>=50?'#f59e0b':'var(--dim)';
+    document.getElementById('month-kpi').innerHTML+=`<div class="month-card">
+      <div class="month-icon">${icon}</div>
+      <div class="month-val" style="color:${color}">${isCurrency?'₺'+currency(val):val}</div>
+      <div class="month-label">${label}</div>
+      <div class="month-bar"><div class="month-bar-fill" style="width:${p}%;background:${color}"></div></div>
+      <div class="month-pct" style="color:${pc}">${p}%</div>
+    </div>`;
+  });
+
+  const nc=METRICS.filter(m=>!m.isCurrency);
+  if(chartMonthly)chartMonthly.destroy();
+  chartMonthly=new Chart(document.getElementById('chart-monthly').getContext('2d'),{
+    type:'bar',
+    data:{labels:nc.map(m=>m.icon),datasets:[
+      {label:'Hedef',data:nc.map(({id})=>mg[id]),backgroundColor:'rgba(30,41,59,0.8)',borderRadius:3},
+      {label:'Gerçek',data:nc.map(({id})=>tot[id]),backgroundColor:nc.map(m=>m.color),borderRadius:3}
+    ]},
+    options:{...cOpts(),plugins:{legend:{labels:{color:'#94a3b8',font:{size:10},boxWidth:10,padding:10}},tooltip:{callbacks:{title:(items)=>nc[items[0].dataIndex].label}}}}
+  });
+}
+
+// GOALS
+function renderGoals(){
+  document.getElementById('goals-grid').innerHTML='';
+  METRICS.forEach(({id,label,icon,color,isCurrency})=>{
+    const val=goals[id]||0;
+    document.getElementById('goals-grid').innerHTML+=`<div class="goal-card">
+      <div class="goal-card-header">
+        <div class="goal-icon-wrap" style="background:${color}1a">${icon}</div>
+        <div>
+          <div style="font-size:14px;font-weight:600;color:#cbd5e1">${label}</div>
+          <div style="font-size:11px;color:var(--dim);margin-top:2px">Günlük hedef</div>
+        </div>
+      </div>
+      <input class="goal-input" id="goal-${id}" type="number" min="0" value="${val}" style="color:${color}" oninput="updGP('${id}')">
+      <div class="goal-periods">
+        ${['Haftalık','Aylık','Yıllık'].map((l,i)=>{const v=val*[7,30,365][i];
+          return `<div class="goal-period"><div class="goal-period-label">${l}</div><div class="goal-period-val" id="gp-${id}-${i}">${isCurrency?'₺'+currency(v):v.toLocaleString('tr-TR')}</div></div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  });
+}
+
+function updGP(id){
+  const val=parseInt(document.getElementById('goal-'+id).value)||0;
+  const iC=METRICS.find(m=>m.id===id)?.isCurrency;
+  [7,30,365].forEach((m,i)=>{const v=val*m;document.getElementById(`gp-${id}-${i}`).textContent=iC?'₺'+currency(v):v.toLocaleString('tr-TR');});
+}
+
+function saveGoals(){
+  METRICS.forEach(({id})=>{goals[id]=parseInt(document.getElementById('goal-'+id)?.value)||0;});
+  saveGoalsData(goals);toast('🎯 Hedefler kaydedildi!');
+  const btn=document.getElementById('goals-save-btn');
+  btn.classList.add('saved');btn.textContent='✅ Kaydedildi!';
+  setTimeout(()=>{btn.classList.remove('saved');btn.textContent='💾 Hedefleri Kaydet';},2000);
+}
+
+// INIT
+document.getElementById('daily-date').value=todayStr();
+initMonthSel();
+renderDashboard();
+
+function toggleHowto(){
+  const c=document.getElementById('howto-content');
+  const b=document.getElementById('howto-toggle');
+  const hidden=c.style.display==='none';
+  c.style.display=hidden?'':'none';
+  b.textContent=hidden?'Gizle':'Göster';
+}
+
+// ─── PWA MANIFEST (inline) ───────────────────────────────────────────────────
+(function(){
+  const manifest = {
+    name: "İş Takip Paneli",
+    short_name: "İş Takip",
+    description: "Emlak danışmanı iş takip paneli — EmlakKit",
+    start_url: "./",
+    display: "standalone",
+    background_color: "#080d1a",
+    theme_color: "#080d1a",
+    orientation: "portrait-primary",
+    lang: "tr",
+    icons: [
+      {
+        src: "data:image/svg+xml," + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='40' fill='%23080d1a'/><rect width='192' height='192' rx='40' fill='%23e11d48' opacity='0.15'/><text x='96' y='130' text-anchor='middle' font-size='110'>🏡</text></svg>`),
+        sizes: "192x192",
+        type: "image/svg+xml",
+        purpose: "any maskable"
+      },
+      {
+        src: "data:image/svg+xml," + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%23080d1a'/><rect width='512' height='512' rx='100' fill='%23e11d48' opacity='0.15'/><text x='256' y='340' text-anchor='middle' font-size='300'>🏡</text></svg>`),
+        sizes: "512x512",
+        type: "image/svg+xml",
+        purpose: "any maskable"
+      }
+    ]
+  };
+  const blob = new Blob([JSON.stringify(manifest)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  document.getElementById('pwa-manifest').href = url;
+})();
+
+// ─── SERVICE WORKER (offline cache) ──────────────────────────────────────────
+if('serviceWorker' in navigator){
+  const swCode = `
+    const CACHE = 'istakip-v1';
+    const CDNJS = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js';
+    const FONTS = 'https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap';
+    self.addEventListener('install', e => {
+      e.waitUntil(
+        caches.open(CACHE).then(c => c.addAll([CDNJS]).catch(()=>{}))
+      );
+      self.skipWaiting();
+    });
+    self.addEventListener('activate', e => {
+      e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))));
+      self.clients.claim();
+    });
+    self.addEventListener('fetch', e => {
+      e.respondWith(
+        caches.match(e.request).then(cached => {
+          if(cached) return cached;
+          return fetch(e.request).then(resp => {
+            if(resp && resp.status === 200 && e.request.method === 'GET'){
+              const clone = resp.clone();
+              caches.open(CACHE).then(c => c.put(e.request, clone));
+            }
+            return resp;
+          }).catch(() => cached);
+        })
+      );
+    });
+  `;
+  const swBlob = new Blob([swCode], {type:'application/javascript'});
+  const swUrl = URL.createObjectURL(swBlob);
+  navigator.serviceWorker.register(swUrl, {scope:'./'}).catch(()=>{});
+}
+
+// ─── INSTALL BANNER ───────────────────────────────────────────────────────────
+let deferredPrompt = null;
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+const isInStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  if(!isInStandalone) showInstallBanner('android');
+});
+
+if(isIOS && !isInStandalone){
+  setTimeout(()=>showInstallBanner('ios'), 1500);
+}
+
+function showInstallBanner(type){
+  if(localStorage.getItem('pwa_dismissed')) return;
+  const banner = document.getElementById('install-banner');
+  if(!banner) return;
+  const msg = document.getElementById('install-msg');
+  if(type === 'ios'){
+    msg.innerHTML = `📲 Bu uygulamayı ana ekrana eklemek için <strong>Safari'de</strong> alttaki <strong>Paylaş</strong> butonuna, ardından <strong>"Ana Ekrana Ekle"</strong> seçeneğine dokun.`;
+    document.getElementById('install-btn').style.display = 'none';
+  } else {
+    msg.innerHTML = '📲 Bu uygulamayı telefonuna yüklemek ister misin? Ana ekranda uygulama gibi açılır!';
+  }
+  banner.style.display = 'flex';
+}
+
+function installApp(){
+  if(deferredPrompt){
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(()=>{ deferredPrompt=null; dismissInstall(); });
+  }
+}
+
+function dismissInstall(){
+  localStorage.setItem('pwa_dismissed','1');
+  document.getElementById('install-banner').style.display='none';
+}
+</script>
+</body>
+</html>
