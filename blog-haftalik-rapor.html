@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Haftalık İlerleme Raporu ile Satıcı Güveni Nasıl İnşa Edilir | EmlakKit Blog</title>
+<meta name="description" content="Portföy sahiplerine düzenli rapor göndermek yetki yenileme oranını nasıl etkiliyor? Haftalık rapor hazırlamanın 5 kuralı.">
+<meta name="keywords" content="haftalık emlak raporu, satıcı güveni, portföy yönetimi, yetki yenileme, emlak danışmanı">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://emlakkit.com/blog-haftalik-rapor.html">
+<meta property="og:title" content="Haftalık İlerleme Raporu ile Satıcı Güveni Nasıl İnşa Edilir">
+<meta property="og:description" content="Düzenli rapor göndermek yetki yenileme oranını nasıl etkiliyor?">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2026-05-12">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0C1017;--gold:#E8A830;--gold2:#F5C060;--white:#F0EDE8;--muted:#C8D4DC;--border:rgba(232,168,48,0.15);--card:#141D29}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#0C1017;color:#F0EDE8;font-family:"DM Sans",sans-serif;line-height:1.7}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between;background:rgba(12,16,23,0.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.logo{font-family:"Syne",sans-serif;font-weight:800;font-size:20px;color:var(--white);text-decoration:none}
+.logo span{color:var(--gold)}
+.nav-links{display:flex;gap:20px;align-items:center}
+.nav-links a{font-size:13px;color:var(--muted);text-decoration:none}
+.nav-cta{background:var(--gold);color:#0C1017;font-weight:600;font-size:12px;padding:7px 16px;border-radius:6px;text-decoration:none}
+@media(max-width:600px){.nav-links{display:none}}
+.wrap{max-width:740px;margin:0 auto;padding:80px 24px 80px}
+.breadcrumb{display:flex;gap:8px;font-size:12px;color:var(--muted);margin-bottom:28px}
+.breadcrumb a{color:var(--muted);text-decoration:none}
+.breadcrumb a:hover{color:var(--gold)}
+.article-cat{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.article-title{font-family:"Syne",sans-serif;font-size:clamp(26px,5vw,42px);font-weight:800;letter-spacing:-1.5px;line-height:1.1;margin-bottom:18px}
+.article-sub{font-size:17px;color:#C8D4DC;line-height:1.6;margin-bottom:28px}
+.article-meta{display:flex;gap:18px;padding:18px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:44px;font-size:13px;color:#C8D4DC;flex-wrap:wrap}
+.article-body h2{font-family:"Syne",sans-serif;font-size:22px;font-weight:700;letter-spacing:-0.5px;margin:44px 0 14px;color:var(--white)}
+.article-body h3{font-family:"Syne",sans-serif;font-size:17px;font-weight:600;margin:28px 0 10px;color:var(--white)}
+.article-body p{font-size:16px;color:#E0DCD8;margin-bottom:18px}
+.article-body ul,.article-body ol{padding-left:20px;margin-bottom:18px}
+.article-body li{font-size:16px;color:#E0DCD8;margin-bottom:8px;line-height:1.6}
+.article-body strong{color:#F0EDE8;font-weight:600}
+.highlight{background:rgba(232,168,48,0.1);border:1px solid rgba(232,168,48,0.25);border-left:3px solid var(--gold);border-radius:8px;padding:18px 22px;margin:28px 0}
+.highlight p{color:#F0EDE8 !important;margin:0;font-size:15px}
+.step{display:flex;gap:14px;padding:18px 0;border-bottom:1px solid var(--border)}
+.step:last-child{border-bottom:none}
+.step-num{flex-shrink:0;width:30px;height:30px;background:var(--gold);color:#0C1017;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:"Syne",sans-serif;font-weight:700;font-size:13px}
+.step-content h4{font-family:"Syne",sans-serif;font-weight:600;font-size:15px;margin-bottom:5px}
+.step-content p{font-size:14px;color:#C8D4DC;margin:0}
+.cta-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:28px;text-align:center;margin:44px 0}
+.cta-box h3{font-family:"Syne",sans-serif;font-size:20px;font-weight:700;margin-bottom:8px}
+.cta-box p{color:#C8D4DC;font-size:14px;margin-bottom:18px}
+.cta-box a{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#0C1017;font-weight:600;font-size:14px;padding:12px 26px;border-radius:8px;text-decoration:none}
+.related{margin-top:56px;padding-top:36px;border-top:1px solid var(--border)}
+.related h3{font-family:"Syne",sans-serif;font-size:18px;font-weight:700;margin-bottom:20px}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.related-card{background:var(--card);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:18px;text-decoration:none;color:inherit;transition:all 0.2s;display:block}
+.related-card:hover{border-color:rgba(232,168,48,0.3)}
+.related-card .post-cat{font-size:10px;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:7px}
+.related-card h4{font-family:"Syne",sans-serif;font-size:13px;font-weight:600;line-height:1.4}
+footer{border-top:1px solid var(--border);padding:32px 24px;text-align:center}
+.footer-logo{font-family:"Syne",sans-serif;font-weight:800;font-size:18px;margin-bottom:6px}
+.footer-logo span{color:var(--gold)}
+.footer-links{display:flex;gap:18px;justify-content:center;margin:8px 0;flex-wrap:wrap}
+.footer-links a{font-size:13px;color:var(--muted);text-decoration:none}
+.footer-copy{font-size:12px;color:rgba(122,138,154,0.4);margin-top:6px}
+@media(max-width:600px){.related-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="logo">Emlak<span>Kit</span></a>
+  <div class="nav-links"><a href="index.html">Ana Sayfa</a><a href="index.html#araclar">Araçlar</a><a href="blog.html">Blog</a></div>
+  <a href="index.html#araclar" class="nav-cta">Araçlar</a>
+</nav>
+<div class="wrap">
+  <div class="breadcrumb"><a href="index.html">Ana Sayfa</a> › <a href="blog.html">Blog</a> › <span>Araç Rehberi</span></div>
+  <div class="article-cat">Araç Rehberi</div>
+  <h1 class="article-title">Haftalık İlerleme Raporu ile Satıcı Güveni Nasıl İnşa Edilir</h1>
+  <p class="article-sub">Portföy sahiplerine düzenli rapor göndermek, yetki yenileme oranınızı artıran en güçlü araçlardan biridir. Peki bu rapor nasıl olmalı?</p>
+  <div class="article-meta">
+    <span>📅 2026-05-12</span>
+    <span>⏱ 5 dk okuma</span>
+    <span>✍️ EmlakKit</span>
+  </div>
+  <div class="article-body">
+<h2>Satıcı Neden Sizi Bırakır?</h2>
+<p>Yetki süresi dolmadan portföy sahibinin sizi değiştirmesinin en yaygın sebebi <strong>haber alamamaktır</strong>. "Danışmanım ne yapıyor bilmiyorum" cümlesi, yetki kayıplarının arkasındaki en büyük nedendir.</p>
+<p>Evin satılmamış olması tek başına problem değildir. İnsanlar süreci anladıklarında bekleyebilir. Ama ne olduğunu bilmeden beklemek tahammül edilmez bir his oluşturur.</p>
+<div class="highlight"><p>💡 <strong>Araştırma bulgusu:</strong> Düzenli haftalık rapor alan portföy sahiplerinin yetki yenileme oranı, rapor almayanlara göre yaklaşık 2,5 kat daha yüksektir.</p></div>
+<h2>İyi Bir Haftalık Raporda Ne Olmalı?</h2>
+<h3>1. Portal İstatistikleri</h3>
+<p>Sahibinden, Emlakjet, Hepsiemlak gibi portallardaki görüntülenme ve favori sayıları somut veri sunar. "İlanınız bu hafta 847 kez görüntülendi" cümlesi, "aktif çalışıyorum" iddiasından çok daha ikna edicidir.</p>
+<h3>2. Gerçekleştirilen Aktiviteler</h3>
+<p>O hafta kaç yer gösterme yapıldığı, kaç potansiyel alıcıyla görüşüldüğü, hangi pazarlama adımlarının atıldığı listelenmelidir.</p>
+<h3>3. Alıcı Geri Bildirimleri</h3>
+<p>Yer gösterme yapılan alıcıların yorumları — fiyat hakkında ne düşündükleri, hangi özellikleri beğendikleri — son derece değerli bilgilerdir. Bu geri bildirimler hem satıcıyı aydınlatır hem de gerekirse fiyat revizyonu tartışmasına zemin hazırlar.</p>
+<h3>4. Bir Sonraki Hafta Planı</h3>
+<p>Raporun sonunda "Gelecek hafta şunları yapacağım" bölümü, danışmanın proaktif olduğunu gösterir ve satıcıda güven oluşturur.</p>
+<h2>Raporu Ne Zaman Göndermelisiniz?</h2>
+<p>Pazar veya Pazartesi günleri sabahları gönderilen raporlar en yüksek açılma oranına sahiptir. Hafta boyunca yapılanların özetini haftanın başında sunmak, satıcının haftayı iyi hissetmesini sağlar.</p>
+<div class="steps">
+<div class="step"><div class="step-num">1</div><div class="step-content"><h4>Veriyi Toplayın</h4><p>Tüm portal istatistiklerini, yer gösterme notlarını ve pazarlama aktivitelerini tek yere toplayın.</p></div></div>
+<div class="step"><div class="step-num">2</div><div class="step-content"><h4>Raporu Oluşturun</h4><p>EmlakKit Haftalık Rapor aracıyla verileri girin, sistem otomatik PDF oluşturur.</p></div></div>
+<div class="step"><div class="step-num">3</div><div class="step-content"><h4>WhatsApp veya E-posta ile Gönderin</h4><p>PDF'i Pazar sabahı müşterinize gönderin. Kısa bir "Bu hafta özetle..." mesajı ekleyin.</p></div></div>
+<div class="step"><div class="step-num">4</div><div class="step-content"><h4>Arşivleyin</h4><p>Geçmiş raporlar bir gün ihtiyaç duyulabilir — yetki anlaşmazlıklarında kanıt niteliği taşır.</p></div></div>
+</div>
+<h2>PDF Raporu Profesyonel Görünmeli</h2>
+<p>WhatsApp'ta yazı olarak attığınız bilgiler ile PDF olarak sunduğunuz bilgiler aynı içeriği taşısa bile, ikincisi çok daha fazla güven verir. Hazırlık ve titizlik izlenimi yaratır.</p>
+<p>EmlakKit Haftalık İlerleme Raporu aracı, portal istatistiklerini, aktiviteleri ve alıcı geri bildirimlerini profesyonel bir PDF'e dönüştürür. Logonuzu ve iletişim bilgilerinizi ekleyerek satıcıya özel, markalı bir rapor gönderebilirsiniz.</p>
+  </div>
+  <div class="cta-box">
+    <h3>Aracı Hemen Dene</h3>
+    <p>Ücretsiz, kayıt gerektirmez.</p>
+    <a href="haftalik-rapor.html">→ Haftalık Rapor Aracını Aç</a>
+  </div>
+  <div class="related">
+    <h3>İlgili Yazılar</h3>
+    <div class="related-grid"><a href="blog-rpa-rehberi.html" class="related-card"><div class="post-cat">Araç Rehberi</div><h4>Rakip Pazar Analizi ile Yetki Alma Oranını Artır</h4></a><a href="blog-fsbo-itiraz.html" class="related-card"><div class="post-cat">FSBO</div><h4>FSBO Görüşmesinde En Sık Karşılaşılan 10 İtiraz ve Yanıtları</h4></a></div>
+  </div>
+</div>
+<footer>
+  <div class="footer-logo">Emlak<span>Kit</span></div>
+  <div class="footer-links"><a href="index.html">Ana Sayfa</a><a href="index.html#araclar">Araçlar</a><a href="blog.html">Blog</a><a href="mailto:armagankocabas@gmail.com">İletişim</a></div>
+  <div class="footer-copy">© 2026 EmlakKit. Tüm hakları saklıdır.</div>
+</footer>
+</body>
+</html>
