@@ -283,6 +283,21 @@ body>*:not(#print-frame){display:none!important}
 *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
 @page{margin:0;size:A4}
 }
+
+/* ── INLINE CROP ── */
+.inline-crop{display:none;background:#1e1e2e;border-radius:12px;padding:18px;margin-top:10px}
+.inline-crop.show{display:block}
+.inline-crop-title{color:#fff;font-size:13px;font-weight:600;margin-bottom:12px;text-align:center}
+.crop-viewport{width:200px;height:150px;border-radius:8px;overflow:hidden;margin:0 auto 14px;border:3px solid #E8A830;position:relative;cursor:move;background:#333;flex-shrink:0}
+.crop-viewport img{position:absolute;transform-origin:center center;user-select:none;-webkit-user-select:none}
+.crop-layout{display:flex;gap:14px;align-items:flex-start}
+.crop-controls{flex:1;display:flex;flex-direction:column;gap:10px}
+.crop-controls label{color:rgba(255,255,255,.75);font-size:11px;display:block;margin-bottom:2px}
+.crop-controls input[type=range]{width:100%;accent-color:#E8A830;height:4px}
+.crop-btns{display:flex;gap:8px;margin-top:12px}
+.crop-btns button{flex:1;padding:10px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;min-height:42px}
+.crop-confirm{background:#E8A830;color:#0C1017}
+.crop-cancel{background:rgba(255,255,255,.12);color:#fff}
 </style>
 </head>
 <body class="theme-remax">
@@ -396,6 +411,24 @@ body>*:not(#print-frame){display:none!important}
         </div>
       </div>
       <input type="file" id="mulk-input" accept="image/*" style="display:none" onchange="handleMulkPhoto(this)">
+      <!-- MÜLK FOTOĞRAFI KIRPMA -->
+      <div class="inline-crop" id="mulk-crop">
+        <div class="inline-crop-title">✂️ Fotoğrafı düzenle</div>
+        <div class="crop-layout">
+          <div class="crop-viewport" id="mulk-crop-vp">
+            <img id="mulk-crop-img" src="" alt="crop" draggable="false">
+          </div>
+          <div class="crop-controls">
+            <div><label>Yakınlaştır <span id="mulk-zoom-val">100%</span></label><input type="range" id="mulk-crop-zoom" min="50" max="300" value="100" oninput="applyMulkCrop()"></div>
+            <div><label>Yatay</label><input type="range" id="mulk-crop-x" min="-200" max="200" value="0" oninput="applyMulkCrop()"></div>
+            <div><label>Dikey</label><input type="range" id="mulk-crop-y" min="-200" max="200" value="0" oninput="applyMulkCrop()"></div>
+            <div class="crop-btns">
+              <button class="crop-cancel" onclick="cancelMulkCrop()">İptal</button>
+              <button class="crop-confirm" onclick="confirmMulkCrop()">✓ Onayla</button>
+            </div>
+          </div>
+        </div>
+      </div>
       <button class="photo-clear-btn" id="mulk-clear" onclick="clearMulkPhoto()">✕ Fotoğrafı kaldır</button>
 
       <!-- RAPOR BİLGİLERİ -->
@@ -702,11 +735,50 @@ function showPPImg(src){
 function handleMulkPhoto(inp){
   var f=inp.files[0];if(!f)return;
   var r=new FileReader();r.onload=function(e){
-    mulkB64=e.target.result;
-    var pv=document.getElementById('mulk-preview');pv.src=mulkB64;pv.style.display='block';
-    document.getElementById('mulk-placeholder').style.display='none';
-    document.getElementById('mulk-clear').style.display='inline';sched();
+    openMulkCrop(e.target.result);
   };r.readAsDataURL(f);
+}
+function openMulkCrop(src){
+  var cropDiv=document.getElementById('mulk-crop');
+  var cropImg=document.getElementById('mulk-crop-img');
+  cropImg.src=src;
+  document.getElementById('mulk-crop-zoom').value=100;
+  document.getElementById('mulk-crop-x').value=0;
+  document.getElementById('mulk-crop-y').value=0;
+  document.getElementById('mulk-zoom-val').textContent='100%';
+  cropDiv.classList.add('show');
+  setTimeout(function(){ applyMulkCrop(); cropDiv.scrollIntoView({behavior:'smooth',block:'nearest'}); },50);
+}
+function applyMulkCrop(){
+  var zoom=parseInt(document.getElementById('mulk-crop-zoom').value);
+  var tx=parseInt(document.getElementById('mulk-crop-x').value);
+  var ty=parseInt(document.getElementById('mulk-crop-y').value);
+  document.getElementById('mulk-zoom-val').textContent=zoom+'%';
+  var img=document.getElementById('mulk-crop-img');
+  img.style.width=zoom+'%'; img.style.height=zoom+'%';
+  img.style.left='calc(50% - '+zoom/2+'% + '+tx+'px)';
+  img.style.top='calc(50% - '+zoom/2+'% + '+ty+'px)';
+}
+function cancelMulkCrop(){
+  document.getElementById('mulk-crop').classList.remove('show');
+  document.getElementById('mulk-input').value='';
+}
+function confirmMulkCrop(){
+  var vp=document.getElementById('mulk-crop-vp');
+  var img=document.getElementById('mulk-crop-img');
+  var vw=vp.offsetWidth, vh=vp.offsetHeight;
+  var c=document.createElement('canvas'); c.width=vw; c.height=vh;
+  var ctx=c.getContext('2d');
+  var ir=img.getBoundingClientRect(), vr=vp.getBoundingClientRect();
+  var dx=ir.left-vr.left, dy=ir.top-vr.top;
+  var scale=ir.width/img.naturalWidth;
+  ctx.drawImage(img,-dx/scale,-dy/scale,img.naturalWidth,img.naturalHeight,0,0,img.naturalWidth*scale,img.naturalHeight*scale);
+  mulkB64=c.toDataURL('image/jpeg',0.92);
+  document.getElementById('mulk-crop').classList.remove('show');
+  var pv=document.getElementById('mulk-preview'); pv.src=mulkB64; pv.style.display='block';
+  document.getElementById('mulk-placeholder').style.display='none';
+  document.getElementById('mulk-clear').style.display='inline';
+  sched();
 }
 function clearMulkPhoto(){
   mulkB64='';
