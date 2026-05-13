@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kira Getiri Nasıl Hesaplanır? Brüt ve Net Getiri Rehberi | EmlakKit Blog</title>
+<meta name="description" content="Yatırım amaçlı gayrimenkulde brüt getiri ile net getiri arasındaki fark nedir? Kira getirisi nasıl hesaplanır? Amortisman süresi ne anlama gelir? Emlak danışmanları için pratik rehber.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0C1017;
+    --bg2: #131920;
+    --bg3: #1a2230;
+    --gold: #E8A830;
+    --gold2: #f0bc55;
+    --gold-dim: rgba(232,168,48,0.10);
+    --gold-border: rgba(232,168,48,0.22);
+    --text: #e8eaf0;
+    --text2: #8a95a3;
+    --radius: 12px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    padding-top: 48px;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top:0; left:0; right:0; z-index:100;
+    background: rgba(12,16,23,0.97);
+    border-bottom: 1px solid var(--gold-border);
+    height: 48px;
+    display: flex; align-items: center;
+    padding: 0 24px;
+    gap: 20px;
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 17px;
+    color: var(--gold);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--text2); font-weight: 400; }
+  nav a.nav-link {
+    font-size: 12px; color: var(--text2);
+    text-decoration: none; transition: color .2s;
+  }
+  nav a.nav-link:hover { color: var(--gold); }
+  .nav-spacer { flex:1; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #0e1520 0%, #0C1017 60%, #111820 100%);
+    border-bottom: 1px solid var(--gold-border);
+    padding: 52px 24px 40px;
+    text-align: center;
+  }
+  .blog-cat {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--gold-dim);
+    border: 1px solid var(--gold-border);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 11px;
+    color: var(--gold);
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(22px, 4.5vw, 36px);
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1.2;
+    max-width: 700px;
+    margin: 0 auto 14px;
+  }
+  .hero h1 span { color: var(--gold); }
+  .blog-meta {
+    display: flex; justify-content: center; flex-wrap: wrap;
+    gap: 16px; font-size: 12px; color: var(--text2);
+  }
+  .blog-meta span { display: flex; align-items: center; gap: 4px; }
+
+  /* İÇERİK */
+  .content-wrap {
+    max-width: 740px;
+    margin: 0 auto;
+    padding: 48px 20px 80px;
+  }
+
+  /* TİPOGRAFİ */
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--gold);
+    margin: 40px 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--gold-border);
+  }
+  h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    margin: 24px 0 10px;
+  }
+  p { margin-bottom: 16px; color: var(--text); }
+  strong { color: var(--gold2); font-weight: 600; }
+  em { color: var(--text2); font-style: italic; }
+
+  /* FORMÜL KUTUSU */
+  .formula-box {
+    background: var(--bg3);
+    border: 1px solid var(--gold-border);
+    border-left: 3px solid var(--gold);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin: 20px 0;
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--gold2);
+    text-align: center;
+    line-height: 1.8;
+  }
+  .formula-box .formula-label {
+    font-size: 11px;
+    color: var(--text2);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+
+  /* TABLO */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 13px;
+  }
+  .data-table th {
+    background: var(--bg3);
+    color: var(--gold);
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 10px 14px;
+    text-align: left;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .data-table td {
+    padding: 10px 14px;
+    border: 1px solid rgba(255,255,255,0.05);
+    color: var(--text);
+    background: var(--bg2);
+    vertical-align: top;
+  }
+  .data-table tr:hover td { background: var(--bg3); }
+  .data-table td.ok { color: #2ecc71; font-weight: 600; }
+  .data-table td.warn { color: #f39c12; font-weight: 600; }
+  .data-table td.bad { color: #e74c3c; font-weight: 600; }
+
+  /* CALLOUT */
+  .callout {
+    background: var(--gold-dim);
+    border: 1px solid var(--gold-border);
+    border-radius: var(--radius);
+    padding: 18px 22px;
+    margin: 24px 0;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .callout .callout-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--gold);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .callout.warn {
+    background: rgba(243,156,18,0.08);
+    border-color: rgba(243,156,18,0.3);
+  }
+
+  /* LISTE */
+  ul, ol { padding-left: 20px; margin-bottom: 16px; }
+  li { margin-bottom: 8px; color: var(--text); }
+  li::marker { color: var(--gold); }
+
+  /* ARAÇ CTA */
+  .tool-cta {
+    background: linear-gradient(135deg, #131920, #1a2230);
+    border: 1px solid var(--gold-border);
+    border-radius: var(--radius);
+    padding: 28px;
+    text-align: center;
+    margin: 40px 0;
+  }
+  .tool-cta h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .tool-cta p {
+    color: var(--text2);
+    font-size: 13px;
+    margin-bottom: 18px;
+  }
+  .tool-cta a {
+    display: inline-block;
+    background: var(--gold);
+    color: #0C1017;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 12px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background .2s;
+  }
+  .tool-cta a:hover { background: var(--gold2); }
+
+  /* DİĞER YAZILAR */
+  .related { margin-top: 56px; }
+  .related h2 { color: var(--text2); font-size: 13px; text-transform: uppercase; letter-spacing:1px; border: none; }
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 14px;
+  }
+  @media(max-width:500px){ .related-grid { grid-template-columns: 1fr; } }
+  .related-card {
+    background: var(--bg2);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--radius);
+    padding: 16px;
+    text-decoration: none;
+    transition: border-color .2s;
+  }
+  .related-card:hover { border-color: var(--gold-border); }
+  .related-card .rc-cat {
+    font-size: 10px; color: var(--gold);
+    font-family: 'Syne', sans-serif;
+    font-weight: 700; letter-spacing:.8px;
+    text-transform: uppercase; margin-bottom: 6px;
+  }
+  .related-card .rc-title {
+    font-size: 13px; color: var(--text);
+    font-family: 'Syne', sans-serif;
+    font-weight: 600; line-height: 1.4;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--gold-border);
+    padding: 24px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--text2);
+  }
+  footer a { color: var(--gold); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="https://emlakkit.com" class="nav-logo">Emlak<span>Kit</span></a>
+  <span class="nav-spacer"></span>
+  <a href="https://emlakkit.com/blog.html" class="nav-link">← Blog</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="blog-cat">📊 Araç Rehberi</div>
+  <h1>Kira Getirisi Nasıl Hesaplanır? <span>Brüt, Net ve Amortisman</span> Rehberi</h1>
+  <div class="blog-meta">
+    <span>✍️ Armağan Kocabaş</span>
+    <span>📅 2025</span>
+    <span>⏱️ 6 dk okuma</span>
+    <span>📊 Yatırım Analizi</span>
+  </div>
+</div>
+
+<!-- İÇERİK -->
+<div class="content-wrap">
+
+  <p>Yatırım amaçlı gayrimenkul söz konusu olduğunda alıcıların aklındaki ilk soru her zaman aynıdır: <strong>"Bu mülk ne kadar getiri sağlar?"</strong> Bu soruyu doğru yanıtlayabilmek, danışman olarak hem güven kazandırır hem de müşterinizin doğru karar vermesini sağlar.</p>
+
+  <p>Ancak pek çok danışman — ve maalesef pek çok alıcı — sadece <strong>brüt getiriyi</strong> hesaplayıp orada durur. Oysa asıl önemli olan <strong>net getiri</strong> ve <strong>amortisman süresidir.</strong></p>
+
+  <div class="tool-cta">
+    <h3>🧮 Kira Getiri Hesaplayıcı</h3>
+    <p>Brüt/net getiri, amortisman süresi ve yatırım yorumunu saniyeler içinde hesaplayın.</p>
+    <a href="https://emlakkit.com/kira-getiri-hesaplayici.html">Hesaplayıcıyı Aç →</a>
+  </div>
+
+  <h2>Brüt Getiri ile Net Getiri Arasındaki Fark</h2>
+
+  <p>Bu iki kavramı birbirine karıştırmak, yatırımcının yanlış mülkü seçmesine yol açabilir.</p>
+
+  <div class="formula-box">
+    <div class="formula-label">Brüt Kira Getirisi</div>
+    (Yıllık Kira Geliri ÷ Satın Alma Fiyatı) × 100
+  </div>
+
+  <div class="formula-box">
+    <div class="formula-label">Net Kira Getirisi</div>
+    ((Yıllık Kira − Yıllık Giderler) ÷ Satın Alma Fiyatı) × 100
+  </div>
+
+  <p>Brüt getiri sadece kira gelirini baz alır ve bakımdan, aidattan, boş kalan aylardan, sigortadan habersizdir. <strong>Net getiri ise gerçek resmi gösterir.</strong></p>
+
+  <h3>Örnek üzerinden görelim:</h3>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Kalem</th>
+        <th>Tutar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Satın Alma Fiyatı</td><td>5.000.000 ₺</td></tr>
+      <tr><td>Aylık Kira</td><td>25.000 ₺</td></tr>
+      <tr><td>Yıllık Kira Geliri</td><td>300.000 ₺</td></tr>
+      <tr><td>Yıllık Aidat</td><td>12.000 ₺</td></tr>
+      <tr><td>Bakım & Onarım</td><td>8.000 ₺</td></tr>
+      <tr><td>Sigorta</td><td>5.000 ₺</td></tr>
+      <tr><td>Boş Kalma (1 ay)</td><td>−25.000 ₺</td></tr>
+      <tr><td><strong>Toplam Gider</strong></td><td><strong>50.000 ₺</strong></td></tr>
+      <tr><td>Yıllık Net Kira</td><td>250.000 ₺</td></tr>
+      <tr><td class="ok">Brüt Getiri</td><td class="ok">%6,00</td></tr>
+      <tr><td class="warn">Net Getiri</td><td class="warn">%5,00</td></tr>
+    </tbody>
+  </table>
+
+  <p>Görüldüğü gibi 1 puanlık fark, kağıt üzerinde cazip görünen bir yatırımın gerçek değerini önemli ölçüde değiştirebilir.</p>
+
+  <h2>Amortisman Süresi Ne Anlama Gelir?</h2>
+
+  <p>Yatırımın kendini geri ödeme süresi olarak da bilinen <strong>amortisman süresi</strong>, mülkün ne kadar yılda "parasını çıkaracağını" gösterir.</p>
+
+  <div class="formula-box">
+    <div class="formula-label">Amortisman (Geri Dönüş) Süresi</div>
+    100 ÷ Net Getiri Oranı = Yıl
+  </div>
+
+  <p>Yukarıdaki örnekte net getiri %5 ise: <strong>100 ÷ 5 = 20 yıl.</strong> Yani bu mülk, kira geliriyle 20 yılda kendini amorti eder. Bu hesaplamaya değer artışı dahil değildir.</p>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Net Getiri</th>
+        <th>Amortisman Süresi</th>
+        <th>Yatırımcı Yorumu</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="ok">%6 ve üzeri</td>
+        <td>~17 yıl altı</td>
+        <td class="ok">Güçlü yatırım</td>
+      </tr>
+      <tr>
+        <td class="warn">%4–6 arası</td>
+        <td>17–25 yıl</td>
+        <td class="warn">Makul, değer artışı desteklenmeli</td>
+      </tr>
+      <tr>
+        <td class="bad">%4 altı</td>
+        <td>25 yıl üzeri</td>
+        <td class="bad">Zayıf, müzakere veya vaz geç</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Danışman Olarak Bu Hesabı Nasıl Kullanırsınız?</h2>
+
+  <p>Kira getirisi hesabı sadece alıcıya bilgi vermek için değil, <strong>satış sürecini yönetmek</strong> için de kullanılır.</p>
+
+  <h3>1. Yatırımcı alıcılarla ilk görüşmede</h3>
+  <p>Portföyünüzdeki mülkü sunmadan önce kira getirisini hesaplayın. Müşteriye rakamları siz götürün — danışman olarak değerinizi gösterir ve güven oluşturur.</p>
+
+  <h3>2. Fiyat müzakeresinde</h3>
+  <p>Satıcı fiyatı yüksek tutuyorsa, net getirinin %3'ün altında kaldığını göstermek somut bir müzakere zemini yaratır. Duygusal değil, <strong>veriyle konuşursunuz.</strong></p>
+
+  <h3>3. Portföy karşılaştırmasında</h3>
+  <p>İki benzer mülkü karşılaştırırken kira getirisini yan yana koyun. Aynı bölgede %4 ve %6 getirili iki daire arasındaki fark, alıcının karar vermesini çarpıcı biçimde kolaylaştırır.</p>
+
+  <div class="callout">
+    <div class="callout-title">💡 Profesyonel Not</div>
+    Müşterinize "bu mülk iyi yatırım" yerine "bu mülkün net getirisi %5,2, amortisman süresi 19 yıl" deyin. Rakamlar konuşur — ve sizi farklılaştırır.
+  </div>
+
+  <h2>Hesaplamada Sık Yapılan Hatalar</h2>
+
+  <ul>
+    <li><strong>Sadece brüt getiriyi kullanmak:</strong> Giderleri görmezden gelen hesaplamalar gerçekçi değildir.</li>
+    <li><strong>Boş kalma süresini sıfır almak:</strong> Kiracı değişimi, tadilat, mevsimsellik — her mülk yılda en az 1 ay boş kalır.</li>
+    <li><strong>Vergiyi unutmak:</strong> Kira geliri gelir vergisine tabidir. Üst dilimlerde bu oran önemli miktarda artar.</li>
+    <li><strong>Finansman maliyetini dahil etmemek:</strong> Kredi kullanıldıysa faiz gideri net getiriyi dramatik biçimde düşürür.</li>
+    <li><strong>Değer artışını getiriye saymak:</strong> Değer artışı beklenti, kira getirisi gerçektir — ikisini birbirine karıştırmayın.</li>
+  </ul>
+
+  <div class="callout warn">
+    <div class="callout-title">⚠️ Önemli</div>
+    Kira getirisi hesabı genel bir analiz aracıdır. Vergi, finansman maliyeti ve bölgesel değer artışı gibi faktörler nihai yatırım kararını etkiler. Alıcılarınızı mali müşavir veya vergi uzmanıyla görüşmeye yönlendirin.
+  </div>
+
+  <h2>EmlakKit Kira Getiri Hesaplayıcıyı Nasıl Kullanırsınız?</h2>
+
+  <p>Araç tamamen ücretsiz ve kayıt gerektirmez. Aşağıdaki adımlarla saniyeler içinde sonuca ulaşırsınız:</p>
+
+  <ol>
+    <li>Satın alma fiyatını girin</li>
+    <li>Aylık kira gelirini girin</li>
+    <li>İsterseniz aidat, bakım, sigorta ve boş kalma süresini ekleyin</li>
+    <li><strong>"Hesapla"</strong> butonuna tıklayın</li>
+    <li>Brüt getiri, net getiri, amortisman süresi ve yatırım yorumunu anında görün</li>
+  </ol>
+
+  <div class="tool-cta">
+    <h3>📊 Şimdi Hesaplayın</h3>
+    <p>Portföyünüzdeki yatırım mülkünü analiz edin. Ücretsiz, kayıtsız, anında sonuç.</p>
+    <a href="https://emlakkit.com/kira-getiri-hesaplayici.html">Kira Getiri Hesaplayıcı →</a>
+  </div>
+
+  <!-- İLGİLİ YZILAR -->
+  <div class="related">
+    <h2>İlgili İçerikler</h2>
+    <div class="related-grid">
+      <a href="https://emlakkit.com/blog-tapu-harci.html" class="related-card">
+        <div class="rc-cat">Hesaplama</div>
+        <div class="rc-title">Tapu Harcı Nasıl Hesaplanır?</div>
+      </a>
+      <a href="https://emlakkit.com/blog-yabanciya-satis.html" class="related-card">
+        <div class="rc-cat">Uluslararası</div>
+        <div class="rc-title">Yabancıya Konut Satışında Dikkat Edilmesi Gerekenler</div>
+      </a>
+      <a href="https://emlakkit.com/blog-miras-payi.html" class="related-card">
+        <div class="rc-cat">Hesaplama</div>
+        <div class="rc-title">Miras Payı Nasıl Hesaplanır?</div>
+      </a>
+      <a href="https://emlakkit.com/blog-rpa-rehberi.html" class="related-card">
+        <div class="rc-cat">Araç Rehberi</div>
+        <div class="rc-title">Rakip Pazar Analizi Nasıl Yapılır?</div>
+      </a>
+    </div>
+  </div>
+
+</div><!-- /content-wrap -->
+
+<footer>
+  <a href="https://emlakkit.com">EmlakKit</a> — Emlak danışmanları için ücretsiz dijital araç platformu
+</footer>
+
+</body>
+</html>

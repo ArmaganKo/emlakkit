@@ -144,7 +144,8 @@
   .posts-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
+    gap: 20px;
+    align-items: start;
   }
   .post-card {
     background: var(--card);
@@ -153,6 +154,7 @@
     overflow: hidden;
     text-decoration: none;
     color: inherit;
+    display: block;
     transition: all 0.25s;
     display: block;
   }
@@ -272,18 +274,21 @@
 </div>
 
 <div class="filter-bar">
-  <button class="filter-btn active">Tümü</button>
-  <button class="filter-btn">FSBO</button>
-  <button class="filter-btn">Araç Rehberleri</button>
-  <button class="filter-btn">Dijital Pazarlama</button>
-  <button class="filter-btn">Yeni Emlakçı</button>
-  <button class="filter-btn">Sektör</button>
+  <button class="filter-btn active" data-filter="all">Tümü</button>
+  <button class="filter-btn" data-filter="fsbo">FSBO</button>
+  <button class="filter-btn" data-filter="arac">Araç Rehberleri</button>
+  <button class="filter-btn" data-filter="dijital">Dijital Pazarlama</button>
+  <button class="filter-btn" data-filter="satis">Satış Teknikleri</button>
+  <button class="filter-btn" data-filter="yeni">Yeni Emlakçı</button>
+  <button class="filter-btn" data-filter="sektor">Sektör</button>
+  <button class="filter-btn" data-filter="uluslararasi">Uluslararası</button>
 </div>
+
 
 <div class="blog-section">
 
   <!-- FEATURED POST -->
-  <a href="blog-rpa-rehberi.html" class="featured-post">
+  <a href="blog-rpa-rehberi.html" class="featured-post" data-cat="arac">
     <div class="featured-img">📊</div>
     <div class="featured-body">
       <div class="post-cat">Araç Rehberi</div>
@@ -298,145 +303,117 @@
   </a>
 
   <!-- POSTS GRID -->
-  <div class="posts-grid">
+  <div class="posts-grid" id="posts-grid">
 
-    <a href="blog-haftalik-rapor.html" class="post-card">
+    <a href="blog-haftalik-rapor.html" class="post-card" data-cat="arac">
       <div class="post-card-img">📈</div>
-      <div class="post-card-body">
-        <div class="post-cat">Araç Rehberi</div>
+      <div class="post-card-body"><div class="post-cat">Araç Rehberi</div>
         <h3>Haftalık İlerleme Raporu ile Satıcı Güveni Nasıl İnşa Edilir?</h3>
         <p>Portföy sahiplerine düzenli rapor göndermek yetki yenileme oranını nasıl etkiliyor?</p>
-        <div class="post-card-footer">
-          <span class="post-tag">Araç Rehberi</span>
-          <span>5 dk okuma</span>
-        </div>
+        <div class="post-card-footer"><span class="post-tag">Araç Rehberi</span><span>5 dk okuma</span></div>
       </div>
     </a>
 
-    <a href="blog-fsbo-itiraz.html" class="post-card">
+    <a href="blog-fsbo-itiraz.html" class="post-card" data-cat="fsbo">
       <div class="post-card-img">🛡️</div>
-      <div class="post-card-body">
-        <div class="post-cat">FSBO</div>
+      <div class="post-card-body"><div class="post-cat">FSBO</div>
         <h3>FSBO Görüşmesinde En Sık Karşılaşılan 10 İtiraz ve Yanıtları</h3>
         <p>"Komisyon çok yüksek" diyene ne denir? Gerçek sahnelerde test edilmiş yanıtlar.</p>
-        <div class="post-card-footer">
-          <span class="post-tag">FSBO</span>
-          <span>7 dk okuma</span>
-        </div>
+        <div class="post-card-footer"><span class="post-tag">FSBO</span><span>7 dk okuma</span></div>
       </div>
     </a>
 
-<a href="blog-ilk-90-gun.html" class="post-card">
+    <a href="blog-ilk-90-gun.html" class="post-card" data-cat="yeni">
       <div class="post-card-img">🚀</div>
-      <div class="post-card-body">
-        <div class="post-cat">Yeni Emlakçı</div>
+      <div class="post-card-body"><div class="post-cat">Yeni Emlakçı</div>
         <h3>Yeni Emlakçı: İlk 90 Günde Yapmanız Gereken 10 Şey</h3>
         <p>Sektöre yeni giren emlak danışmanları için adım adım başlangıç yol haritası.</p>
-        <div class="post-card-footer">
-          <span class="post-tag">Yeni Emlakçı</span>
-          <span>6 dk okuma</span>
-        </div>
+        <div class="post-card-footer"><span class="post-tag">Yeni Emlakçı</span><span>6 dk okuma</span></div>
       </div>
     </a>
 
-    <a href="blog-tapu-harci.html" class="post-card">
+    <a href="blog-tapu-harci.html" class="post-card" data-cat="sektor">
       <div class="post-card-img">🏛️</div>
-      <div class="post-card-body">
-        <div class="post-cat">Sektör Bilgisi</div>
+      <div class="post-card-body"><div class="post-cat">Sektör Bilgisi</div>
         <h3>2026 Tapu Harcı Oranları ve Hesaplama Rehberi</h3>
         <p>Alıcı ve satıcının ödeyeceği tapu harcı ve döner sermaye ücretleri hakkında her şey.</p>
-        <div class="post-card-footer">
-          <span class="post-tag">Sektör Bilgisi</span>
-          <span>5 dk okuma</span>
-        </div>
+        <div class="post-card-footer"><span class="post-tag">Sektör Bilgisi</span><span>5 dk okuma</span></div>
       </div>
     </a>
 
-</div>
-
-
-    <a href="blog-emlak-terimleri.html" class="post-card">
+    <a href="blog-emlak-terimleri.html" class="post-card" data-cat="arac">
       <div class="post-card-img">📚</div>
-      <div class="post-card-body">
-        <div class="post-cat">Araç Rehberi</div>
+      <div class="post-card-body"><div class="post-cat">Araç Rehberi</div>
         <h3>Emlak Terimleri Sözlüğü: 200+ Kavramı Türkçe Öğrenin</h3>
         <p>TAKS, KAKS, kat irtifakı, iskan — tüm sektör terimlerini sade Türkçeyle öğrenin.</p>
         <div class="post-card-footer"><span class="post-tag">Araç Rehberi</span><span>4 dk okuma</span></div>
       </div>
     </a>
 
-    <a href="blog-is-takip.html" class="post-card">
+    <a href="blog-is-takip.html" class="post-card" data-cat="arac">
       <div class="post-card-img">📊</div>
-      <div class="post-card-body">
-        <div class="post-cat">Araç Rehberi</div>
+      <div class="post-card-body"><div class="post-cat">Araç Rehberi</div>
         <h3>Emlak Danışmanları İçin İş Takip Programı: Performansınızı Ölçün</h3>
         <p>Ölçemediğinizi yönetemezsiniz. Günlük aktivitelerinizi takip edin.</p>
         <div class="post-card-footer"><span class="post-tag">Araç Rehberi</span><span>5 dk okuma</span></div>
       </div>
     </a>
 
-    <a href="blog-taks-kaks.html" class="post-card">
+    <a href="blog-taks-kaks.html" class="post-card" data-cat="sektor">
       <div class="post-card-img">📐</div>
-      <div class="post-card-body">
-        <div class="post-cat">Sektör Bilgisi</div>
+      <div class="post-card-body"><div class="post-cat">Sektör Bilgisi</div>
         <h3>TAKS ve KAKS Nedir? Arsa İmar Hesaplama Rehberi 2026</h3>
         <p>"Bu arsada ne kadar bina yapabilirsiniz?" sorusunu doğru yanıtlayın.</p>
         <div class="post-card-footer"><span class="post-tag">Sektör Bilgisi</span><span>5 dk okuma</span></div>
       </div>
     </a>
 
-    <a href="blog-miras-payi.html" class="post-card">
+    <a href="blog-miras-payi.html" class="post-card" data-cat="sektor">
       <div class="post-card-img">⚖️</div>
-      <div class="post-card-body">
-        <div class="post-cat">Sektör Bilgisi</div>
+      <div class="post-card-body"><div class="post-cat">Sektör Bilgisi</div>
         <h3>Miras Yoluyla Gelen Gayrimenkulde Hisse Paylaşımı Nasıl Hesaplanır?</h3>
         <p>Kimin ne kadar hakkı var? Miras kalmış evi satmak için bilmeniz gerekenler.</p>
         <div class="post-card-footer"><span class="post-tag">Sektör Bilgisi</span><span>5 dk okuma</span></div>
       </div>
     </a>
 
-    <a href="blog-deger-artis.html" class="post-card">
+    <a href="blog-deger-artis.html" class="post-card" data-cat="sektor">
       <div class="post-card-img">💰</div>
-      <div class="post-card-body">
-        <div class="post-cat">Sektör Bilgisi</div>
+      <div class="post-card-body"><div class="post-cat">Sektör Bilgisi</div>
         <h3>Gayrimenkul Değer Artış Kazancı Vergisi: Bilmeniz Gerekenler</h3>
         <p>"Bu evi satarsam vergi öder miyim?" sorusuna doğru yanıt verin.</p>
         <div class="post-card-footer"><span class="post-tag">Sektör Bilgisi</span><span>5 dk okuma</span></div>
       </div>
     </a>
 
-    <a href="blog-fsbo-simulatoru.html" class="post-card">
+    <a href="blog-fsbo-simulatoru.html" class="post-card" data-cat="fsbo">
       <div class="post-card-img">📞</div>
-      <div class="post-card-body">
-        <div class="post-cat">FSBO</div>
+      <div class="post-card-body"><div class="post-cat">FSBO</div>
         <h3>FSBO Simülatörü ile İlk Arama Pratiği: Sahibinden Satıcıyla Nasıl Konuşulur?</h3>
         <p>35 senaryo, yapay zeka destekli pratik. Yetki alma oranınızı artırın.</p>
         <div class="post-card-footer"><span class="post-tag">FSBO</span><span>6 dk okuma</span></div>
       </div>
     </a>
 
-    <a href="blog-chatgpt-ilan.html" class="post-card">
+    <a href="blog-chatgpt-ilan.html" class="post-card" data-cat="dijital">
       <div class="post-card-img">🤖</div>
-      <div class="post-card-body">
-        <div class="post-cat">Dijital Pazarlama</div>
+      <div class="post-card-body"><div class="post-cat">Dijital Pazarlama</div>
         <h3>ChatGPT ile Emlak İlan Açıklaması: Custom GPT Nasıl Kullanılır?</h3>
         <p>Saniyeler içinde SEO uyumlu, özgün ilan açıklaması oluşturun.</p>
         <div class="post-card-footer"><span class="post-tag">Dijital Pazarlama</span><span>4 dk okuma</span></div>
       </div>
     </a>
 
-    <a href="blog-gemini-ilan.html" class="post-card">
+    <a href="blog-gemini-ilan.html" class="post-card" data-cat="dijital">
       <div class="post-card-img">✦</div>
-      <div class="post-card-body">
-        <div class="post-cat">Dijital Pazarlama</div>
+      <div class="post-card-body"><div class="post-cat">Dijital Pazarlama</div>
         <h3>Google Gemini Gem ile Emlak İlan Açıklaması: Adım Adım Kurulum</h3>
         <p>Emlak sektörüne özel Gemini Gem'i hesabınıza ekleyin, anında kullanın.</p>
         <div class="post-card-footer"><span class="post-tag">Dijital Pazarlama</span><span>4 dk okuma</span></div>
       </div>
     </a>
 
-
-    <a href="blog-yabanciya-satis.html" class="post-card">
+    <a href="blog-yabanciya-satis.html" class="post-card" data-cat="uluslararasi">
       <div class="post-card-img">🌍</div>
       <div class="post-card-body"><div class="post-cat">Uluslararası Satış</div>
         <h3>Yabancıya Gayrimenkul Satışı: Vatandaşlık ve İkamet Rehberi (2026)</h3>
@@ -445,7 +422,7 @@
       </div>
     </a>
 
-    <a href="blog-sahibinden-algoritma.html" class="post-card">
+    <a href="blog-sahibinden-algoritma.html" class="post-card" data-cat="dijital">
       <div class="post-card-img">🔝</div>
       <div class="post-card-body"><div class="post-cat">Dijital Pazarlama</div>
         <h3>Sahibinden.com'da Üst Sıralara Çıkmanın Algoritma Sırları (2026)</h3>
@@ -454,7 +431,7 @@
       </div>
     </a>
 
-    <a href="blog-gercek-alici.html" class="post-card">
+    <a href="blog-gercek-alici.html" class="post-card" data-cat="satis">
       <div class="post-card-img">🎯</div>
       <div class="post-card-body"><div class="post-cat">Satış Teknikleri</div>
         <h3>Alıcı Müşterinin "Gerçek Alıcı" Olup Olmadığını 3 Soruda Anlama</h3>
@@ -463,8 +440,8 @@
       </div>
     </a>
 
-    <a href="blog-soguk-arama.html" class="post-card">
-      <div class="post-card-img">📞</div>
+    <a href="blog-soguk-arama.html" class="post-card" data-cat="satis">
+      <div class="post-card-img">📱</div>
       <div class="post-card-body"><div class="post-cat">Satış Teknikleri</div>
         <h3>Cold Calling Yaparken Emlakçıların Yaptığı 5 Ölümcül Hata</h3>
         <p>Soğuk arama neden sonuç vermiyor? 5 kritik hata ve nasıl kaçınılır.</p>
@@ -472,7 +449,16 @@
       </div>
     </a>
 
-    <a href="blog-bolge-calisma.html" class="post-card">
+    <a href="blog-kira-getiri.html" class="post-card" data-cat="arac">
+      <div class="post-card-img">📊</div>
+      <div class="post-card-body"><div class="post-cat">Araç Rehberi</div>
+        <h3>Kira Getirisi Nasıl Hesaplanır? Brüt, Net ve Amortisman Rehberi</h3>
+        <p>Yatırım mülkünde brüt ile net getiri arasındaki fark nedir? Amortisman süresi nasıl hesaplanır?</p>
+        <div class="post-card-footer"><span class="post-tag">Araç Rehberi</span><span>6 dk okuma</span></div>
+      </div>
+    </a>
+
+    <a href="blog-bolge-calisma.html" class="post-card" data-cat="satis">
       <div class="post-card-img">🗺️</div>
       <div class="post-card-body"><div class="post-cat">Satış Teknikleri</div>
         <h3>Bölge Çalışması (Farming) Sıfırdan Nasıl Yapılır?</h3>
@@ -480,6 +466,8 @@
         <div class="post-card-footer"><span class="post-tag">Satış Teknikleri</span><span>7 dk okuma</span></div>
       </div>
     </a>
+
+  </div>
 
   <!-- NEWSLETTER -->
   <div class="newsletter">
@@ -506,3 +494,26 @@
 
 </body>
 </html>
+
+<script>
+// Category filter
+document.querySelectorAll('.filter-btn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var filter = this.getAttribute('data-filter');
+    document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.remove('active'); });
+    this.classList.add('active');
+    var featured = document.querySelector('.featured-post');
+    var cards = document.querySelectorAll('#posts-grid .post-card');
+    if(filter === 'all'){
+      if(featured) featured.style.display = '';
+      cards.forEach(function(c){ c.style.display = ''; });
+    } else {
+      if(featured) featured.style.display = 'none';
+      cards.forEach(function(c){
+        var cat = c.getAttribute('data-cat') || '';
+        c.style.display = (cat === filter) ? '' : 'none';
+      });
+    }
+  });
+});
+</script>
