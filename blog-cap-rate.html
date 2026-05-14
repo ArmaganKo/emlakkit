@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cap Rate Nedir? Gayrimenkulde Kapitalizasyon Oranı Hesaplama Rehberi | EmlakKit</title>
+<meta name="description" content="Cap rate (kapitalizasyon oranı) nedir, nasıl hesaplanır? NOI, GRM, DSCR nedir? Yatırımcı alıcılarla profesyonel konuşmak için emlak danışmanlarına özel rehber.">
+<meta property="og:title" content="Cap Rate Nedir? Gayrimenkulde Kapitalizasyon Oranı Rehberi | EmlakKit">
+<meta property="og:description" content="Cap rate, NOI, GRM ve DSCR'yi öğrenin. Yatırımcı alıcılarla uluslararası dilde konuşun.">
+<meta property="og:image" content="https://www.emlakkit.com/og-image.png">
+<meta property="og:url" content="https://www.emlakkit.com/blog-cap-rate.html">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="canonical" href="https://www.emlakkit.com/blog-cap-rate.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0C1017; --bg2: #131920; --bg3: #1a2230;
+    --gold: #E8A830; --gold2: #f0bc55;
+    --gold-dim: rgba(232,168,48,0.10); --gold-border: rgba(232,168,48,0.22);
+    --text: #e8eaf0; --text2: #8a95a3; --radius: 12px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.7; padding-top: 48px; }
+
+  nav {
+    position: fixed; top:0; left:0; right:0; z-index:100;
+    background: rgba(12,16,23,0.97); border-bottom: 1px solid var(--gold-border);
+    height: 48px; display: flex; align-items: center; padding: 0 24px; gap: 20px;
+  }
+  .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 17px; color: var(--gold); text-decoration: none; }
+  .nav-logo span { color: var(--text2); font-weight: 400; }
+  nav a.nav-link { font-size: 12px; color: var(--text2); text-decoration: none; transition: color .2s; }
+  nav a.nav-link:hover { color: var(--gold); }
+  .nav-spacer { flex:1; }
+
+  .hero {
+    background: linear-gradient(135deg, #0e1520 0%, #0C1017 60%, #111820 100%);
+    border-bottom: 1px solid var(--gold-border); padding: 52px 24px 40px; text-align: center;
+  }
+  .blog-cat {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--gold-dim); border: 1px solid var(--gold-border);
+    border-radius: 20px; padding: 4px 14px; font-size: 11px; color: var(--gold);
+    font-family: 'Syne', sans-serif; font-weight: 600; letter-spacing: .8px;
+    text-transform: uppercase; margin-bottom: 18px;
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif; font-size: clamp(22px, 4.5vw, 36px);
+    font-weight: 800; color: var(--text); line-height: 1.2;
+    max-width: 720px; margin: 0 auto 14px;
+  }
+  .hero h1 span { color: var(--gold); }
+  .blog-meta { display: flex; justify-content: center; flex-wrap: wrap; gap: 16px; font-size: 12px; color: var(--text2); }
+
+  .content-wrap { max-width: 740px; margin: 0 auto; padding: 48px 20px 80px; }
+
+  h2 {
+    font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700;
+    color: var(--gold); margin: 40px 0 14px;
+    padding-bottom: 8px; border-bottom: 1px solid var(--gold-border);
+  }
+  h3 { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 600; color: var(--text); margin: 24px 0 10px; }
+  p { margin-bottom: 16px; color: var(--text); }
+  strong { color: var(--gold2); font-weight: 600; }
+
+  .formula-box {
+    background: var(--bg3); border: 1px solid var(--gold-border);
+    border-left: 3px solid var(--gold); border-radius: var(--radius);
+    padding: 20px 24px; margin: 20px 0;
+    font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 600;
+    color: var(--gold2); text-align: center; line-height: 1.8;
+  }
+  .formula-box .formula-label {
+    font-size: 11px; color: var(--text2); font-family: 'DM Sans', sans-serif;
+    font-weight: 400; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .8px;
+  }
+
+  .data-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13px; }
+  .data-table th {
+    background: var(--bg3); color: var(--gold);
+    font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .8px;
+    padding: 10px 14px; text-align: left; border: 1px solid rgba(255,255,255,0.06);
+  }
+  .data-table td { padding: 10px 14px; border: 1px solid rgba(255,255,255,0.05); color: var(--text); background: var(--bg2); }
+  .data-table tr:hover td { background: var(--bg3); }
+  .ok { color: #2ecc71; font-weight: 600; }
+  .warn { color: #f39c12; font-weight: 600; }
+  .bad { color: #e74c3c; font-weight: 600; }
+
+  .callout {
+    background: var(--gold-dim); border: 1px solid var(--gold-border);
+    border-radius: var(--radius); padding: 18px 22px; margin: 24px 0;
+    font-size: 14px; line-height: 1.7;
+  }
+  .callout-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px; color: var(--gold); margin-bottom: 6px; text-transform: uppercase; letter-spacing: .5px; }
+
+  ul, ol { padding-left: 20px; margin-bottom: 16px; }
+  li { margin-bottom: 8px; color: var(--text); }
+  li::marker { color: var(--gold); }
+
+  .tool-cta {
+    background: linear-gradient(135deg, #131920, #1a2230);
+    border: 1px solid var(--gold-border); border-radius: var(--radius);
+    padding: 28px; text-align: center; margin: 40px 0;
+  }
+  .tool-cta h3 { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+  .tool-cta p { color: var(--text2); font-size: 13px; margin-bottom: 18px; }
+  .tool-cta a {
+    display: inline-block; background: var(--gold); color: #0C1017;
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 14px;
+    padding: 12px 28px; border-radius: 8px; text-decoration: none; transition: background .2s;
+  }
+  .tool-cta a:hover { background: var(--gold2); }
+
+  .related { margin-top: 56px; }
+  .related h2 { color: var(--text2); font-size: 13px; text-transform: uppercase; letter-spacing:1px; border: none; }
+  .related-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin-top: 14px; }
+  @media(max-width:500px){ .related-grid { grid-template-columns: 1fr; } }
+  .related-card {
+    background: var(--bg2); border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--radius); padding: 16px; text-decoration: none; transition: border-color .2s;
+  }
+  .related-card:hover { border-color: var(--gold-border); }
+  .related-card .rc-cat { font-size: 10px; color: var(--gold); font-family: 'Syne', sans-serif; font-weight: 700; letter-spacing:.8px; text-transform: uppercase; margin-bottom: 6px; }
+  .related-card .rc-title { font-size: 13px; color: var(--text); font-family: 'Syne', sans-serif; font-weight: 600; line-height: 1.4; }
+
+  footer { border-top: 1px solid var(--gold-border); padding: 24px; text-align: center; font-size: 12px; color: var(--text2); }
+  footer a { color: var(--gold); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="https://emlakkit.com" class="nav-logo">Emlak<span>Kit</span></a>
+  <span class="nav-spacer"></span>
+  <a href="https://emlakkit.com/blog.html" class="nav-link">← Blog</a>
+</nav>
+
+<div class="hero">
+  <div class="blog-cat">📈 Yatırım Analizi</div>
+  <h1>Cap Rate Nedir? <span>Gayrimenkulde Kapitalizasyon Oranı</span> Hesaplama Rehberi</h1>
+  <div class="blog-meta">
+    <span>✍️ Armağan Kocabaş</span>
+    <span>📅 2025</span>
+    <span>⏱️ 7 dk okuma</span>
+    <span>📈 Yatırım Analizi</span>
+  </div>
+</div>
+
+<div class="content-wrap">
+
+  <p>Yatırımcı bir alıcıyla görüşmeye gittiğinizde "cap rate nedir?" sorusunu almak an meselesi. Bu soruyu boş geçmek ya da muğlak cevap vermek, danışman olarak güvenilirliğinizi zedeler. Oysa cap rate ve ilgili metrikler öğrenilmesi kolay, uygulaması çarpıcı araçlardır.</p>
+
+  <p>Bu rehberde cap rate'in ne olduğunu, nasıl hesaplandığını ve yatırımcı alıcılarla görüşmelerinizde nasıl kullanabileceğinizi adım adım açıklıyoruz.</p>
+
+  <div class="tool-cta">
+    <h3>📈 Cap Rate & Yatırım Skoru Hesaplayıcı</h3>
+    <p>Cap rate, NOI, GRM ve DSCR'yi otomatik hesaplayın. A/B/C yatırım skoru ile yatırımcıya net analiz sunun.</p>
+    <a href="https://emlakkit.com/cap-rate-hesaplayici.html">Hesaplayıcıyı Aç →</a>
+  </div>
+
+  <h2>Cap Rate (Kapitalizasyon Oranı) Nedir?</h2>
+
+  <p>Cap rate, bir gayrimenkulün <strong>finansmandan bağımsız</strong> yıllık getirisini ölçen orandır. Yani mülkü tamamen nakit aldığınızı varsayarak, işletme giderlerini düştükten sonra ne kadar getiri elde ettiğinizi gösterir.</p>
+
+  <div class="formula-box">
+    <div class="formula-label">Cap Rate Formülü</div>
+    Cap Rate = (NOI ÷ Mülk Değeri) × 100
+  </div>
+
+  <p>Burada <strong>NOI (Net Operating Income)</strong> — yani Net İşletme Geliri — en kritik bileşendir.</p>
+
+  <div class="formula-box">
+    <div class="formula-label">NOI Formülü</div>
+    NOI = Efektif Brüt Gelir − Yıllık İşletme Giderleri
+  </div>
+
+  <p>Efektif brüt gelir ise brüt kira gelirinden boş kalma kayıpları çıkarıldıktan sonra kalan tutardır.</p>
+
+  <h2>Cap Rate ile Kira Getirisi Arasındaki Fark</h2>
+
+  <p>Bu iki kavram birbiriyle karıştırılır. Temel fark şudur:</p>
+
+  <table class="data-table">
+    <thead>
+      <tr><th>Özellik</th><th>Kira Getirisi</th><th>Cap Rate</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Kapsam</td><td>Kira geliri / mülk fiyatı</td><td>NOI / mülk fiyatı</td></tr>
+      <tr><td>Giderler</td><td>Opsiyonel</td><td>Zorunlu dahil edilir</td></tr>
+      <tr><td>Kredi etkisi</td><td>Dahil edilebilir</td><td>Dahil edilmez</td></tr>
+      <tr><td>Kullanım</td><td>Bireysel yatırımcı</td><td>Kurumsal & profesyonel yatırımcı</td></tr>
+      <tr><td>Uluslararası standart</td><td>Hayır</td><td>Evet</td></tr>
+    </tbody>
+  </table>
+
+  <p>Cap rate, mülkün <strong>kendi performansını</strong> ölçer. Alıcının finansman yapısından bağımsızdır. Bu yüzden iki farklı yatırımcı aynı mülkü değerlendirirken cap rate üzerinden konuşabilir.</p>
+
+  <h2>Diğer Önemli Metrikler</h2>
+
+  <h3>GRM — Brüt Kira Çarpanı</h3>
+  <p>Mülk değerinin yıllık brüt kiraya bölümüdür. Hızlı karşılaştırma için kullanılır. Giderleri içermez ama çok sayıda mülkü hızla elemek için idealdir.</p>
+
+  <div class="formula-box">
+    <div class="formula-label">GRM</div>
+    GRM = Mülk Değeri ÷ Yıllık Brüt Kira
+  </div>
+
+  <h3>DSCR — Borç Karşılama Oranı</h3>
+  <p>Kredili alımlarda NOI'nin yıllık kredi ödemesini kaç kez karşıladığını gösterir. <strong>1.25 ve üzeri sağlıklı kabul edilir.</strong> Bankalar kredi onayında bu orana bakar.</p>
+
+  <div class="formula-box">
+    <div class="formula-label">DSCR</div>
+    DSCR = NOI ÷ Yıllık Kredi Ödemesi
+  </div>
+
+  <h3>OER — İşletme Gider Oranı</h3>
+  <p>Toplam işletme giderlerinin efektif brüt gelire oranıdır. Düşük OER, mülkün verimli yönetildiğini gösterir. Genellikle %35–50 arasında sağlıklı kabul edilir.</p>
+
+  <h2>Cap Rate Skoru: A, B, C</h2>
+
+  <table class="data-table">
+    <thead>
+      <tr><th>Skor</th><th>Cap Rate</th><th>Amortisman</th><th>Yorum</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="ok">A — Güçlü</td>
+        <td>%6 ve üzeri</td>
+        <td>~17 yıl altı</td>
+        <td>Cazip yatırım, yatırımcıya güçlü sunum</td>
+      </tr>
+      <tr>
+        <td class="warn">B — Makul</td>
+        <td>%4 – %6</td>
+        <td>17–25 yıl</td>
+        <td>Değer artışıyla desteklenmeli</td>
+      </tr>
+      <tr>
+        <td class="bad">C — Zayıf</td>
+        <td>%4 altı</td>
+        <td>25 yıl üzeri</td>
+        <td>Fiyat müzakeresi veya kira artışı şart</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Gerçek Hayattan Örnek</h2>
+
+  <table class="data-table">
+    <thead><tr><th>Kalem</th><th>Tutar</th></tr></thead>
+    <tbody>
+      <tr><td>Mülk Değeri</td><td>6.000.000 ₺</td></tr>
+      <tr><td>Aylık Brüt Kira</td><td>35.000 ₺</td></tr>
+      <tr><td>Yıllık Brüt Gelir</td><td>420.000 ₺</td></tr>
+      <tr><td>Boş Kalma (1 ay)</td><td>−35.000 ₺</td></tr>
+      <tr><td>Efektif Brüt Gelir</td><td>385.000 ₺</td></tr>
+      <tr><td>Aidat + Bakım + Sigorta + Vergi</td><td>−55.000 ₺</td></tr>
+      <tr><td><strong>NOI</strong></td><td><strong>330.000 ₺</strong></td></tr>
+      <tr><td class="ok"><strong>Cap Rate</strong></td><td class="ok"><strong>%5,50</strong></td></tr>
+      <tr><td>GRM</td><td>14,3x</td></tr>
+      <tr><td>Skor</td><td class="warn"><strong>B — Makul</strong></td></tr>
+    </tbody>
+  </table>
+
+  <p>Bu mülk B skorunda. Bölgede değer artışı beklentisi varsa ve fiyat müzakeresi mümkünse yatırım mantıklı. Değer artışı belirsizse daha güçlü bir alternatif aranmalı.</p>
+
+  <h2>Danışman Olarak Cap Rate'i Nasıl Kullanırsınız?</h2>
+
+  <h3>1. Yatırımcı alıcıyla ilk görüşmede</h3>
+  <p>Portföyünüzdeki mülkü sunmadan önce cap rate'i hesaplayın. "Bu mülkün cap rate'i %5,5, skor B" demek, "iyi yatırım" demekten çok daha güçlüdür.</p>
+
+  <h3>2. Portföy karşılaştırmasında</h3>
+  <p>Aynı bölgede iki mülk var. Biri cap rate %4, diğeri %6,5. Rakamlar müşteriyi kendi kendine karar verdiriyor — sizi tartışmanın dışında bırakıyor.</p>
+
+  <h3>3. Fiyat müzakeresinde</h3>
+  <p>Satıcı fiyatı yüksek tutuyorsa, cap rate'in C skora düştüğünü göstermek somut bir zemin yaratır. Duygusal değil, veriyle konuşursunuz.</p>
+
+  <div class="callout">
+    <div class="callout-title">💡 Profesyonel Not</div>
+    Yatırımcı alıcılar cap rate'i bilir. Bu metriği siz getirirseniz masaya, müşteri gözünde bir danışmandan analist seviyesine yükselirsiniz. Bu fark, komisyon tartışmasını ortadan kaldırır.
+  </div>
+
+  <h2>Sık Sorulan Sorular</h2>
+
+  <h3>Cap rate ne kadar olmalı?</h3>
+  <p>Türkiye koşullarında %5–7 arası makul kabul edilir. %6 üzeri güçlü yatırım sayılır. Ancak bölge, mülk tipi ve değer artışı potansiyeli bu eşiği değiştirebilir.</p>
+
+  <h3>Cap rate ile ROI aynı şey mi?</h3>
+  <p>Hayır. Cap rate finansmansız işletme getirisini ölçer. ROI (yatırım getirisi) ise finansman yapısını, değer artışını ve diğer nakit akışlarını da içerebilir.</p>
+
+  <h3>Cap rate düşükse mülk kötü müdür?</h3>
+  <p>Mutlaka değil. Düşük cap rate bazen yüksek değer artışı beklentisinin fiyata yansıması anlamına gelir. Önemli olan cap rate'i bölge ortalamasıyla ve değer artışı projeksiyonuyla birlikte değerlendirmek.</p>
+
+  <div class="tool-cta">
+    <h3>📈 Şimdi Hesaplayın</h3>
+    <p>Cap rate, NOI, GRM, DSCR ve A/B/C yatırım skoru — ücretsiz, kayıtsız, anında sonuç.</p>
+    <a href="https://emlakkit.com/cap-rate-hesaplayici.html">Cap Rate Hesaplayıcı →</a>
+  </div>
+
+  <div class="related">
+    <h2>İlgili İçerikler</h2>
+    <div class="related-grid">
+      <a href="https://emlakkit.com/blog-kira-getiri.html" class="related-card">
+        <div class="rc-cat">Araç Rehberi</div>
+        <div class="rc-title">Kira Getirisi Nasıl Hesaplanır? Brüt, Net ve Amortisman</div>
+      </a>
+      <a href="https://emlakkit.com/blog-tapu-harci.html" class="related-card">
+        <div class="rc-cat">Hesaplama</div>
+        <div class="rc-title">Tapu Harcı Nasıl Hesaplanır?</div>
+      </a>
+      <a href="https://emlakkit.com/blog-yabanciya-satis.html" class="related-card">
+        <div class="rc-cat">Uluslararası</div>
+        <div class="rc-title">Yabancıya Konut Satışında Dikkat Edilmesi Gerekenler</div>
+      </a>
+      <a href="https://emlakkit.com/blog-rpa-rehberi.html" class="related-card">
+        <div class="rc-cat">Araç Rehberi</div>
+        <div class="rc-title">Rakip Pazar Analizi Nasıl Yapılır?</div>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <a href="https://emlakkit.com">EmlakKit</a> — Emlak danışmanları için ücretsiz dijital araç platformu
+</footer>
+
+</body>
+</html>

@@ -205,8 +205,20 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://www.emlakkit.com/cap-rate-hesaplayici.html</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.emlakkit.com/blog-kira-getiri.html</loc>
     <lastmod>2026-05-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.emlakkit.com/blog-cap-rate.html</loc>
+    <lastmod>2026-05-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

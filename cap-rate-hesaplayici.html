@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cap Rate & Yatırım Skoru Hesaplayıcı | EmlakKit</title>
+<meta name="description" content="Gayrimenkul yatırımında cap rate, NOI, borç karşılama oranı ve yatırım skorunu hesaplayın. Yatırımcı alıcılarla profesyonel konuşun.">
+<meta property="og:title" content="Cap Rate & Yatırım Skoru Hesaplayıcı | EmlakKit">
+<meta property="og:description" content="Cap rate, NOI, borç karşılama oranı ve A/B/C yatırım skoru. Yatırımcı alıcılarla profesyonel konuşun.">
+<meta property="og:image" content="https://www.emlakkit.com/og-image.png">
+<meta property="og:url" content="https://www.emlakkit.com/cap-rate-hesaplayici.html">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0C1017;
+    --bg2: #131920;
+    --bg3: #1a2230;
+    --gold: #E8A830;
+    --gold2: #f0bc55;
+    --gold-dim: rgba(232,168,48,0.12);
+    --gold-border: rgba(232,168,48,0.25);
+    --text: #e8eaf0;
+    --text2: #8a95a3;
+    --green: #2ecc71;
+    --green-dim: rgba(46,204,113,0.12);
+    --green-border: rgba(46,204,113,0.25);
+    --orange: #f39c12;
+    --red: #e74c3c;
+    --red-dim: rgba(231,76,60,0.12);
+    --radius: 12px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    padding-top: 48px;
+  }
+
+  nav {
+    position: fixed; top:0; left:0; right:0; z-index:100;
+    background: rgba(12,16,23,0.97);
+    border-bottom: 1px solid var(--gold-border);
+    height: 48px;
+    display: flex; align-items: center;
+    padding: 0 24px; gap: 20px;
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: 17px; color: var(--gold); text-decoration: none;
+  }
+  .nav-logo span { color: var(--text2); font-weight: 400; }
+  nav a.nav-link { font-size: 12px; color: var(--text2); text-decoration: none; transition: color .2s; }
+  nav a.nav-link:hover { color: var(--gold); }
+  .nav-spacer { flex:1; }
+
+  .hero {
+    background: linear-gradient(135deg, #0e1520 0%, #0C1017 60%, #111820 100%);
+    border-bottom: 1px solid var(--gold-border);
+    padding: 48px 24px 36px;
+    text-align: center;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--gold-dim); border: 1px solid var(--gold-border);
+    border-radius: 20px; padding: 4px 14px;
+    font-size: 11px; color: var(--gold);
+    font-family: 'Syne', sans-serif; font-weight: 600;
+    letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(24px, 5vw, 38px); font-weight: 800;
+    color: var(--text); line-height: 1.15; margin-bottom: 10px;
+  }
+  .hero h1 span { color: var(--gold); }
+  .hero p { color: var(--text2); font-size: 14px; max-width: 540px; margin: 0 auto; }
+
+  .container { max-width: 980px; margin: 0 auto; padding: 32px 16px 80px; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media(max-width:700px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--bg2); border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--radius); padding: 24px;
+  }
+  .card-title {
+    font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700;
+    color: var(--gold); text-transform: uppercase; letter-spacing: 1px;
+    margin-bottom: 18px; display: flex; align-items: center; gap: 8px;
+  }
+  .card-title::before {
+    content:''; display:inline-block; width:3px; height:14px;
+    background: var(--gold); border-radius:2px;
+  }
+
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 12px; color: var(--text2); margin-bottom: 5px; font-weight: 500; }
+  .field-row {
+    display: flex; align-items: center;
+    background: var(--bg3); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px; overflow: hidden; transition: border-color .2s;
+  }
+  .field-row:focus-within { border-color: var(--gold); }
+  .field-row input {
+    flex:1; background: transparent; border: none; outline: none;
+    padding: 10px 14px; color: var(--text);
+    font-family: 'DM Sans', sans-serif; font-size: max(15px, 16px);
+  }
+  .field-unit { padding: 0 12px; color: var(--gold); font-size: 12px; font-weight: 600; white-space: nowrap; }
+
+  .divider { border: none; border-top: 1px solid rgba(255,255,255,0.06); margin: 14px 0; }
+
+  .btn-calc {
+    width: 100%; padding: 14px;
+    background: var(--gold); color: #0C1017;
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 14px;
+    letter-spacing: 0.5px; border: none; border-radius: 8px;
+    cursor: pointer; transition: background .2s, transform .1s; margin-top: 4px;
+  }
+  .btn-calc:hover { background: var(--gold2); }
+  .btn-calc:active { transform: scale(0.99); }
+
+  /* SKOR KARTI */
+  .score-card {
+    border-radius: var(--radius); padding: 28px; text-align: center;
+    margin-bottom: 16px; display: none;
+    border: 2px solid;
+  }
+  .score-card.show { display: block; }
+  .score-card.grade-a { background: var(--green-dim); border-color: var(--green); }
+  .score-card.grade-b { background: rgba(243,156,18,0.1); border-color: var(--orange); }
+  .score-card.grade-c { background: var(--red-dim); border-color: var(--red); }
+
+  .score-grade {
+    font-family: 'Syne', sans-serif; font-size: 64px; font-weight: 800;
+    line-height: 1; margin-bottom: 6px;
+  }
+  .grade-a .score-grade { color: var(--green); }
+  .grade-b .score-grade { color: var(--orange); }
+  .grade-c .score-grade { color: var(--red); }
+
+  .score-label {
+    font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .score-sub { font-size: 12px; color: var(--text2); }
+
+  /* SONUÇ GRID */
+  .result-grid {
+    display: grid; grid-template-columns: repeat(2,1fr); gap: 10px;
+    margin-bottom: 14px;
+  }
+  @media(max-width:420px){ .result-grid { grid-template-columns: 1fr; } }
+
+  .result-item {
+    background: var(--bg3); border-radius: 10px; padding: 14px; text-align: center;
+  }
+  .result-item.hl { background: var(--gold-dim); border: 1px solid var(--gold-border); }
+  .result-label { font-size: 10px; color: var(--text2); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 5px; }
+  .result-value { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: var(--text); }
+  .result-item.hl .result-value { color: var(--gold); }
+  .result-sub { font-size: 10px; color: var(--text2); margin-top: 2px; }
+
+  .yorum-box {
+    background: var(--bg3); border-radius: 10px; padding: 14px 18px;
+    font-size: 13px; line-height: 1.8;
+  }
+  .yorum-box strong { color: var(--gold); }
+
+  /* TABLO */
+  .benchmark-table {
+    width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 16px;
+  }
+  .benchmark-table th {
+    background: var(--bg3); color: var(--gold);
+    font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .8px;
+    padding: 8px 12px; text-align: left;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .benchmark-table td {
+    padding: 8px 12px; border: 1px solid rgba(255,255,255,0.04);
+    color: var(--text); background: var(--bg2);
+  }
+  .benchmark-table tr:hover td { background: var(--bg3); }
+  .dot-a { color: var(--green); font-weight: 700; }
+  .dot-b { color: var(--orange); font-weight: 700; }
+  .dot-c { color: var(--red); font-weight: 700; }
+
+  .info-note {
+    background: var(--gold-dim); border: 1px solid var(--gold-border);
+    border-radius: 8px; padding: 12px 16px; font-size: 12px;
+    color: var(--text2); margin-top: 14px; line-height: 1.7;
+  }
+  .info-note strong { color: var(--gold); }
+
+  /* HINT KARTI */
+  .hint-card { color: var(--text2); font-size: 13px; line-height: 1.9; }
+  .hint-card div { margin-bottom: 8px; }
+  .hint-card strong { color: var(--text); }
+
+  .results-wrap { display: none; }
+  .results-wrap.show { display: block; }
+
+  footer {
+    border-top: 1px solid var(--gold-border); padding: 24px;
+    text-align: center; font-size: 12px; color: var(--text2);
+  }
+  footer a { color: var(--gold); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="https://emlakkit.com" class="nav-logo">Emlak<span>Kit</span></a>
+  <span class="nav-spacer"></span>
+  <a href="https://emlakkit.com" class="nav-link">← Tüm Araçlar</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-badge">📈 Yatırım Analizi</div>
+  <h1>Cap Rate & <span>Yatırım Skoru</span></h1>
+  <p>NOI, kapitalizasyon oranı, borç karşılama oranı ve A/B/C yatırım skoru. Yatırımcı alıcılarla uluslararası dille konuşun.</p>
+</div>
+
+<div class="container">
+  <div class="grid-2">
+
+    <!-- FORM -->
+    <div class="card">
+      <div class="card-title">Mülk & Gelir Bilgileri</div>
+
+      <div class="field">
+        <label>Mülk Değeri (Satın Alma Fiyatı)</label>
+        <div class="field-row">
+          <input type="number" id="mulkDeger" placeholder="5.000.000" min="0">
+          <span class="field-unit">₺</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Aylık Brüt Kira Geliri</label>
+        <div class="field-row">
+          <input type="number" id="brutKira" placeholder="30.000" min="0">
+          <span class="field-unit">₺ / ay</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Yıllık Boş Kalma Kayıpı</label>
+        <div class="field-row">
+          <input type="number" id="bosKalma" placeholder="0" min="0" max="12">
+          <span class="field-unit">ay / yıl</span>
+        </div>
+      </div>
+
+      <hr class="divider">
+      <div class="card-title">İşletme Giderleri (Yıllık)</div>
+
+      <div class="field">
+        <label>Aidat / Ortak Gider</label>
+        <div class="field-row">
+          <input type="number" id="aidat" placeholder="0" min="0">
+          <span class="field-unit">₺</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Bakım & Onarım</label>
+        <div class="field-row">
+          <input type="number" id="bakim" placeholder="0" min="0">
+          <span class="field-unit">₺</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Sigorta</label>
+        <div class="field-row">
+          <input type="number" id="sigorta" placeholder="0" min="0">
+          <span class="field-unit">₺</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Emlak Vergisi (Yıllık)</label>
+        <div class="field-row">
+          <input type="number" id="vergi" placeholder="0" min="0">
+          <span class="field-unit">₺</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Diğer Giderler</label>
+        <div class="field-row">
+          <input type="number" id="diger" placeholder="0" min="0">
+          <span class="field-unit">₺</span>
+        </div>
+      </div>
+
+      <hr class="divider">
+      <div class="card-title">Finansman (Opsiyonel)</div>
+
+      <div class="field">
+        <label>Yıllık Kredi Ödemesi</label>
+        <div class="field-row">
+          <input type="number" id="kredi" placeholder="0" min="0">
+          <span class="field-unit">₺</span>
+        </div>
+      </div>
+
+      <button class="btn-calc" onclick="hesapla()">Skoru Hesapla →</button>
+    </div>
+
+    <!-- SONUÇLAR -->
+    <div>
+
+      <!-- SKOR KARTI -->
+      <div class="score-card" id="scoreCard">
+        <div class="score-grade" id="scoreGrade">—</div>
+        <div class="score-label" id="scoreLabel">—</div>
+        <div class="score-sub" id="scoreSub">—</div>
+      </div>
+
+      <!-- METRİKLER -->
+      <div class="results-wrap" id="resultsWrap">
+        <div class="result-grid">
+          <div class="result-item hl">
+            <div class="result-label">Cap Rate</div>
+            <div class="result-value" id="capRate">—</div>
+            <div class="result-sub">kapitalizasyon oranı</div>
+          </div>
+          <div class="result-item hl">
+            <div class="result-label">NOI</div>
+            <div class="result-value" id="noi">—</div>
+            <div class="result-sub">net işletme geliri / yıl</div>
+          </div>
+          <div class="result-item">
+            <div class="result-label">Brüt Kira Çarpanı</div>
+            <div class="result-value" id="grm">—</div>
+            <div class="result-sub">GRM (yıl)</div>
+          </div>
+          <div class="result-item">
+            <div class="result-label">Borç Karşılama</div>
+            <div class="result-value" id="dscr">—</div>
+            <div class="result-sub">DSCR oranı</div>
+          </div>
+          <div class="result-item">
+            <div class="result-label">İşletme Gider Oranı</div>
+            <div class="result-value" id="oer">—</div>
+            <div class="result-sub">OER</div>
+          </div>
+          <div class="result-item">
+            <div class="result-label">Amortisman Süresi</div>
+            <div class="result-value" id="amort">—</div>
+            <div class="result-sub">yıl (cap rate bazlı)</div>
+          </div>
+        </div>
+
+        <div class="yorum-box" id="yorumBox"></div>
+
+        <div class="info-note">
+          <strong>Not:</strong> Cap Rate hesabı kredi maliyetini içermez — mülkün kendi performansını ölçer. DSCR yalnızca kredi girişi yapıldığında hesaplanır. Bu analiz genel bilgi amaçlıdır.
+        </div>
+      </div>
+
+      <!-- HINT -->
+      <div class="card hint-card" id="hintCard">
+        <div class="card-title">Metrikler Ne Anlama Gelir?</div>
+        <div>📌 <strong>Cap Rate</strong> — mülkün kredisiz yıllık getiri oranı. Uluslararası yatırımcıların birincil metriği.</div>
+        <div>📌 <strong>NOI</strong> — Net Operating Income. Tüm işletme giderleri düşüldükten sonra kalan yıllık gelir.</div>
+        <div>📌 <strong>GRM</strong> — Gross Rent Multiplier. Mülk değerinin yıllık brüt kiraya bölümü. Düşük = iyi.</div>
+        <div>📌 <strong>DSCR</strong> — Debt Service Coverage Ratio. NOI'nin yıllık kredi ödemesine oranı. 1.25+ sağlıklı.</div>
+        <div>📌 <strong>OER</strong> — Operating Expense Ratio. Giderlerin brüt gelire oranı. Düşük = verimli mülk.</div>
+
+        <table class="benchmark-table">
+          <thead>
+            <tr><th>Skor</th><th>Cap Rate</th><th>Yorum</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="dot-a">A — Güçlü</td><td>%6 ve üzeri</td><td>Cazip yatırım</td></tr>
+            <tr><td class="dot-b">B — Makul</td><td>%4 – %6</td><td>Değer artışıyla desteklenmeli</td></tr>
+            <tr><td class="dot-c">C — Zayıf</td><td>%4 altı</td><td>Fiyat veya kira revizyonu gerek</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<footer>
+  <a href="https://emlakkit.com">EmlakKit</a> — Emlak danışmanları için ücretsiz dijital araç platformu
+</footer>
+
+<script>
+function fmt(n) { return n.toLocaleString('tr-TR', { maximumFractionDigits: 0 }); }
+function fmtPct(n) { return n.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '%'; }
+function fmtX(n) { return n.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + 'x'; }
+
+function hesapla() {
+  const mulkDeger = parseFloat(document.getElementById('mulkDeger').value) || 0;
+  const brutKira  = parseFloat(document.getElementById('brutKira').value) || 0;
+  const bosKalma  = parseFloat(document.getElementById('bosKalma').value) || 0;
+  const aidat     = parseFloat(document.getElementById('aidat').value) || 0;
+  const bakim     = parseFloat(document.getElementById('bakim').value) || 0;
+  const sigorta   = parseFloat(document.getElementById('sigorta').value) || 0;
+  const vergi     = parseFloat(document.getElementById('vergi').value) || 0;
+  const diger     = parseFloat(document.getElementById('diger').value) || 0;
+  const kredi     = parseFloat(document.getElementById('kredi').value) || 0;
+
+  if (!mulkDeger || !brutKira) {
+    alert('Lütfen en az mülk değeri ve aylık kira alanlarını doldurun.');
+    return;
+  }
+
+  // Hesaplamalar
+  const yillikBrutGelir  = brutKira * 12;
+  const bosKayip         = brutKira * bosKalma;
+  const efektifGelir     = yillikBrutGelir - bosKayip;
+  const toplamGider      = aidat + bakim + sigorta + vergi + diger;
+  const noi              = efektifGelir - toplamGider;
+  const capRate          = (noi / mulkDeger) * 100;
+  const grm              = mulkDeger / yillikBrutGelir;
+  const oer              = efektifGelir > 0 ? (toplamGider / efektifGelir) * 100 : 0;
+  const amort            = capRate > 0 ? 100 / capRate : Infinity;
+  const dscr             = kredi > 0 ? noi / kredi : null;
+
+  // Skor
+  let grade, scoreLabel, scoreSub, scoreClass, yorum;
+
+  if (capRate >= 6) {
+    grade = 'A'; scoreClass = 'grade-a';
+    scoreLabel = 'Güçlü Yatırım';
+    scoreSub = 'Cap rate piyasa ortalamasının üzerinde';
+    yorum = `✅ <strong>Cap rate %${capRate.toFixed(2)}</strong> — güçlü bir yatırım profili. NOI yıllık <strong>${fmt(noi)}₺</strong>. Yatırımcı alıcılar için cazip. Yaklaşık <strong>${amort.toFixed(1)} yılda</strong> amortisman sağlanıyor.`;
+  } else if (capRate >= 4) {
+    grade = 'B'; scoreClass = 'grade-b';
+    scoreLabel = 'Makul Yatırım';
+    scoreSub = 'Değer artışı potansiyeli gözetilmeli';
+    yorum = `🟡 <strong>Cap rate %${capRate.toFixed(2)}</strong> — kabul edilebilir aralıkta. NOI yıllık <strong>${fmt(noi)}₺</strong>. Bölgede değer artışı beklentisi varsa yatırım mantıklı. Amortisman süresi <strong>${amort.toFixed(1)} yıl</strong>.`;
+  } else if (capRate > 0) {
+    grade = 'C'; scoreClass = 'grade-c';
+    scoreLabel = 'Zayıf Yatırım';
+    scoreSub = 'Fiyat müzakeresi veya kira artışı gerekli';
+    yorum = `⚠️ <strong>Cap rate %${capRate.toFixed(2)}</strong> — düşük getiri. NOI yıllık <strong>${fmt(noi)}₺</strong>. Fiyat müzakeresi veya daha yüksek kira geliri olmadan yatırım zayıf kalır. Amortisman <strong>${amort.toFixed(1)} yıl</strong>.`;
+  } else {
+    grade = 'C'; scoreClass = 'grade-c';
+    scoreLabel = 'Negatif NOI';
+    scoreSub = 'İşletme giderleri geliri aşıyor';
+    yorum = `❌ <strong>NOI negatif</strong> — yıllık işletme giderleri kira gelirini aşıyor. Gider kalemleri gözden geçirilmeli veya kira artırılmalı.`;
+  }
+
+  if (dscr !== null) {
+    const dscrYorum = dscr >= 1.25 ? `✅ DSCR ${dscr.toFixed(2)} — kredi güvenli karşılanıyor.` :
+                      dscr >= 1.0  ? `⚠️ DSCR ${dscr.toFixed(2)} — kredi karşılanıyor ama marjin dar.` :
+                                     `❌ DSCR ${dscr.toFixed(2)} — NOI kredi ödemesini karşılamıyor.`;
+    yorum += ` ${dscrYorum}`;
+  }
+
+  // UI güncelle
+  const scoreCard = document.getElementById('scoreCard');
+  scoreCard.className = `score-card show ${scoreClass}`;
+  document.getElementById('scoreGrade').textContent  = grade;
+  document.getElementById('scoreLabel').textContent  = scoreLabel;
+  document.getElementById('scoreSub').textContent    = scoreSub;
+
+  document.getElementById('capRate').textContent = fmtPct(capRate);
+  document.getElementById('noi').textContent     = fmt(noi) + '₺';
+  document.getElementById('grm').textContent     = fmtX(grm);
+  document.getElementById('oer').textContent     = fmtPct(oer);
+  document.getElementById('amort').textContent   = isFinite(amort) ? amort.toFixed(1) : '∞';
+  document.getElementById('dscr').textContent    = dscr !== null ? dscr.toFixed(2) + 'x' : '—';
+
+  document.getElementById('yorumBox').innerHTML  = yorum;
+  document.getElementById('resultsWrap').classList.add('show');
+  document.getElementById('hintCard').style.display = 'none';
+}
+</script>
+</body>
+</html>

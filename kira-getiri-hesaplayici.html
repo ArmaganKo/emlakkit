@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kira Getiri Hesaplayıcı | EmlakKit</title>
+<meta name="description" content="Yatırım amaçlı gayrimenkulünüzün brüt ve net kira getirisini, geri dönüş süresini ve yıllık karlılığını hesaplayın.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0C1017;
+    --bg2: #131920;
+    --bg3: #1a2230;
+    --gold: #E8A830;
+    --gold2: #f0bc55;
+    --gold-dim: rgba(232,168,48,0.12);
+    --gold-border: rgba(232,168,48,0.25);
+    --text: #e8eaf0;
+    --text2: #8a95a3;
+    --green: #2ecc71;
+    --green-dim: rgba(46,204,113,0.12);
+    --red: #e74c3c;
+    --red-dim: rgba(231,76,60,0.12);
+    --radius: 12px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    padding-top: 48px;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top:0; left:0; right:0; z-index:100;
+    background: rgba(12,16,23,0.97);
+    border-bottom: 1px solid var(--gold-border);
+    height: 48px;
+    display: flex; align-items: center;
+    padding: 0 24px;
+    gap: 20px;
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 17px;
+    color: var(--gold);
+    text-decoration: none;
+    letter-spacing: -0.3px;
+  }
+  .nav-logo span { color: var(--text2); font-weight: 400; }
+  nav a.nav-link {
+    font-size: 12px;
+    color: var(--text2);
+    text-decoration: none;
+    transition: color .2s;
+  }
+  nav a.nav-link:hover { color: var(--gold); }
+  .nav-spacer { flex:1; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #0e1520 0%, #0C1017 60%, #111820 100%);
+    border-bottom: 1px solid var(--gold-border);
+    padding: 48px 24px 36px;
+    text-align: center;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--gold-dim);
+    border: 1px solid var(--gold-border);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 11px;
+    color: var(--gold);
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(24px, 5vw, 38px);
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1.15;
+    margin-bottom: 10px;
+  }
+  .hero h1 span { color: var(--gold); }
+  .hero p {
+    color: var(--text2);
+    font-size: 14px;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  /* LAYOUT */
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 32px 16px 80px;
+  }
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  @media(max-width:680px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  /* CARD */
+  .card {
+    background: var(--bg2);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--radius);
+    padding: 24px;
+  }
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-title::before {
+    content:'';
+    display:inline-block;
+    width:3px; height:14px;
+    background: var(--gold);
+    border-radius:2px;
+  }
+
+  /* FORM */
+  .field { margin-bottom: 16px; }
+  .field label {
+    display: block;
+    font-size: 12px;
+    color: var(--text2);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  .field-row {
+    display: flex;
+    align-items: center;
+    background: var(--bg3);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: border-color .2s;
+  }
+  .field-row:focus-within {
+    border-color: var(--gold);
+  }
+  .field-row input {
+    flex:1;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 10px 14px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-size: max(15px, 16px);
+  }
+  .field-unit {
+    padding: 0 12px;
+    color: var(--gold);
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    margin: 16px 0;
+  }
+
+  /* HESAPLA BUTONU */
+  .btn-calc {
+    width: 100%;
+    padding: 14px;
+    background: var(--gold);
+    color: #0C1017;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background .2s, transform .1s;
+    margin-top: 4px;
+  }
+  .btn-calc:hover { background: var(--gold2); }
+  .btn-calc:active { transform: scale(0.99); }
+
+  /* SONUÇLAR */
+  .results-card {
+    background: var(--bg2);
+    border: 1px solid var(--gold-border);
+    border-radius: var(--radius);
+    padding: 24px;
+    display: none;
+  }
+  .results-card.show { display: block; }
+
+  .result-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  @media(max-width:480px){ .result-grid { grid-template-columns: 1fr; } }
+
+  .result-item {
+    background: var(--bg3);
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+  }
+  .result-item.highlight {
+    background: var(--gold-dim);
+    border: 1px solid var(--gold-border);
+  }
+  .result-label {
+    font-size: 11px;
+    color: var(--text2);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 6px;
+  }
+  .result-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text);
+  }
+  .result-item.highlight .result-value { color: var(--gold); }
+  .result-sub {
+    font-size: 11px;
+    color: var(--text2);
+    margin-top: 2px;
+  }
+
+  /* YORUM KUTUSU */
+  .yorum-box {
+    background: var(--bg3);
+    border-radius: 10px;
+    padding: 16px 20px;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .yorum-box strong { color: var(--gold); }
+
+  /* ORAN GÖSTERGESI */
+  .oran-bar-wrap {
+    margin: 16px 0;
+  }
+  .oran-bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text2);
+    margin-bottom: 6px;
+  }
+  .oran-bar-bg {
+    height: 8px;
+    background: var(--bg3);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .oran-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: var(--gold);
+    transition: width .6s ease;
+  }
+
+  /* INFO NOTE */
+  .info-note {
+    background: rgba(232,168,48,0.07);
+    border: 1px solid var(--gold-border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 12px;
+    color: var(--text2);
+    margin-top: 20px;
+    line-height: 1.7;
+  }
+  .info-note strong { color: var(--gold); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--gold-border);
+    padding: 24px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--text2);
+  }
+  footer a { color: var(--gold); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="https://emlakkit.com" class="nav-logo">Emlak<span>Kit</span></a>
+  <span class="nav-spacer"></span>
+  <a href="https://emlakkit.com" class="nav-link">← Tüm Araçlar</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">📊 Yatırım Analizi</div>
+  <h1>Kira Getiri <span>Hesaplayıcı</span></h1>
+  <p>Yatırım amaçlı gayrimenkulünüzün brüt ve net getirisini, amortisman süresini ve yıllık karlılığını anında hesaplayın.</p>
+</div>
+
+<!-- MAIN -->
+<div class="container">
+  <div class="grid-2">
+
+    <!-- GİRİŞ FORMU -->
+    <div class="card">
+      <div class="card-title">Mülk Bilgileri</div>
+
+      <div class="field">
+        <label>Mülk Satın Alma Fiyatı</label>
+        <div class="field-row">
+          <input type="number" id="satisFiyati" placeholder="5.000.000" min="0">
+          <span class="field-unit">₺</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Aylık Kira Geliri</label>
+        <div class="field-row">
+          <input type="number" id="aylikKira" placeholder="25.000" min="0">
+          <span class="field-unit">₺ / ay</span>
+        </div>
+      </div>
+
+      <hr class="divider">
+      <div class="card-title">Ek Maliyetler (opsiyonel)</div>
+
+      <div class="field">
+        <label>Yıllık Aidat / Ortak Gider</label>
+        <div class="field-row">
+          <input type="number" id="aidat" placeholder="0" min="0">
+          <span class="field-unit">₺ / yıl</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Yıllık Bakım & Onarım</label>
+        <div class="field-row">
+          <input type="number" id="bakim" placeholder="0" min="0">
+          <span class="field-unit">₺ / yıl</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Yıllık Sigorta Maliyeti</label>
+        <div class="field-row">
+          <input type="number" id="sigorta" placeholder="0" min="0">
+          <span class="field-unit">₺ / yıl</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Yıllık Boş Kalma Süresi</label>
+        <div class="field-row">
+          <input type="number" id="bosKalma" placeholder="0" min="0" max="12">
+          <span class="field-unit">ay / yıl</span>
+        </div>
+      </div>
+
+      <button class="btn-calc" onclick="hesapla()">Hesapla →</button>
+    </div>
+
+    <!-- SONUÇLAR -->
+    <div>
+      <div class="results-card" id="sonuclar">
+        <div class="card-title">Sonuçlar</div>
+
+        <div class="result-grid">
+          <div class="result-item highlight">
+            <div class="result-label">Brüt Getiri</div>
+            <div class="result-value" id="brutGetiri">—</div>
+            <div class="result-sub">yıllık</div>
+          </div>
+          <div class="result-item highlight">
+            <div class="result-label">Net Getiri</div>
+            <div class="result-value" id="netGetiri">—</div>
+            <div class="result-sub">yıllık</div>
+          </div>
+          <div class="result-item">
+            <div class="result-label">Geri Dönüş Süresi</div>
+            <div class="result-value" id="amortismanSure">—</div>
+            <div class="result-sub">yıl (net bazlı)</div>
+          </div>
+          <div class="result-item">
+            <div class="result-label">Yıllık Net Kira</div>
+            <div class="result-value" id="yillikNetKira">—</div>
+            <div class="result-sub">gelir</div>
+          </div>
+        </div>
+
+        <!-- ORAN BARLAR -->
+        <div class="oran-bar-wrap">
+          <div class="oran-bar-label">
+            <span>Getiri Skoru</span>
+            <span id="oranLabel">—</span>
+          </div>
+          <div class="oran-bar-bg">
+            <div class="oran-bar-fill" id="oranBar" style="width:0%"></div>
+          </div>
+        </div>
+
+        <!-- YORUM -->
+        <div class="yorum-box" id="yorumBox"></div>
+
+        <div class="info-note">
+          <strong>Not:</strong> Bu hesaplama genel bilgi amaçlıdır. Vergi, değer artışı ve finansman maliyetleri dahil değildir. Yatırım kararı vermeden önce uzman görüşü alınması önerilir.
+        </div>
+      </div>
+
+      <!-- BAŞLAMAK İÇİN -->
+      <div class="card" id="baslaHint">
+        <div class="card-title">Nasıl Kullanılır?</div>
+        <div style="color:var(--text2); font-size:13px; line-height:1.9;">
+          <div style="margin-bottom:8px;">📌 <strong style="color:var(--text);">Satın alma fiyatı</strong> — mülkü aldığınız veya almayı düşündüğünüz fiyat</div>
+          <div style="margin-bottom:8px;">📌 <strong style="color:var(--text);">Aylık kira</strong> — elde ettiğiniz veya hedeflediğiniz aylık kira</div>
+          <div style="margin-bottom:8px;">📌 <strong style="color:var(--text);">Ek maliyetler</strong> — aidat, bakım vb. girerek net getiriyi görün</div>
+          <div>📌 <strong style="color:var(--text);">Boş kalma</strong> — yılda kaç ay kiracısız kalacağını tahmin edin</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /grid -->
+</div><!-- /container -->
+
+<footer>
+  <a href="https://emlakkit.com">EmlakKit</a> — Emlak danışmanları için ücretsiz dijital araç platformu
+</footer>
+
+<script>
+function fmt(n) {
+  return n.toLocaleString('tr-TR', { maximumFractionDigits: 0 });
+}
+function fmtPct(n) {
+  return n.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '%';
+}
+
+function hesapla() {
+  const satisFiyati = parseFloat(document.getElementById('satisFiyati').value) || 0;
+  const aylikKira   = parseFloat(document.getElementById('aylikKira').value) || 0;
+  const aidat       = parseFloat(document.getElementById('aidat').value) || 0;
+  const bakim       = parseFloat(document.getElementById('bakim').value) || 0;
+  const sigorta     = parseFloat(document.getElementById('sigorta').value) || 0;
+  const bosKalma    = parseFloat(document.getElementById('bosKalma').value) || 0;
+
+  if (!satisFiyati || !aylikKira) {
+    alert('Lütfen en az satın alma fiyatı ve aylık kira alanlarını doldurun.');
+    return;
+  }
+
+  // Hesaplamalar
+  const yillikKiraGeliri    = aylikKira * (12 - bosKalma);
+  const yillikMaliyet       = aidat + bakim + sigorta;
+  const yillikNetKira       = yillikKiraGeliri - yillikMaliyet;
+
+  const brutGetiriOrani     = (yillikKiraGeliri / satisFiyati) * 100;
+  const netGetiriOrani      = (yillikNetKira / satisFiyati) * 100;
+  const amortismanSure      = netGetiriOrani > 0 ? (100 / netGetiriOrani) : Infinity;
+
+  // UI güncelle
+  document.getElementById('brutGetiri').textContent    = fmtPct(brutGetiriOrani);
+  document.getElementById('netGetiri').textContent     = fmtPct(netGetiriOrani);
+  document.getElementById('yillikNetKira').textContent = fmt(yillikNetKira) + '₺';
+
+  if (isFinite(amortismanSure)) {
+    document.getElementById('amortismanSure').textContent = amortismanSure.toFixed(1);
+  } else {
+    document.getElementById('amortismanSure').textContent = '∞';
+  }
+
+  // Bar (max %10 = full)
+  const barPct = Math.min((netGetiriOrani / 10) * 100, 100);
+  document.getElementById('oranBar').style.width = barPct + '%';
+  document.getElementById('oranLabel').textContent = fmtPct(netGetiriOrani);
+
+  // Yorum
+  let yorum = '';
+  if (netGetiriOrani >= 6) {
+    yorum = `✅ <strong>Güçlü yatırım.</strong> Net ${fmtPct(netGetiriOrani)} getiri, piyasa ortalamasının üzerinde. Yaklaşık <strong>${amortismanSure.toFixed(1)} yılda</strong> amortisman sağlanıyor. Yatırımcı alıcılar için cazip bir profil.`;
+  } else if (netGetiriOrani >= 4) {
+    yorum = `🟡 <strong>Makul yatırım.</strong> Net ${fmtPct(netGetiriOrani)} getiri, kabul edilebilir aralıkta. Yaklaşık <strong>${amortismanSure.toFixed(1)} yılda</strong> amorti oluyor. Değer artışı potansiyeli bu kararı destekleyebilir.`;
+  } else if (netGetiriOrani > 0) {
+    yorum = `⚠️ <strong>Düşük getiri.</strong> Net ${fmtPct(netGetiriOrani)} ile amortisman süresi <strong>${amortismanSure.toFixed(1)} yıl</strong>. Fiyat müzakeresi veya kira artışı mümkünse değerlendirilebilir. Değer artışı beklentisi olmadan zayıf kalır.`;
+  } else {
+    yorum = `❌ <strong>Negatif net getiri.</strong> Yıllık giderler kira gelirini aşıyor. Maliyet kalemleri gözden geçirilmeli veya kira revize edilmeli.`;
+  }
+  document.getElementById('yorumBox').innerHTML = yorum;
+
+  // Göster / gizle
+  document.getElementById('sonuclar').classList.add('show');
+  document.getElementById('baslaHint').style.display = 'none';
+}
+</script>
+</body>
+</html>
