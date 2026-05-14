@@ -27,7 +27,7 @@
   --red:#E8A830;--red2:#c8901a;
 }
 html{height:100%;-webkit-text-size-adjust:100%}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;width:100%}
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-track{background:var(--bg)}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
@@ -75,7 +75,7 @@ header{
 .bnav-label{font-size:10px;font-weight:500}
 
 /* MAIN */
-main{max-width:1200px;margin:0 auto;padding:16px 14px;padding-bottom:calc(70px + env(safe-area-inset-bottom,0px))}
+main{max-width:1200px;margin:0 auto;padding:16px 14px;padding-bottom:calc(70px + env(safe-area-inset-bottom,0px));overflow-x:hidden}
 h1{font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:700;letter-spacing:-.4px;margin-bottom:4px}
 h1 span{color:var(--red)}
 .subtitle{color:var(--dim);font-size:12px;margin-bottom:18px}
@@ -107,30 +107,30 @@ h1 span{color:var(--red)}
 .date-input{background:var(--bg2);border:1px solid var(--border2);border-radius:10px;color:var(--text);padding:10px 12px;font-size:16px !important;outline:none;min-height:44px}
 
 /* DAILY FORM */
-.form-grid{display:grid;grid-template-columns:1fr;gap:11px;margin-bottom:16px}
-.form-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:14px 14px 18px;position:relative}
+.form-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:11px;margin-bottom:16px}
+.form-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:14px 14px 18px;position:relative;overflow:hidden;min-width:0}
 .form-card-header{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;flex-wrap:nowrap}
 .form-icon-wrap{width:36px;height:36px;min-width:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
 .form-label{font-size:13px;font-weight:600;color:#cbd5e1;line-height:1.3;word-break:break-word}
 .form-goal{font-size:11px;color:var(--dim);margin-top:2px}
 .form-controls{display:flex;align-items:center;gap:8px;width:100%}
 .btn-pm{
-  width:48px;height:48px;min-width:48px;
+  width:44px;height:44px;min-width:44px;
   border-radius:10px;border:1px solid var(--border2);background:var(--bg3);
-  color:var(--muted);cursor:pointer;font-size:26px;
+  color:var(--muted);cursor:pointer;font-size:22px;
   display:flex;align-items:center;justify-content:center;
   font-weight:400;line-height:1;
-  -webkit-user-select:none;user-select:none;
+  -webkit-user-select:none;user-select:none;flex-shrink:0;
 }
 .btn-pm:active{background:var(--border2);color:var(--text)}
 .form-input{
   flex:1;min-width:0;text-align:center;
   background:var(--bg3);border-radius:10px;
-  font-size:24px !important;font-weight:700;
-  padding:10px 2px;outline:none;
+  font-size:22px !important;font-weight:700;
+  padding:8px 2px;outline:none;
   font-family:'Space Grotesk',sans-serif;
   border:1.5px solid var(--border2);
-  color:inherit;min-height:48px;
+  color:inherit;min-height:44px;
   -webkit-appearance:none;
 }
 .form-pct{font-size:12px;color:var(--dim);min-width:34px;text-align:right;font-weight:600}
@@ -225,7 +225,7 @@ footer a{color:#E8A830;text-decoration:none;font-weight:600}
   main{padding:22px 20px;padding-bottom:calc(70px + env(safe-area-inset-bottom,0px))}
   h1{font-size:22px}
   .kpi-grid{grid-template-columns:repeat(3,1fr)}
-  .form-grid{grid-template-columns:repeat(2,1fr)}
+  .form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .goals-grid{grid-template-columns:repeat(2,1fr)}
   .month-kpi-grid{grid-template-columns:repeat(3,1fr)}
   .charts-row{grid-template-columns:1fr 1fr}
@@ -241,7 +241,7 @@ footer a{color:#E8A830;text-decoration:none;font-weight:600}
   main{padding:28px 28px 60px}
   h1{font-size:24px}
   .kpi-grid{grid-template-columns:repeat(5,1fr)}
-  .form-grid{grid-template-columns:repeat(3,1fr)}
+  .form-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
   .goals-grid{grid-template-columns:repeat(3,1fr)}
   .month-kpi-grid{grid-template-columns:repeat(5,1fr)}
   .toast{bottom:28px}
