@@ -784,19 +784,16 @@ function generateReport(){
       '<p style="font-size:13px;color:#444;margin-bottom:14px">'+adres+'</p>'+
       (ozellikler?'<h3 style="font-size:13px;font-weight:600;margin-bottom:8px">Öne çıkan özellikler</h3><p style="font-size:13px;color:#444;line-height:1.7;margin-bottom:14px">'+ozellikler.replace(/\n/g,'<br>')+'</p>':'')+
       '<h3 style="font-size:13px;font-weight:600;margin-bottom:8px">Görseller</h3>'+propPhotosHTML+
+      (advs.length>0?(function(){
+        var advCards=advs.map(function(a){return'<div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:14px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.04)"><div style="font-size:30px;margin-bottom:6px">'+a.emoji+'</div><div style="font-size:13px;font-weight:700;color:var(--c1);margin-bottom:4px">'+a.title+'</div><div style="font-size:11px;color:#666;line-height:1.5">'+a.desc+'</div></div>';}).join('');
+        return '<div style="margin-top:20px;border-top:1px solid #e5e7eb;padding-top:14px">'+
+          '<h3 style="font-size:13px;font-weight:600;margin-bottom:12px">Mülkün Öne Çıkan Avantajları</h3>'+
+          '<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px">'+advCards+'</div>'+
+          '<div style="background:linear-gradient(135deg,var(--c1),var(--c2,#D4A843));color:#fff;padding:12px 16px;border-radius:8px;font-size:11px;text-align:center"><strong>Bu özellikler, mülkün pazarlama stratejisinin merkezindedir.</strong></div>'+
+        '</div>';
+      })():'')
     '</div>'+mkFooter(musteri+' · '+adres,false)+
   '</div>';
-
-  if(advs.length>0){
-    var advCards=advs.map(function(a){return'<div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.04)"><div style="font-size:38px;margin-bottom:8px">'+a.emoji+'</div><div style="font-size:14px;font-weight:700;color:var(--c1);margin-bottom:6px">'+a.title+'</div><div style="font-size:12px;color:#666;line-height:1.5">'+a.desc+'</div></div>';}).join('');
-    reportHTML+='<div class="report-page" id="rp-adv">'+
-      '<div class="rs-header"><h2>Mülkün Öne Çıkan Avantajları</h2><span class="pn">Sayfa '+nextPage()+'</span></div>'+
-      '<div class="rs-body">'+
-        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px">'+advCards+'</div>'+
-        '<div style="background:linear-gradient(135deg,var(--c1),var(--c2,#D4A843));color:#fff;padding:16px 20px;border-radius:10px;font-size:12px;line-height:1.6;text-align:center"><strong>Bu özellikler, mülkün pazarlama stratejisinin merkezindedir.</strong></div>'+
-      '</div>'+mkFooter(musteri+' · '+adres,false)+
-    '</div>';
-  }
 
   reportHTML+='<div class="report-page" id="rp-cma">'+
     '<div class="rs-header"><h2>Rakip Pazar Analizi (CMA)</h2><span class="pn">Sayfa '+nextPage()+'</span></div>'+
